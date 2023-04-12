@@ -4,6 +4,7 @@ import "../Allassets/vendor/bootstrap/css/bootstrap.min.css";
 import "../Allassets/vendor/fontawesome-free/css/all.min.css";
 import "../Allassets/assets/css/sb-css/sb-admin.css";
 import useForm from '../Hooks/useForm';
+import axios from 'axios';
 
 function Login(props) {
   const navigate = useNavigate();  
@@ -11,8 +12,20 @@ function Login(props) {
     document.body.classList.remove("theme-black")
   }, []);
   const loginHnadler = () => {
-    localStorage.setItem("isLoggedIn", "1");
-    navigate('home/dashboard')
+    let email = values.email;
+    let password = values.password;
+    axios.get('http://localhost:3001/api/admin/'+ email + '/' + password).then((response) => {
+      if(response.data!='') {
+        localStorage.setItem("isLoggedIn", "1");
+        console.log(response.data.id)
+        localStorage.setItem("id", response.data.id);
+        navigate('home/dashboard')
+      } else {
+        alert('Email and password not correct');
+      }
+    }).catch((error) => {
+      alert(error);
+    });
   };
   const {handleChange, values, errors, handleSubmit} = useForm(loginHnadler);
   useEffect(() => {
@@ -23,7 +36,7 @@ function Login(props) {
     document.body.style.backgroundSize= 'cover';
     // setIsAuthenticate(localStorage.getItem("isLoggedIn"));
   },[])
-
+  console.log(localStorage.getItem("isLoggedIn"))
   if(localStorage.getItem("isLoggedIn")) {
     navigate('home/dashboard')
   } else {
@@ -43,6 +56,7 @@ function Login(props) {
                     className="form-control"
                     required="required"
                     autoFocus="autofocus"
+                    value={values.email}
                     onChange={handleChange}
                   />
                   <label htmlFor="inputEmail">Email address</label>
@@ -59,6 +73,7 @@ function Login(props) {
                     name="password"
                     className="form-control"
                     required="required"
+                    value={values.password}
                     onChange={handleChange}
                   />
                   <label htmlFor="inputPassword">Password</label>
