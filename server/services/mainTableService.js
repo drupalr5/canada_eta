@@ -1,3 +1,4 @@
+const { INTEGER } = require("sequelize");
 const models  = require("../models")
 
 const AddOrder = async (req, res) => {
@@ -7,7 +8,14 @@ const AddOrder = async (req, res) => {
 }
 
 const getAllOrder = async (req, res) => {
-  const main_tbl = await models.tblmain.findAll({})
+  let whereClause = req.body ? req.body : req.params
+  if (whereClause && Object.keys(whereClause).length === 0) {
+    whereClause = req.query
+  }
+  let resultLimit = whereClause.limit ? +whereClause.limit : null;
+  delete whereClause["limit"];
+  let conditionalClause = whereClause ? whereClause : {}  
+  const main_tbl = await models.tblmain.findAll({ where: conditionalClause, limit: resultLimit})
   res.status(200).send(main_tbl)
 }
 
@@ -84,11 +92,20 @@ const gettilesOrder = async (req, res) => {
   res.status(200).send(results)
 }
 
+// Recent Orders.
+const getRecentOrder = async (req, res) => {
+  let whereClause = req.query
+  console.log(whereClause)
+
+  const main_tbl = await models.tblmain.findAll({where: whereClause, limit:10})
+  res.status(200).send(main_tbl)
+}
 module.exports = {
   AddOrder,
   getAllOrder,
   getOneOrder,
   updateOrder,
   deleteOrder,
-  gettilesOrder
+  gettilesOrder,
+  getRecentOrder
 }
