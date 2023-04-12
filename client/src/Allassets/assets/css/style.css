@@ -1,0 +1,243 @@
+.modal-open  > .content {
+    position: static;
+}
+.card.card-details .body {
+    box-shadow: 0 0px 11px 0 rgb(0 0 0 / 10%);
+}
+
+.card-details .card-header {
+    font-weight: bold;
+    color: #000000;
+    background: none;
+    padding: 0;
+    font-size: 18px;
+    border: none;
+}
+.card-details .card-header h5 {
+   	font-size: 18px !important;
+    font-weight: bold;
+}
+.card-details .card-header u {
+    text-decoration: none !important;
+}
+.card-details .card-body {
+   	min-height: 0;
+   	padding: 0;
+}
+.card-details  u {
+    text-decoration: none;
+}
+.card-details input[type="checkbox"] + * {
+    margin-right: 15px;
+    margin-left: 5px;
+}
+
+
+.card.card-details > .body > .card > .card-header {
+    padding: 0 0 10px;
+    font-size: 20px;
+    margin: 0 0 20px;
+    border-bottom: 2px solid #cccccc;
+}
+
+.showing_entry-parent {
+    float: right;
+}
+.showing_entry-parent > div {
+    float: right;
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.card-details  textarea.form-control {
+    margin: 0 0 15px;
+   border: 1px solid #e3e3e3;
+}
+
+.card-details  .table-bordered {
+    border: 2px solid #dee2e6;
+}
+.showing_entry_no {
+    order: 2;
+    font-size: 15px;
+}
+.showing_entry-parent a img {
+	margin-top: 0 !important;
+}
+.card .header .report-header-dropdown {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    list-style: none;
+}
+.blue-btn { background-color: #18F;color: #ffffff;border: currentColor;font-size: 16px;font-weight: 600;padding: 9px 10px;display: inline-block;margin: 5px 1px;}
+.blue-btn img { margin-left: 10px; vertical-align: middle; display: inline-block; }
+.blue-btn:hover, .blue-btn:focus { background-color: #0b3157; color: #fff; }
+
+body .sidebar .menu .list a {
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.sidebar .menu .list a span + span:last-child {
+    margin-left: auto;
+}
+.sidebar .menu .list a img {
+    min-width: 14px;
+}
+.top-folder {
+    width: 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+        margin: 0 0 15px;
+}
+
+.top-folder .card {
+    margin: 0;
+}
+.card .body {
+    box-shadow: 0 0 18px rgba(0,0,0,0.08);
+
+}
+.card .body:hover {
+     box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+.top-folder .card .body {
+    font-size: 14px;
+    padding: 10px;
+    text-align: left;
+    padding-left: 80px;
+    padding-right: 5px;
+}
+.top-folder .card p {
+    width: 50px;
+    height: 50px;
+    padding: 7px;
+    border-radius: 8px;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    margin-top: -25px;
+        margin-bottom: 0;
+ box-shadow: 0 0 18px rgba(0,0,0,0.08);
+    text-align: center;
+}
+.top-folder .card h3 {
+    font-size: 22px;
+    margin: 0;
+}
+.top-folder .card span {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@media only screen and (max-width:1500px){
+  .top-folder .card .body {
+    padding-left: 60px;
+
+}
+.top-folder .card p {
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    margin-top: -20px;
+    left:10px;
+}
+
+.top-folder .card h3 {
+    font-size: 19px;
+}
+
+.row.main-folder-section {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+.main-folder-section .top-folder {
+    padding: 0 10px;
+}
+}
+@media only screen and (max-width:1299px){
+  .top-folder .card .body {
+      padding-left: 45px;
+  }
+  .top-folder .card p {
+    width: 34px;
+    height: 34px;
+    padding: 3px;    
+    left: 7px;
+    margin-top: -17px;
+}
+.top-folder .card span {
+    font-size: 11px;
+}
+}
+@media only screen and (max-width:991px){
+  .top-folder {
+      width: 33.33%;
+      flex: 0 0 33.33%;
+      max-width: 33.33%;
+      margin-bottom: 20px;
+  }
+  .top-folder .card span {
+    font-size: 13px;
+}
+}
+@media only screen and (max-width:767px){
+.top-folder {
+    width: 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-bottom: 20px;
+}
+.top-folder .card p {
+    width: 50px;
+    height: 50px;
+    padding: 7px;
+    left: 12px;
+    margin-top: -25px;
+}
+.top-folder .card .body {
+    padding-left: 75px;
+}
+}
+
+@media only screen and (max-width:460px){
+.top-folder {
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+}
+
+/* @media only screen and (min-width: 992px){
+	.top-folder {
+	    width: 33.33%;
+	    flex: 0 0 33.33%;
+	    max-width: 33.33%;
+	}
+}
+@media only screen and (min-width: 1299px){
+	.top-folder {
+	    width: 16.66%;
+	    flex: 0 0 16.66%;
+	    max-width: 16.66%;
+	}
+}
+@media only screen and (min-width: 1300px) and (max-width: 1500px){
+.row.main-folder-section {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+.main-folder-section .top-folder {
+    padding: 0 5px;
+}
+.top-folder .card .body {
+    padding-left: 54px;
+}
+.top-folder .card p {
+    left: 5px;
+}
+} */
