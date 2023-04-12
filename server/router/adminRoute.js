@@ -7,6 +7,6 @@ adminRouter.get('/all', adminService.getAllAdmin);
 adminRouter.get('/:email/:password', adminService.getOneAdmin);
 adminRouter.put('/update/:id', adminService.updateAdmin);
 adminRouter.delete('/delete/:id', adminService.deleteAdmin);
-
+adminRouter.put('/:id', adminService.getAdminById);
 
 module.exports = adminRouter

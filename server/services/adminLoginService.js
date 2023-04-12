@@ -31,10 +31,17 @@ const deleteAdmin = async (req, res) => {
   res.status(200).send(main_tbl)
 }
 
+const getAdminById = async (req, res) => {
+  let Id = req.params.id;
+  const main_tbl = await models.tbl_admin.findOne({ where: {id : Id}})
+  res.status(200).send(main_tbl)
+}
+
 module.exports = {
   AddAdmin,
   getAllAdmin,
   getOneAdmin,
   updateAdmin,
-  deleteAdmin
+  deleteAdmin,
+  getAdminById
 }
