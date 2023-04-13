@@ -5,7 +5,8 @@ import axios from "axios";
 
 function ManageTeam(props) {
   const [user, setUser] = useState({});
-  let id = localStorage.getItem("id");
+  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let id = loginUser.id
   useEffect(() => {    
     axios.get(`http://localhost:3001/api/admin/${id}`).then((response) => {
       setUser(response.data)
@@ -20,7 +21,7 @@ function ManageTeam(props) {
       alert(error);
     });
   }
-  console.log(user)
+  console.log(id)
   return (
     <>
       <div className="row clearfix">

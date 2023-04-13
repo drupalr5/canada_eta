@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { ProtectedLayout } from "./Layout/ProtectedLayout";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ProtectedLayout>
+        <App />
+      </ProtectedLayout>
     </BrowserRouter>
   </React.StrictMode>
 );

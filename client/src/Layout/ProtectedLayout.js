@@ -1,12 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function ProtectedLayout({children}) {
-  if(!localStorage.getItem("isLoggedIn")) {
-    return <Navigate to='/'/>
-  }
-  return children
-  
-}
-
-export default ProtectedLayout
+export const ProtectedLayout = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem("user"))
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("isLoggedIn")) {
+      return navigate("/");
+    } else {
+      if (user.type === 'Admin') {
+        return navigate("admin/dashboard");
+      } else if (user.type === 'Team') {
+        return navigate("team/dashboard");
+      } else if (user.type === 'Night Staff') {
+        return navigate("staff/dashboard");
+      }
+    }
+  }, [localStorage.getItem("user")]);
+  return children;
+};

@@ -17,9 +17,8 @@ function Login(props) {
     axios.get(`http://localhost:3001/api/admin/${email}/${password}`).then((response) => {
       if(response.data!='') {
         localStorage.setItem("isLoggedIn", "1");
-        console.log(response.data.id)
-        localStorage.setItem("id", response.data.id);
-        navigate('home/dashboard')
+        localStorage.setItem("user", JSON.stringify(response.data));
+        navigate('admin/dashboard')
       } else {
         alert('Email and password not correct');
       }
@@ -37,7 +36,7 @@ function Login(props) {
     // setIsAuthenticate(localStorage.getItem("isLoggedIn"));
   },[])
   if(localStorage.getItem("isLoggedIn")) {
-    navigate('home/dashboard')
+    navigate('admin/dashboard')
   } else {
   return (
     <>
