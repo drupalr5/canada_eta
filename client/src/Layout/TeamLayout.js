@@ -7,13 +7,10 @@ import OrderHistory from "../Components/OrderHistory";
 import DeleteOrder from "../Components/DeleteOrder";
 import RefundOrder from "../Components/RefundOrder";
 import RejectedOrder from "../Components/RejectedOrder";
-import ChangePassword from "../Components/ChangePassword";
-import Settings from "../Components/Settings";
-import ManageTeam from "../Components/ManageTeam";
-import ManageCountry from "../Components/ManageCountry";
 import CompletedOrder from "../Components/CompletedOrder";
 import OrderDetails from "../Components/OrderDetails";
 import ContactCustomer from "../Components/ContactCustomer";
+import WebsiteIssue from "../Components/WebsiteIssue";
 
 function TeamLayout() {
   return (
@@ -40,6 +37,14 @@ function TeamLayout() {
           element={
             <Main>
               <AwaitingGovtOrder heading="Pending Orders" />
+            </Main>
+          }
+        ></Route>
+        <Route
+          path="website-issue"
+          element={
+            <Main>
+              <WebsiteIssue heading="User Accounts" />
             </Main>
           }
         ></Route>
@@ -72,38 +77,6 @@ function TeamLayout() {
           element={
             <Main>
               <RejectedOrder heading="Rejected Orders" />
-            </Main>
-          }
-        ></Route>
-        <Route
-          path="change-password"
-          element={
-            <Main>
-              <ChangePassword heading="Update Password" />
-            </Main>
-          }
-        ></Route>
-        <Route
-          path="settings"
-          element={
-            <Main>
-              <Settings heading="Gateway Setting" />
-            </Main>
-          }
-        ></Route>
-        <Route
-          path="manage-team"
-          element={
-            <Main>
-              <ManageTeam heading="Manage Team" />
-            </Main>
-          }
-        ></Route>
-        <Route
-          path="manage-country"
-          element={
-            <Main>
-              <ManageCountry heading="Country Listing" />
             </Main>
           }
         ></Route>

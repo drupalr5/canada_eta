@@ -35,9 +35,6 @@ function Login(props) {
     document.body.style.backgroundSize= 'cover';
     // setIsAuthenticate(localStorage.getItem("isLoggedIn"));
   },[])
-  if(localStorage.getItem("isLoggedIn")) {
-    navigate('admin/dashboard')
-  } else {
   return (
     <>
       <div className="container">
@@ -94,7 +91,6 @@ function Login(props) {
       </div>
     </>
   );
-  }
 }
 
 export default Login;

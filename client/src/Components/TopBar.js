@@ -30,7 +30,7 @@ function TopBar() {
                   className="m-b-10"
                   data-from="0"
                   data-to="0"
-                  data-speed="2000"
+                  dataspeed="2000"
                   data-fresh-interval="700"
                 >
                   {tiles.new_order}
@@ -93,7 +93,7 @@ function TopBar() {
                 <h3
                   className="m-b-10 number count-to"
                   data-from="0"
-                  data-to="9688"
+                  data-to={tiles.complete_order}
                   data-speed="2000"
                   data-fresh-interval="700"
                 >

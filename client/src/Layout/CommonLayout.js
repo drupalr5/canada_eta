@@ -10,9 +10,8 @@ import RejectedOrder from "../Components/RejectedOrder";
 import CompletedOrder from "../Components/CompletedOrder";
 import OrderDetails from "../Components/OrderDetails";
 import ContactCustomer from "../Components/ContactCustomer";
-import WebsiteIssue from "../Components/WebsiteIssue";
 
-function StaffLayout() {
+function CommonLayout() {
   return (
     <>
       <Routes>
@@ -73,14 +72,6 @@ function StaffLayout() {
           }
         ></Route>
         <Route
-          path="website-issue"
-          element={
-            <Main>
-              <WebsiteIssue heading="User Accounts" />
-            </Main>
-          }
-        ></Route>
-        <Route
           path="completed-order"
           element={
             <Main>
@@ -109,4 +100,4 @@ function StaffLayout() {
   );
 }
 
-export default StaffLayout;
+export default CommonLayout;
