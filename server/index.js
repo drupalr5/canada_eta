@@ -14,7 +14,10 @@ app.set('port', (process.env.PORT || 3001));
 app.use('/api/order/', orderRouter);
 
 app.use(function(req,res,next){
-  res.statusCode = 200;
+  // res.statusCode = 200;
+  res.locals.error = err;
+  const status = err.status || 200;
+  res.status(status);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader("Access-Control-Max-Age", "1800");

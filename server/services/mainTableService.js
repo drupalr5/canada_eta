@@ -32,9 +32,14 @@ const updateOrder = async (req, res) => {
 }
 
 const deleteOrder = async (req, res) => {
-  let orderId = res.params.id;
-  const main_tbl = await models.tblmain.destroy({ where: {order_id : orderId}})
-  res.status(200).send(main_tbl)
+  try {
+    let orderId = req.params.id;
+    const main_tbl = await models.tblmain.destroy({ where: {order_id : orderId}})
+    res.end('success')
+  }
+  catch (err) {
+    res.end(err)
+  }
 }
 
 // New Order

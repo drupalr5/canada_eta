@@ -3,15 +3,20 @@ import Table from "./Table";
 import PageHeading from "./PageHeading";
 import axios from "axios";
 import config from "../config.json"
+import OrderRender from "./OrderRender";
 
 function ContactCustomer(props) {
   const [contactCustomer, setContactCustomer] = useState({});
-
+  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let utype = loginUser.type ? loginUser.type : ''
+  if (utype && utype != "Team") {
+    utype = null
+  }
   useEffect(() => { 
     let param = {
       payment_status: 'Success',
       process_status: 'Contact Customer',
-      limit: 100
+      assign_to: utype
     }
     axios.get(config.API_URL + '/order/get',{params: param}).then((response) => {
       setContactCustomer(response.data)
@@ -22,21 +27,7 @@ function ContactCustomer(props) {
   
   return (
     <>
-      <Table tableHeading='' tableRows={Array.isArray(contactCustomer) ? contactCustomer.map((row) => {
-        return <tr key={row.id}>
-          <td></td>
-          <td>{row.order_id}</td>
-          <td>{row.passport_first_name} {row.passport_surname}</td>
-          <td>{row.email}</td>
-          <td>{row.telephone_number}</td>
-          <td>{row.customer_date}</td>
-          <td>{row.assign_to}</td>
-          <td>{row.process_status}</td>
-          <td><a href='order_details'>View</a> <a >Delete</a></td>
-        </tr>
-      }) : ''}>
-        <PageHeading pagename={props.heading} />
-      </Table>
+      <OrderRender tableHeading="" orders={contactCustomer} />
     </>
   );
 }

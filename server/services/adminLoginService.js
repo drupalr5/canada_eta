@@ -26,9 +26,14 @@ const updateAdmin = async (req, res) => {
 }
 
 const deleteAdmin = async (req, res) => {
-  let Id = req.params.id;
-  const main_tbl = await models.tbl_admin.destroy({ where: {id : Id}})
-  res.status(200).send(main_tbl)
+  try {
+    let Id = req.params.id;
+    const main_tbl = await models.tbl_admin.destroy({ where: {id : Id}})
+    res.end("admin deleted!")
+  }
+  catch (err) {
+    res.end(err)
+  }
 }
 
 const getAdminById = async (req, res) => {
