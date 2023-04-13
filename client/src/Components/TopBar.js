@@ -1,7 +1,11 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
 import config from "../config.json"
-import NewOrderImage from "../Allassets/assets/images/new_order.svg"
+import NewOrderImage from "../Allassets/assets/images/new_order.svg";
+import NewOrderImage from "../Allassets/assets/images/new_order.svg";
+import CompletedOrderImage from "../Allassets/assets/images/completed_order.svg";
+import ContactOrderImage from "../Allassets/assets/images/contact_customer.svg";
+
 function TopBar() {
   const [tiles, setTiles] = useState({});
   useEffect(() => {
@@ -37,10 +41,10 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="priority_order">
+            <a href="priority-order">
               <div className="body">
                 <p className="m-b-20">
-                  <img src="https://canada-eta.online/admin/assets/images/new_order.svg" alt=""/>
+                  <img src={NewOrderImage} alt="Priority Orders"/>
                 </p>
                 <span>Priority Orders</span>
                 <h3
@@ -59,10 +63,10 @@ function TopBar() {
 
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="pending_order">
+            <a href="pending-order">
               <div className="body">
                 <p className="m-b-20">
-                  <img src="https://canada-eta.online/admin/assets/images/pending_order.svg" alt=""/>
+                  <img src={PendingOrderImage} alt="Pending Orders"/>
                 </p>
                 <span>Pending Orders</span>
                 <h3
@@ -80,10 +84,10 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="completed_order">
+            <a href="completed-order">
               <div className="body">
                 <p className="m-b-20">
-                  <img src="https://canada-eta.online/admin/assets/images/completed_order.svg" alt=""/>
+                  <img src={CompletedOrderImage} alt="Completed Order"/>
                 </p>
                 <span>Completed Orders</span>
                 <h3
@@ -101,10 +105,10 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="contact_customer">
+            <a href="contact-customer">
               <div className="body">
                 <p className="m-b-20">
-                  <img src="https://canada-eta.online/admin/assets/images/contact_customer.svg" alt=""/>
+                  <img src={ContactOrderImage} alt="Contact Order"/>
                 </p>
                 <span>Contact Customer</span>
                 <h3
