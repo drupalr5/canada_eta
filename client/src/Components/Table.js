@@ -1,7 +1,6 @@
 import React from "react";
 
 function Table(props) {
-  console.log(props)
   return (
     <>
       <div className="row clearfix">

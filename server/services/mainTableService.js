@@ -97,14 +97,6 @@ const gettilesOrder = async (req, res) => {
   res.status(200).send(results)
 }
 
-// Recent Orders.
-const getRecentOrder = async (req, res) => {
-  let whereClause = req.query
-  console.log(whereClause)
-
-  const main_tbl = await models.tblmain.findAll({where: whereClause, limit:10})
-  res.status(200).send(main_tbl)
-}
 module.exports = {
   AddOrder,
   getAllOrder,
@@ -112,5 +104,4 @@ module.exports = {
   updateOrder,
   deleteOrder,
   gettilesOrder,
-  getRecentOrder
 }

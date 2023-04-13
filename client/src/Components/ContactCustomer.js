@@ -27,7 +27,7 @@ function ContactCustomer(props) {
   
   return (
     <>
-      <OrderRender tableHeading="" orders={contactCustomer} />
+      <OrderRender heading={props.heading} tableHeading="" orders={contactCustomer} />
     </>
   );
 }

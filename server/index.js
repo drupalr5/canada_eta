@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false, parameterLimit: 100000 }));
 app.set('port', (process.env.PORT || 3001));
 app.use('/api/order/', orderRouter);
 
-app.use(function(req,res,next){
+app.use(function(req,res,err,next){
   // res.statusCode = 200;
   res.locals.error = err;
   const status = err.status || 200;

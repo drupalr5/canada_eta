@@ -13,7 +13,10 @@ function OrderRender(props) {
     const oid = e.target.attributes.oid.nodeValue;
     const deleteOrder = window.confirm(`Are you sure you want to delete this order? ${oid}`);
     if (deleteOrder) {
-      axios.delete(config.API_URL + '/order/delete/' + oid).then(res => {
+      let updateData = {
+        process_status: "Deleted"
+      }
+      axios.put(config.API_URL + '/order/update/' + oid, updateData).then(res => {
         if(res.status == 200) {
           alert("Your order is deleted");
           navigate(location.pathname)

@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Table from "./Table";
-import PageHeading from "./PageHeading";
 import axios from "axios";
 import config from "../config.json"
 import OrderRender from "./OrderRender";
@@ -27,7 +25,7 @@ function AwaitingOrder(props) {
   
   return (
     <>
-      <OrderRender tableHeading="" orders={orderlist} />
+      <OrderRender heading={props.heading} tableHeading="" orders={orderlist} />
     </>
   );
 }
