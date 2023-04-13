@@ -47,7 +47,7 @@ function Sidebar() {
               </li>
               <li className="">
                 <a
-                  href="awaiting_order"
+                  href="awaiting-order"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/awaiting_response.svg" alt=""/>
@@ -57,7 +57,7 @@ function Sidebar() {
               </li>
               <li className="">
                 <a
-                  href="awaiting_govt_order"
+                  href="awaiting-govt-order"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/awaiting_response.svg" alt=""/>
@@ -67,7 +67,7 @@ function Sidebar() {
               </li>
               <li className="">
                 <a
-                  href="order_history"
+                  href="order-history"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/order_history.svg" alt=""/>
@@ -77,7 +77,7 @@ function Sidebar() {
               </li>
               <li className="">
                 <a
-                  href="delete_order"
+                  href="delete-order"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/deleted_order.svg" alt=""/>
@@ -87,7 +87,7 @@ function Sidebar() {
               </li>
               <li className="">
                 <a
-                  href="refund_order"
+                  href="refund-order"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/refund_order.svg" alt=""/>
@@ -97,7 +97,7 @@ function Sidebar() {
               </li>
               <li className="active open">
                 <a
-                  href="rejected_order"
+                  href="rejected-order"
                   className="menu-toggle toggled waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/refund_order.svg" alt=""/>
@@ -120,7 +120,7 @@ function Sidebar() {
               <li className="sm_menu_btm ">
                 {" "}
                 <a
-                  href="change_password"
+                  href="change-password"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/password.svg" alt=""/>
@@ -140,7 +140,7 @@ function Sidebar() {
               <li className="sm_menu_btm ">
                 {" "}
                 <a
-                  href="manage_team"
+                  href="manage-team"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/manage_team.svg" alt=""/>
@@ -150,7 +150,7 @@ function Sidebar() {
               <li className="sm_menu_btm ">
                 {" "}
                 <a
-                  href="manage_country"
+                  href="manage-country"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src="https://canada-eta.online/admin/assets/images/gateway_setting.svg" alt=""/>

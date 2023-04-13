@@ -13,6 +13,7 @@ import ManageTeam from "../Components/ManageTeam";
 import ManageCountry from "../Components/ManageCountry";
 import CompletedOrder from "../Components/CompletedOrder";
 import OrderDetails from "../Components/OrderDetails";
+import ContactCustomer from "../Components/ContactCustomer";
 
 function AdminLayout() {
   return (

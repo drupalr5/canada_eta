@@ -41,4 +41,4 @@ function ContactCustomer(props) {
   );
 }
 
-export default CompletedOrder;
+export default ContactCustomer;
