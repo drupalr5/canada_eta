@@ -9,7 +9,7 @@ import "../Allassets/assets/css/main.css";
 import "../Allassets/assets/css/color_skins.css";
 import "../Allassets/assets/css/chatapp.css";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <>
       <div className="block-header">
@@ -22,7 +22,7 @@ const Header = () => {
                   <i className="zmdi zmdi-home"></i>
                 </a>
               </li>
-              <li className="breadcrumb-item active">Dashboard</li>
+              <li className="breadcrumb-item active">{props.breadcrumb}</li>
             </ul>
           </div>
           <div className="col-lg-7 col-md-7 col-sm-12">

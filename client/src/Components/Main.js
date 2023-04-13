@@ -11,12 +11,11 @@ function Main(props) {
     document.body.classList.add("theme-black");
     document.body.removeAttribute("style");
   }, []);
-
   return (
     <>
       <section className="content home">
         <div className="container-fluid">
-          <Header />
+          {props.header}
           <TopBar />
           <Sidebar onLogout={props.onLogout} />
           {props.children}

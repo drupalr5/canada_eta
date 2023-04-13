@@ -1,10 +1,13 @@
 import React from "react";
 import Table from "./Table";
+import PageHeading from "./PageHeading";
 
 function ManageCountry(props) {
   return (
     <>
-      <Table />
+      <Table>
+      <PageHeading pagename={props.heading} />
+      </Table>
     </>
   );
 }

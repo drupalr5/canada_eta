@@ -97,6 +97,62 @@ const gettilesOrder = async (req, res) => {
   res.status(200).send(results)
 }
 
+// Count Order
+const getCountsOrder = async (req, res) => {
+  // Awiating count.
+  let awiatingCount, awaitingGovtCount, historyCount, deletedCount, refundCount, rejectedCount = 0;
+
+  const awiating = {
+    'payment_status': "Success",
+    'process_status': "Awiating",
+  }
+  const awiatingResult = await models.tblmain.count({where: awiating})
+
+  // AwaitingGovt order
+  const awaitingGovt = {
+    'payment_status': "Success",
+    'process_status': "AwaitingGovt",
+  }
+  const awaitingGovtResult = await models.tblmain.count({where: awaitingGovt})
+
+  // History order
+  const history = {
+    'payment_status': "Success",
+  }
+  const historyResult = await models.tblmain.count({where: history})
+
+  // Deleted order
+   const deleted = {
+    'payment_status': "Success",
+    'process_status': "Deleted",
+  }
+  const deletedResult = await models.tblmain.count({where: deleted})
+  
+  // Refund order
+  const refund = {
+    'payment_status': "Success",
+    'process_status': "Refund",
+  }
+  const refundResult = await models.tblmain.count({where: refund})
+
+  // Rejected order
+  const rejected = {
+    'payment_status': "Success",
+    'process_status': "Rejected",
+  }
+  const rejectedResult = await models.tblmain.count({where: rejected})
+  
+  let results = {
+    'awiatingCount': awiatingResult,
+    'awaitingGovtCount':awaitingGovtResult,
+    'historyCount':historyResult,
+    'deletedCount':deletedResult,
+    'refundCount': refundResult,
+    'rejectedCount': rejectedResult
+  }
+  res.status(200).send(results)
+}
+
 module.exports = {
   AddOrder,
   getAllOrder,
@@ -104,4 +160,5 @@ module.exports = {
   updateOrder,
   deleteOrder,
   gettilesOrder,
+  getCountsOrder
 }

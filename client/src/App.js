@@ -16,7 +16,7 @@ function App() {
     <Routes>
       <Route path="/" element={<AnonymousLayout />}></Route>
       <Route path="admin/*" element={<ProtectedLayout><AdminLayout /></ProtectedLayout>}></Route>
-      <Route path="team/*" element={<TeamLayout />}></Route>
+      <Route path="team/*" element={<ProtectedLayout><TeamLayout /></ProtectedLayout>}></Route>
       <Route path="staff/*" element={<StaffLayout />}></Route>
       <Route path="*" element={<NoMatch />}></Route>     
     </Routes>

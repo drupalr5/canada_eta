@@ -1,13 +1,31 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
+import config from "../config.json"
 import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
-
+import LogoutIcon from "../Allassets/icons/logout.png";
+import Awaiting from "../Allassets/assets/images/awaiting_response.svg";
+import OrderHistory from "../Allassets/assets/images/order_history.svg";
+import DeletedOrder from "../Allassets/assets/images/deleted_order.svg";
+import RefundOrder from "../Allassets/assets/images/refund_order.svg";
+import Zoho from "../Allassets/assets/images/zoho.svg";
+import Password from "../Allassets/assets/images/password.svg";
+import GatewaySetting from "../Allassets/assets/images/gateway_setting.svg";
+import ManageTeam from "../Allassets/assets/images/manage_team.svg";
 function Sidebar() {
   const navigate = useNavigate();
   const logoutHnadler = () => {
     localStorage.removeItem("isLoggedIn");
     navigate('/')
   };
+  const [tiles, setTiles] = useState({});
+  useEffect(() => {
+    axios.get(config.API_URL + '/order/ordercounts').then((response) => {
+      setTiles(response.data)
+    }).catch((error) => {
+      alert(error);
+    });
+  }, [])
   return (
     <>
       <aside id="minileftbar" className="minileftbar">
@@ -34,7 +52,7 @@ function Sidebar() {
                       onClick={logoutHnadler}
                     >
                       <img
-                        src="https://canada-eta.online/admin/icons/logout.png"
+                        src={LogoutIcon}
                         className="sidebar_icons"
                         height="10%"
                         width="18%"
@@ -50,9 +68,9 @@ function Sidebar() {
                   href="awaiting-order"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/awaiting_response.svg" alt=""/>
+                  <img src={Awaiting} alt=""/>
                   <span>Awaiting Customer</span>{" "}
-                  <span className="badge badge-default float-right">21</span>
+                  <span className="badge badge-default float-right">{tiles.awiatingCount}</span>
                 </a>
               </li>
               <li className="">
@@ -60,9 +78,9 @@ function Sidebar() {
                   href="awaiting-govt-order"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/awaiting_response.svg" alt=""/>
+                  <img src={Awaiting} alt=""/>
                   <span>Awaiting Govt</span>{" "}
-                  <span className="badge badge-default float-right">137</span>
+                  <span className="badge badge-default float-right">{tiles.awaitingGovtCount}</span>
                 </a>
               </li>
               <li className="">
@@ -70,9 +88,9 @@ function Sidebar() {
                   href="order-history"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/order_history.svg" alt=""/>
+                  <img src={OrderHistory} alt=""/>
                   <span>Order History</span>{" "}
-                  <span className="badge badge-default float-right">10742</span>
+                  <span className="badge badge-default float-right">{tiles.historyCount}</span>
                 </a>
               </li>
               <li className="">
@@ -80,9 +98,9 @@ function Sidebar() {
                   href="delete-order"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/deleted_order.svg" alt=""/>
+                  <img src={DeletedOrder} alt=""/>
                   <span>Deleted Orders</span>{" "}
-                  <span className="badge badge-default float-right">5</span>
+                  <span className="badge badge-default float-right">{tiles.deletedCount}</span>
                 </a>
               </li>
               <li className="">
@@ -90,9 +108,9 @@ function Sidebar() {
                   href="refund-order"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/refund_order.svg" alt=""/>
+                  <img src={RefundOrder} alt=""/>
                   <span>Refund Orders</span>{" "}
-                  <span className="badge badge-default float-right">62</span>
+                  <span className="badge badge-default float-right">{tiles.refundCount}</span>
                 </a>
               </li>
               <li className="active open">
@@ -100,9 +118,9 @@ function Sidebar() {
                   href="rejected-order"
                   className="menu-toggle toggled waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/refund_order.svg" alt=""/>
+                  <img src={RefundOrder} alt=""/>
                   <span>Rejected ETA</span>{" "}
-                  <span className="badge badge-default float-right">135</span>
+                  <span className="badge badge-default float-right">{tiles.rejectedCount}</span>
                 </a>
               </li>
               <li className="header">Reporting</li>
@@ -111,7 +129,7 @@ function Sidebar() {
                   href="javascript:void(0);"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/zoho.svg" alt=""/>
+                  <img src={Zoho} alt=""/>
                   <span>Zoho</span>
                   <span className="badge badge-default float-right">0</span>
                 </a>
@@ -123,7 +141,7 @@ function Sidebar() {
                   href="change-password"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/password.svg" alt=""/>
+                  <img src={Password} alt=""/>
                   <span>Change Password</span>
                 </a>
               </li>
@@ -133,7 +151,7 @@ function Sidebar() {
                   href="settings"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/gateway_setting.svg" alt=""/>
+                  <img src={GatewaySetting} alt=""/>
                   <span>Gateway</span>
                 </a>
               </li>
@@ -143,7 +161,7 @@ function Sidebar() {
                   href="manage-team"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/manage_team.svg" alt=""/>
+                  <img src={ManageTeam} alt=""/>
                   <span>Manage Team</span>
                 </a>
               </li>
@@ -153,7 +171,7 @@ function Sidebar() {
                   href="manage-country"
                   className="menu-toggle waves-effect waves-block"
                 >
-                  <img src="https://canada-eta.online/admin/assets/images/gateway_setting.svg" alt=""/>
+                  <img src={GatewaySetting} alt=""/>
                   <span>Manage Country</span>
                 </a>
               </li>
