@@ -1,10 +1,11 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
-
+import config from "../config.json"
+import NewOrderImage from "../Allassets/assets/images/new_order.svg"
 function TopBar() {
   const [tiles, setTiles] = useState({});
   useEffect(() => {
-    axios.get('http://localhost:3001/api/order/ordertiles').then((response) => {
+    axios.get(config.API_URL + '/order/ordertiles').then((response) => {
       setTiles(response.data)
     }).catch((error) => {
       alert(error);
@@ -18,7 +19,7 @@ function TopBar() {
             <a href="dashboard">
               <div className="body">
                 <p className="m-b-20">
-                  <img src="https://canada-eta.online/admin/assets/images/new_order.svg" alt="" />
+                  <img src={NewOrderImage} alt="Order Logo" />
                 </p>
                 <span>New Orders</span>
                 <h3
