@@ -1,6 +1,7 @@
 import React from "react";
 
 function Table(props) {
+  console.log(props.tableRows)
   return (
     <>
       <div className="row clearfix">
@@ -18,46 +19,47 @@ function Table(props) {
                 <div className="table-responsive">
                   <table
                     className="table table-bordered table-striped table-hover js-basic-example dataTable"
-                    id="recentOrderTable"
+                    id="completedOrderTable"
                   >
                     <thead>
                       <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            className="datatable-select-all-checkbox"
-                          />
-                        </th>
-                        <th>Order ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Telephone</th>
-                        <th>Date & Time</th>
-                        <th>Assign to</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                      <th>
+                      <input
+                        type="checkbox"
+                        className="datatable-select-all-checkbox"
+                      />
+                    </th>
+                    <th>Order ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Date & Time</th>
+                    <th>Assign to</th>
+                    <th>Status</th>
+                    <th>Action</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            className="datatable-select-all-checkbox"
-                          />
-                        </th>
-                        <th>Order ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Telephone</th>
-                        <th>Date & Time</th>
-                        <th>Assign to</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                      <th>
+      <input
+        type="checkbox"
+        className="datatable-select-all-checkbox"
+      />
+    </th>
+    <th>Order ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Telephone</th>
+    <th>Date & Time</th>
+    <th>Assign to</th>
+    <th>Status</th>
+    <th>Action</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                      <tr></tr>
+                      
+                    {props.tableRows}
                     </tbody>
                   </table>
                 </div>

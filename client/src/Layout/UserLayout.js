@@ -11,6 +11,8 @@ import ChangePassword from "../Components/ChangePassword";
 import Settings from "../Components/Settings";
 import ManageTeam from "../Components/ManageTeam";
 import ManageCountry from "../Components/ManageCountry";
+import CompletedOrder from "../Components/CompletedOrder";
+import OrderDetails from "../Components/OrderDetails";
 
 function UserLayout() {
   return (
@@ -48,6 +50,12 @@ function UserLayout() {
       </Main>}></Route>
       <Route path="manage_country" element={<Main >
         <ManageCountry heading='Country Listing'/>
+      </Main>}></Route>
+      <Route path="completed_order" element={<Main >
+        <CompletedOrder heading='Completed Orders'/>
+      </Main>}></Route>
+      <Route path="order_details" element={<Main >
+        <OrderDetails heading='Order Details'/>
       </Main>}></Route>
     </Routes>
     </>

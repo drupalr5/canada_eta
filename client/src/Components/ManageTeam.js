@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import PageHeading from "./PageHeading";
+import axios from "axios";
 
 function ManageTeam(props) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   let id = localStorage.getItem("id");
   useEffect(() => {    
-    // axios.get(`http://localhost:3001/api/admin/get/${id}`).then((response) => {
-    //   setUser(response.data)
-    // }).catch((error) => {
-    //   alert(error);
-    // });
-  },[]);
+    axios.get(`http://localhost:3001/api/admin/${id}`).then((response) => {
+      setUser(response.data)
+    }).catch((error) => {
+      alert(error);
+    });
+  }, [id]);
   const updateHandler = () => {
-    // axios.get(`http://localhost:3001/api/admin/update/${id}`,{}).then((response) => {
-    //   setUser(response.data)
-    // }).catch((error) => {
-    //   alert(error);
-    // });
+    axios.get(`http://localhost:3001/api/admin/update/${id}`,user).then((response) => {
+      console.log(response.data)
+    }).catch((error) => {
+      alert(error);
+    });
   }
+  console.log(user)
   return (
     <>
       <div className="row clearfix">
@@ -43,8 +45,8 @@ function ManageTeam(props) {
                         name="name"
                         className="form-control"
                         placeholder="Enter Name"
-                        // value=""
-                        required
+                        value={user.name}
+                        required                        
                       />
                     </div>
                   </div>
@@ -57,7 +59,7 @@ function ManageTeam(props) {
                         type="text"
                         name="email"
                         className="form-control"
-                        // value=""
+                        value={user.email}
                         placeholder="Enter Email"
                         required
                         autoComplete="false"
@@ -91,6 +93,7 @@ function ManageTeam(props) {
                         className="form-control"
                         required
                         style={{ height: "46px" }}
+                        value={user.type}
                       >
                         <option value="">Select Type</option>
                         <option value="Team">Team</option>

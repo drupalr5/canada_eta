@@ -14,7 +14,7 @@ function Login(props) {
   const loginHnadler = () => {
     let email = values.email;
     let password = values.password;
-    axios.get('http://localhost:3001/api/admin/'+ email + '/' + password).then((response) => {
+    axios.get(`http://localhost:3001/api/admin/${email}/${password}`).then((response) => {
       if(response.data!='') {
         localStorage.setItem("isLoggedIn", "1");
         console.log(response.data.id)
@@ -36,7 +36,6 @@ function Login(props) {
     document.body.style.backgroundSize= 'cover';
     // setIsAuthenticate(localStorage.getItem("isLoggedIn"));
   },[])
-  console.log(localStorage.getItem("isLoggedIn"))
   if(localStorage.getItem("isLoggedIn")) {
     navigate('home/dashboard')
   } else {

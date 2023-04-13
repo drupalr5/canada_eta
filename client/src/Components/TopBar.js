@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 
 function TopBar() {
+  const [tiles, setTiles] = useState({});
+  useEffect(() => {
+    axios.get('http://localhost:3001/api/order/ordertiles').then((response) => {
+      setTiles(response.data)
+    }).catch((error) => {
+      alert(error);
+    });
+  }, [])
   return (
     <>
       <div className="row clearfix main-folder-section">
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="recent_order.php">
+            <a href="dashboard">
               <div className="body">
                 <p className="m-b-20">
                   <img src="https://canada-eta.online/admin/assets/images/new_order.svg" alt="" />
@@ -19,7 +28,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  0
+                  {tiles.new_order}
                 </h3>
               </div>
             </a>
@@ -27,7 +36,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="priority_order.php">
+            <a href="priority_order">
               <div className="body">
                 <p className="m-b-20">
                   <img src="https://canada-eta.online/admin/assets/images/new_order.svg" alt=""/>
@@ -40,7 +49,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  1
+                {tiles.priority_order}
                 </h3>
               </div>
             </a>
@@ -49,7 +58,7 @@ function TopBar() {
 
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="pending_order.php">
+            <a href="pending_order">
               <div className="body">
                 <p className="m-b-20">
                   <img src="https://canada-eta.online/admin/assets/images/pending_order.svg" alt=""/>
@@ -62,7 +71,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  5
+                {tiles.pending_order}
                 </h3>
               </div>
             </a>
@@ -70,7 +79,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="completed_order.php">
+            <a href="completed_order">
               <div className="body">
                 <p className="m-b-20">
                   <img src="https://canada-eta.online/admin/assets/images/completed_order.svg" alt=""/>
@@ -83,7 +92,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  9688
+                {tiles.complete_order}
                 </h3>
               </div>
             </a>
@@ -91,7 +100,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <a href="contact_customer.php">
+            <a href="contact_customer">
               <div className="body">
                 <p className="m-b-20">
                   <img src="https://canada-eta.online/admin/assets/images/contact_customer.svg" alt=""/>
@@ -104,7 +113,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  70
+                {tiles.customer_contact}
                 </h3>
               </div>
             </a>
