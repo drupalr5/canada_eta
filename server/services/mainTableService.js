@@ -27,7 +27,15 @@ const getOneOrder = async (req, res) => {
 
 const updateOrder = async (req, res) => {
   let orderId = req.params.id;
+  console.log(orderId)
+  console.log(req.body)
   const main_tbl = await models.tblmain.update(req.body, { where: {order_id : orderId}})
+  res.status(200).send(main_tbl)
+}
+
+const updateMultipleOrder = async (req, res) => {
+  let orderIds = req.query.oids;
+  const main_tbl = await models.tblmain.update(req.body, { where: {order_id : orderIds}})
   res.status(200).send(main_tbl)
 }
 
@@ -161,5 +169,6 @@ module.exports = {
   updateOrder,
   deleteOrder,
   gettilesOrder,
-  getCountsOrder
+  getCountsOrder,
+  updateMultipleOrder
 }

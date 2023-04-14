@@ -15,7 +15,8 @@ function PendingOrder(props) {
   useEffect(() => { 
     let param = {
       payment_status: 'Success',
-      process_status: 'AwaitingGovt',
+      process_status: 'Pending',
+      doc_uploaded: 1,
       assign_to: utype
     }
     axios.get(config.API_URL + '/order/get',{params: param}).then((response) => {

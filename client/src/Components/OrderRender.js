@@ -1,5 +1,6 @@
 import React from "react";
 import Table from "./Table";
+import DTable from "./DTable";
 import PageHeading from "./PageHeading";
 import axios from "axios";
 import config from "../config.json"
@@ -17,38 +18,41 @@ function OrderRender(props) {
         process_status: "Deleted"
       }
       axios.put(config.API_URL + '/order/update/' + oid, updateData).then(res => {
-        if(res.status == 200) {
+        if (res.status == 200) {
           alert("Your order is deleted");
           navigate(location.pathname)
         }
       })
-      .catch(error => {
-        alert(error);
-      })
+        .catch(error => {
+          alert(error);
+        })
     }
   }
-  return(
+  const result = [];
+  Array.isArray(props.orders) && props.orders.map((row, index) => {
+    let id = row.id;
+    let oid = row.order_id;
+    let process_status = row.process_status;
+    let pre_no = index + 1;
+    let view = `order-details?id=${oid}&oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
+    result.push(
+      {
+        id: pre_no,
+        order_id: oid,
+        name: row.passport_first_name + " " + row.passport_surname,
+        email: row.email,
+        telephone: row.telephone_number,
+        assign_to: row.assign_to,
+        status: process_status,
+        action: view,
+      }
+    );
+  });
+  return (
     <>
-      <Table tableHeading='' tableRows={Array.isArray(props.orders) ? props.orders.map((row, index) => {
-        let id = row.id;
-        let oid = row.order_id;
-        let process_status = row.process_status;
-        let pre_no = index+1;
-        let view = `order-details?id=${oid}&oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
-        return <tr key={row.id}>
-          <td></td>
-          <td>{row.order_id}</td>
-          <td>{row.passport_first_name} {row.passport_surname}</td>
-          <td>{row.email}</td>
-          <td>{row.telephone_number}</td>
-          <td>{row.customer_date}</td>
-          <td>{row.assign_to}</td>
-          <td>{row.process_status}</td>
-          <td><a href={view}>View</a> <a href="#" oid={oid} onClick={deleteOrderHandler}>Delete</a></td>
-        </tr>
-      }) : ''}>
+      <DTable tableHeading='' results={result} teamMemeber={props.displayTeamMember}>
         <PageHeading pagename={props.heading} />
-      </Table>
+      </DTable>
     </>
   );
 }
