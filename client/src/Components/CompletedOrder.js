@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config.json"
 import OrderRender from "./OrderRender";
@@ -16,7 +16,7 @@ function CompletedOrder(props) {
       process_status: 'Completed',
       assign_to: utype
     }
-    axios.get('http://localhost:3001/api/order/get',{params: param}).then((response) => {
+    axios.get(config.API_URL + '/order/get', { params: param }).then((response) => {
       setCompletedOrder(response.data)
     }).catch((error) => {
       alert(error);

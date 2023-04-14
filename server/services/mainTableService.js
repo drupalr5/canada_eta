@@ -31,6 +31,12 @@ const updateOrder = async (req, res) => {
   res.status(200).send(main_tbl)
 }
 
+const updateMultipleOrder = async (req, res) => {
+  let orderIds = req.query.oids;
+  const main_tbl = await models.tblmain.update(req.body, { where: {order_id : orderIds}})
+  res.status(200).send(main_tbl)
+}
+
 const deleteOrder = async (req, res) => {
   try {
     let orderId = req.params.id;
@@ -46,12 +52,15 @@ const deleteOrder = async (req, res) => {
 const gettilesOrder = async (req, res) => {
   // new Order count.
   let newOrderCount, priorityOrderCount, pendingOrderCount, completeOrderCount, customerContact = 0;
-
+  let qassign_to = req.query.assign_to ? req.query.assign_to : null;
   const newOrder = {
     'payment_status': "Success",
     'process_status': "New",
     'processing_type': "Standard Processing",
     'doc_uploaded': 0,
+  }
+  if (qassign_to) {
+    newOrder.assign_to = qassign_to;
   }
   const newOrderResult = await models.tblmain.count({where: newOrder})
 
@@ -62,6 +71,9 @@ const gettilesOrder = async (req, res) => {
     'processing_type': "Priority Processing",
     'doc_uploaded': 0,
   }
+  if (qassign_to) {
+    priorityOrder.assign_to = qassign_to;
+  }
   const priorityOrderResult = await models.tblmain.count({where: priorityOrder})
 
   // pendingOrder order
@@ -70,6 +82,10 @@ const gettilesOrder = async (req, res) => {
     'process_status': "Pending",
     'doc_uploaded': 1,
   }
+  if (qassign_to) {
+    pendingOrder.assign_to = qassign_to;
+  }
+
   const pendingrderResult = await models.tblmain.count({where: pendingOrder})
 
 
@@ -78,12 +94,19 @@ const gettilesOrder = async (req, res) => {
     'payment_status': "Success",
     'process_status': "Completed",
   }
+  if (qassign_to) {
+    completeOrder.assign_to = qassign_to;
+  }
+
   const completeOrderResult = await models.tblmain.count({where: completeOrder})
   
   // contact order
   const contact = {
     'payment_status': "Success",
     'process_status': "Contact Customer",
+  }
+  if (qassign_to) {
+    contact.assign_to = qassign_to;
   }
   const contactOrderResult = await models.tblmain.count({where: contact})
   
@@ -161,5 +184,6 @@ module.exports = {
   updateOrder,
   deleteOrder,
   gettilesOrder,
-  getCountsOrder
+  getCountsOrder,
+  updateMultipleOrder
 }

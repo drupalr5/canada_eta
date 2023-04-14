@@ -15,7 +15,9 @@ function PriorityOrder(props) {
   useEffect(() => { 
     let param = {
       payment_status: 'Success',
-      process_status: 'AwaitingGovt',
+      process_status: 'New',
+      doc_uploaded: 0,
+      processing_type: "Priority Processing",
       assign_to: utype
     }
     axios.get(config.API_URL + '/order/get',{params: param}).then((response) => {
@@ -27,7 +29,7 @@ function PriorityOrder(props) {
 
   return (
     <>
-      <OrderRender heading={props.heading} tableHeading="" orders={orderlist} />
+      <OrderRender heading={props.heading} tableHeading="" orders={orderlist} displayTeamMember={true}/>
     </>
   );
 }

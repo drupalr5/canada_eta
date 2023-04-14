@@ -10,6 +10,7 @@ router.get('/ordertiles', mainOrder.gettilesOrder);
 router.get('/ordercounts', mainOrder.getCountsOrder);
 router.get('/:id', mainOrder.getOneOrder);
 router.put('/update/:id', mainOrder.updateOrder);
+router.put('/update-multiple', mainOrder.updateMultipleOrder);
 router.delete('/delete/:id', mainOrder.deleteOrder);
 
 // new order

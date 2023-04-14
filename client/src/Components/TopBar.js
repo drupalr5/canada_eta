@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config.json"
 import NewOrderImage from "../Allassets/assets/images/new_order.svg";
@@ -8,8 +8,16 @@ import ContactOrderImage from "../Allassets/assets/images/contact_customer.svg";
 
 function TopBar() {
   const [tiles, setTiles] = useState({});
+  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let utype = loginUser.type ? loginUser.type : ''
+  if (utype && utype != "Team") {
+    utype = null
+  }
+  let param = {
+    assign_to: utype
+  }
   useEffect(() => {
-    axios.get(config.API_URL + '/order/ordertiles').then((response) => {
+    axios.get(config.API_URL + '/order/ordertiles', { params: param }).then((response) => {
       setTiles(response.data)
     }).catch((error) => {
       alert(error);
@@ -44,7 +52,7 @@ function TopBar() {
             <a href="priority-order">
               <div className="body">
                 <p className="m-b-20">
-                  <img src={PendingOrderImage} alt="Priority Orders"/>
+                  <img src={PendingOrderImage} alt="Priority Orders" />
                 </p>
                 <span>Priority Orders</span>
                 <h3
@@ -54,7 +62,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                {tiles.priority_order}
+                  {tiles.priority_order}
                 </h3>
               </div>
             </a>
@@ -66,7 +74,7 @@ function TopBar() {
             <a href="pending-order">
               <div className="body">
                 <p className="m-b-20">
-                  <img src={PendingOrderImage} alt="Pending Orders"/>
+                  <img src={PendingOrderImage} alt="Pending Orders" />
                 </p>
                 <span>Pending Orders</span>
                 <h3
@@ -76,7 +84,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                {tiles.pending_order}
+                  {tiles.pending_order}
                 </h3>
               </div>
             </a>
@@ -87,7 +95,7 @@ function TopBar() {
             <a href="completed-order">
               <div className="body">
                 <p className="m-b-20">
-                  <img src={CompletedOrderImage} alt="Completed Order"/>
+                  <img src={CompletedOrderImage} alt="Completed Order" />
                 </p>
                 <span>Completed Orders</span>
                 <h3
@@ -97,7 +105,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                {tiles.complete_order}
+                  {tiles.complete_order}
                 </h3>
               </div>
             </a>
@@ -108,7 +116,7 @@ function TopBar() {
             <a href="contact-customer">
               <div className="body">
                 <p className="m-b-20">
-                  <img src={ContactOrderImage} alt="Contact Order"/>
+                  <img src={ContactOrderImage} alt="Contact Order" />
                 </p>
                 <span>Contact Customer</span>
                 <h3
@@ -118,7 +126,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                {tiles.customer_contact}
+                  {tiles.customer_contact}
                 </h3>
               </div>
             </a>
