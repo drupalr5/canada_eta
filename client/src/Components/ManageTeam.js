@@ -2,26 +2,81 @@ import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import PageHeading from "./PageHeading";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+// import useForm from "../Hooks/useForm";
+// import { useForm } from "react-hook-form";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/Row";
+import config from "../config.json";
 
 function ManageTeam(props) {
   const [user, setUser] = useState({});
+  const [msg, setMsg] = useState("");
   let loginUser = JSON.parse(localStorage.getItem("user"));
-  let id = loginUser.id
-  useEffect(() => {    
-    axios.get(`http://localhost:3001/api/admin/${id}`).then((response) => {
-      setUser(response.data)
-    }).catch((error) => {
-      alert(error);
-    });
+  let id = loginUser.id;
+  const style = { height: "40px" };
+  // const { register, handleSubmit, formState: { errors } } = useForm();
+
+  useEffect(() => {
+    axios
+      .get(`${config.API_URL}/admin/${id}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }, [id]);
-  const updateHandler = () => {
-    axios.get(`http://localhost:3001/api/admin/update/${id}`,user).then((response) => {
-      console.log(response.data)
-    }).catch((error) => {
-      alert(error);
-    });
-  }
-  console.log(id)
+  const updateHandler = (data) => {
+    console.log(data);
+    axios
+      .put(`${config.API_URL}/admin/update/${id}`, {params :data})
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.message === "Success...") {
+          setMsg("Updated user succusessfully");
+        } else {
+          setMsg(response.data.message);
+        }
+      })
+      .catch((error) => {
+        setMsg(error);
+      });
+  };
+  const foundOrderSchema = yup.object({
+    // orderId: yup.string().required("Please enter your Order Id"),
+    email: yup
+      .string()
+      .required("Please enter your Email Id")
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Please enter correct Email Id"
+      ),
+      password: yup
+      .string()
+      .required("Please enter your password")
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
+        "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers"
+      ),
+  });
+  const initialValues = {
+    "id": 1,
+    "name": "Admin",
+    "email": "teams@canada-eta.online",
+    "password": "wynzac-rafzos-8pIhb",
+    "type": "Admin",
+    "profile_path": null,
+    "create_ts": "2020-04-30T09:16:41.000Z"
+}
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: foundOrderSchema,
+    onSubmit: updateHandler,
+  });
   return (
     <>
       <div className="row clearfix">
@@ -31,105 +86,94 @@ function ManageTeam(props) {
               <PageHeading pagename={props.heading} />
             </div>
             <div className="body">
-              <form
-              encType="multipart/form-data"
-              onSubmit={updateHandler}
-              >
-                <div className="row clearfix">
-                  <div className="col-md-6">
-                    <label>
-                      <strong>Name</strong>
-                    </label>
-                    <div className="form-group">
-                      <input
+              <Form onSubmit={handleSubmit}>
+              {msg && msg}
+                <Row>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formText">
+                      <Form.Label>
+                        <strong>Name</strong>
+                      </Form.Label>
+                      <Form.Control
                         type="text"
                         name="name"
-                        className="form-control"
                         placeholder="Enter Name"
-                        value={user.name}
-                        required                        
+                        value={values.name}
+                        style={style}
+                        onChange={handleChange}
                       />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <label>
-                      <strong>Email ID</strong>
-                    </label>
-                    <div className="form-group">
-                      <input
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                      <Form.Label>
+                        <strong>Email ID</strong>
+                      </Form.Label>
+                      <Form.Control
                         type="text"
                         name="email"
-                        className="form-control"
-                        value={user.email}
-                        placeholder="Enter Email"
-                        required
-                        autoComplete="false"
+                        placeholder="Enter email"
+                        value={values.email}
+                        onChange={handleChange}
+                        style={style}
                       />
-                    </div>
-                  </div>
-                </div>
-                <div className="row clearfix">
-                  <div className="col-md-6">
-                    <label>
-                      <strong>Password</strong>
-                    </label>
-                    <div className="form-group">
-                      <input
+                    </Form.Group>
+                    <p>{errors.email}</p>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
                         type="password"
-                        className="form-control required"
-                        id="password"
                         name="password"
                         placeholder="Enter Password"
-                        autoComplete="false"
+                        value={values.password}
+                        onChange={handleChange}
+                        style={style}
                       />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <label>
-                      <strong>Member Type</strong>
-                    </label>
-                    <div className="form-group">
-                      <select
+                    </Form.Group>
+                    <p>{errors.password}</p>
+                  </Col>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formSelect">
+                      <Form.Label>
+                        <strong>Member Type</strong>
+                      </Form.Label>
+                      <Form.Select
+                        aria-label="Default select example"
                         name="type"
+                        value={values.type}
                         className="form-control"
-                        required
-                        style={{ height: "46px" }}
-                        value={user.type}
+                        onChange={handleChange}
+                        style={style}
                       >
                         <option value="">Select Type</option>
                         <option value="Team">Team</option>
                         <option value="Telecaller">Telecaller</option>
                         <option value="Night Staff">Night Staff</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="row clearfix">
-                  <div className="col-md-6">
-                    <label>
-                      <strong>Upload Profile Picture</strong>
-                    </label>
-                    <div className="form-group">
-                      <input
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formFile">
+                      <Form.Label>Upload Profile Picture</Form.Label>
+                      <Form.Control
                         type="file"
-                        className="form-control required"
-                        id="filename"
-                        name="filename"
-                        accept="image/*"
+                        name="password"
+                        placeholder="Enter Password"
                       />
-                    </div>
-                  </div>
-                </div>
-                <div className="row clearfix">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+                    </Form.Group>
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
             </div>
           </div>
         </div>

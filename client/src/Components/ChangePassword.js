@@ -1,37 +1,36 @@
 import React, { useState } from "react";
 import PageHeading from "./PageHeading";
 import axios from "axios";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import useForm from "../Hooks/useForm";
+import config from "../config.json"
 
 function ChangePassword(props) {
-  const [pssword, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const [err, setError] = useState("");
-  const passwordHandler = (e) => {
-    setPassword(e.target.value);
-  };
+
+  const style = { height: "40px" };
   const updatePassword = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     let loginUser = JSON.parse(localStorage.getItem("user"));
     let id = loginUser.id;
     axios
-      .put(`http://localhost:3001/api/admin/update/${id}`, {
-        params: { password: pssword },
+      .put(`${ config.API_URL }/admin/update/${id}`, {
+        params: { password: values.password },
       })
-      .then((response) => {        
+      .then((response) => {
         if (response.data.message === "Success...") {
-          setMsg('Password updated succusessfully')
-          console.log(msg)
-          alert('Password updated succusessfully')
-        }else {
-          setError(response.data.message)
+          setMsg("Password updated succusessfully");
+        } else {
+          setMsg(response.data.message);
         }
       })
       .catch((error) => {
-        setError(error)
+        setMsg(error);
       });
   };
+  const { handleChange, values, errors, handleSubmit } =
+    useForm(updatePassword);
   return (
     <>
       <div className="row clearfix">
@@ -41,20 +40,26 @@ function ChangePassword(props) {
               <PageHeading pagename={props.heading} />
             </div>
             <div className="body">
-              
-              <Form onSubmit={updatePassword}>
-      
-              <p>{ msg && msg }{ err && err }</p>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" 
-        value={pssword}
-        onChange={passwordHandler}/>
-      </Form.Group>
-      <Button variant="primary" type="submit">
-      Update Password
-      </Button>
-    </Form>
+              <Form onSubmit={handleSubmit}>
+                {msg && msg}
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>
+                    <strong>Enter New Password</strong>
+                  </Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={values.password}
+                    onChange={handleChange}
+                    style={style}
+                  />
+                </Form.Group>
+                <p>{errors && errors.password}</p>
+                <Button variant="primary" type="submit">
+                  Update Password
+                </Button>
+              </Form>
             </div>
           </div>
         </div>
