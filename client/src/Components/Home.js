@@ -1,30 +1,31 @@
-import React, { useEffect } from "react";
-import Table from "./Table";
-import PageHeading from "./PageHeading";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
+import config from "../config.json"
+import OrderRender from "./OrderRender";
 
 function Home(props) {
-  useEffect(() => {
-    let recentParam = {
+  const [orderlist, setOrderList] = useState({});
+  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let utype = loginUser.type ? loginUser.type : ''
+  if (utype && utype != "Team") {
+    utype = null
+  }
+  useEffect(() => { 
+    let param = {
       payment_status: 'Success',
-      doc_uploaded: 0,
-      process_status: 'New',
-      processing_type: 'Standard Processing',
+      process_status: ['Refund', 'Complete Refunds'],
+      assign_to: utype
     }
-    axios.get('http://localhost:3001/api/order/get',{params: recentParam}).then((response) => {
-      console.log(response.data)
-      if(response.data!='') {
-        
-      }
+    axios.get(config.API_URL + '/order/get',{params: param}).then((response) => {
+      setOrderList(response.data)
     }).catch((error) => {
       alert(error);
     });
   }, [])
+  
   return (
     <>
-      <Table>
-        <PageHeading pagename={props.heading} />
-      </Table>
+      <OrderRender heading={props.heading} tableHeading="" orders={orderlist} />
     </>
   );
 }
