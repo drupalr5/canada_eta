@@ -21,8 +21,14 @@ const getOneAdmin = async (req, res) => {
 
 const updateAdmin = async (req, res) => {
   let id = req.params.id;
-  const main_tbl = await models.tbl_admin.update(req.body, { where: {id : id}})
-  res.status(200).send(main_tbl)
+  const main_tbl = await models.tbl_admin.update(req.body.params, { where: {id : id}}).then(result => {
+    console.log(result)
+    res.status(200).send({ message: 'Success...' })
+  })
+  .catch(error => {
+    res.status(200).send({ message: err.message  })
+  })
+  
 }
 
 const deleteAdmin = async (req, res) => {
