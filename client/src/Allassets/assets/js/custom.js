@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 function CustomJs() {
   $(document).on('click','.datatable-select-all-checkbox',function(){
     $('input[name="assign_to[]"]').not(this).prop('checked', this.checked);
