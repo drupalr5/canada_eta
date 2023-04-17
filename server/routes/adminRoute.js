@@ -1,6 +1,6 @@
 const express = require("express");
 const adminRouter = express.Router();
-const adminService = require("../services/adminLoginService")
+const adminService = require("../services/admin/adminLoginService")
 
 adminRouter.post('/create', adminService.AddAdmin);
 adminRouter.get('/all', adminService.getAllAdmin);

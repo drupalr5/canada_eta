@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const db = require('./models')
-const orderRouter = require('./router/route')
-const adminRouter = require('./router/adminRoute')
+const orderRouter = require('./routes/maintblroute')
+const adminRouter = require('./routes/adminRoute')
 const cors = require('cors');
 const coreOptions = {
   origin: "*",

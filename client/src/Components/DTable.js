@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +8,7 @@ import FilterComponent from "./FilterComponent"
 
 function Table(props) {
   const resultD = props.results;
+  const [pending, setPending] = React.useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedRows, setSelectedRows] = useState(false);
@@ -16,12 +17,18 @@ function Table(props) {
   const [filterText, setFilterText] = React.useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
+  useEffect(() => {
+		const timeout = setTimeout(() => {
+			setPending(false);
+		}, 2000);
+		return () => clearTimeout(timeout);
+	}, []);
+
   const subHeaderComponentMemo = React.useMemo(() => {
     if (filterText) {
       const newArray = resultd.length ? resultd : props.results.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
       )
-      console.log(newArray)
       setResultD(newArray)
     }
 
@@ -186,6 +193,7 @@ function Table(props) {
                   noBottomColumns={false}
                   subHeader
                   subHeaderComponent={subHeaderComponentMemo}
+                  progressPending={pending}
                 />
               </div>
               {props.teamMemeber &&
