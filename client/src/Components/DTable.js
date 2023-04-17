@@ -21,12 +21,12 @@ function Table(props) {
       const newArray = resultd.length ? resultd : props.results.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
       )
+      console.log(newArray)
       setResultD(newArray)
     }
 
     const handleClear = (e) => {
       if (filterText) {
-        console.log(filterText)
         setResetPaginationToggle(!resetPaginationToggle);
         setResultD(resultd.length ? resultd : props.results)
         setFilterText('');

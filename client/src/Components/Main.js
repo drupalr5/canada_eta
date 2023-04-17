@@ -15,7 +15,7 @@ function Main(props) {
     <>
       <section className="content home">
         <div className="container-fluid">
-          {props.header}
+          <Header breadcrumb={props?.breadcrumb}/>
           <TopBar />
           <Sidebar onLogout={props.onLogout} />
           {props.children}

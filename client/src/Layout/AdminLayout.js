@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Main from "../Components/Main";
-import Header from "../Components/Header";
 import Home from "../Components/Home";
 import PriorityOrder from "../Components/PriorityOrder";
 import PendingOrder from "../Components/PendingOrder";
@@ -23,9 +22,9 @@ function AdminLayout() {
     <>
       <Routes>
         <Route
-          path="dashboard"
+          path="/"
           element={
-            <Main header = <Header breadcrumb="Dashboard" />>
+            <Main breadcrumb="Dashboard">
               <Home heading="Recent Orders" />
             </Main>
           }
@@ -33,7 +32,7 @@ function AdminLayout() {
         <Route
           path="priority-order"
           element={
-            <Main header = <Header breadcrumb="Priority Order" />>
+            <Main breadcrumb="Priority Order">
               <PriorityOrder heading="Recent Orders" />
             </Main>
           }
@@ -41,7 +40,7 @@ function AdminLayout() {
         <Route
           path="pending-order"
           element={
-            <Main header = <Header breadcrumb="Pending Orders" />>
+            <Main breadcrumb="Pending Orders" >
               <PendingOrder heading="Pending Orders" />
             </Main>
           }
@@ -49,7 +48,7 @@ function AdminLayout() {
         <Route
           path="completed-order"
           element={
-            <Main header = <Header breadcrumb="Completed Orders" />>
+            <Main breadcrumb="Completed Orders" >
               <CompletedOrder heading="Completed Orders" />
             </Main>
           }
@@ -57,7 +56,7 @@ function AdminLayout() {
         <Route
           path="contact-customer"
           element={
-            <Main header = <Header breadcrumb="Contact Customer" />>
+            <Main breadcrumb="Contact Customer" >
               <ContactCustomer heading="Completed Orders" />
             </Main>
           }
@@ -65,7 +64,7 @@ function AdminLayout() {
         <Route
           path="awaiting-order"
           element={
-            <Main header = <Header breadcrumb="Awaiting Customer" />>
+            <Main breadcrumb="Awaiting Customer" >
               <AwaitingOrder heading="Pending Orders" />
             </Main>
           }
@@ -73,7 +72,7 @@ function AdminLayout() {
         <Route
           path="awaiting-govt-order"
           element={
-            <Main header = <Header breadcrumb="Awaiting Govt" />>
+            <Main breadcrumb="Awaiting Govt" >
               <AwaitingGovtOrder heading="Pending Orders" />
             </Main>
           }
@@ -81,7 +80,7 @@ function AdminLayout() {
         <Route
           path="order-history"
           element={
-            <Main header = <Header breadcrumb="Order History" />>
+            <Main breadcrumb="Order History" >
               <OrderHistory heading="Order History" />
             </Main>
           }
@@ -89,7 +88,7 @@ function AdminLayout() {
         <Route
           path="delete-order"
           element={
-            <Main header = <Header breadcrumb="Delete Orders" />>
+            <Main breadcrumb="Delete Orders" >
               <DeleteOrder heading="Delete Orders" />
             </Main>
           }
@@ -97,7 +96,7 @@ function AdminLayout() {
         <Route
           path="refund-order"
           element={
-            <Main header = <Header breadcrumb="Refund Orders" />>
+            <Main breadcrumb="Refund Orders" >
               <RefundOrder heading="Completed Orders" />
             </Main>
           }
@@ -105,7 +104,7 @@ function AdminLayout() {
         <Route
           path="rejected-order"
           element={
-            <Main header = <Header breadcrumb="Rejected Orders" />>
+            <Main breadcrumb="Rejected Orders" >
               <RejectedOrder heading="Rejected Orders" />
             </Main>
           }
@@ -113,7 +112,7 @@ function AdminLayout() {
         <Route
           path="change-password"
           element={
-            <Main header = <Header breadcrumb="Change Password" />>
+            <Main breadcrumb="Change Password" >
               <ChangePassword heading="Update Password" />
             </Main>
           }
@@ -121,7 +120,7 @@ function AdminLayout() {
         <Route
           path="settings"
           element={
-            <Main header = <Header breadcrumb="Gateway Setting" />>
+            <Main breadcrumb="Gateway Setting" >
               <Settings heading="Gateway Setting" />
             </Main>
           }
@@ -129,7 +128,7 @@ function AdminLayout() {
         <Route
           path="manage-team"
           element={
-            <Main header = <Header breadcrumb="Manage Team" />>
+            <Main breadcrumb="Manage Team" >
               <ManageTeam heading="Manage Team" />
             </Main>
           }
@@ -137,7 +136,7 @@ function AdminLayout() {
         <Route
           path="manage-country"
           element={
-            <Main header = <Header breadcrumb="Manage Country" />>
+            <Main breadcrumb="Manage Country" >
               <ManageCountry heading="Country Listing" />
             </Main>
           }
@@ -145,7 +144,7 @@ function AdminLayout() {
         <Route
           path="order-details"
           element={
-            <Main header = <Header breadcrumb="Order Details" />>
+            <Main breadcrumb="Order Details" >
               <OrderDetails heading="Order Details" />
             </Main>
           }

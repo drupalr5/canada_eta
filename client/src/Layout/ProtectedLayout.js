@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { Navigate, Outlet } from "react-router-dom";
+import React from 'react'
+import { Navigate } from "react-router-dom";
+import AnonymousLayout from "./AnonymousLayout";
 
 export const ProtectedLayout = ({children}) => {
   const user = JSON.parse(localStorage.getItem("user"))
+
   if(!localStorage.getItem("isLoggedIn")){
-    return <Navigate to='/'/>
-   } else {
-    // if (user.type === 'Admin') {
-    //           return <Navigate to='admin/dashboard'/>
-    //         } else if (user.type === 'Team') {
-    //           return <Navigate to='team/dashboard'/>
-    //         } else if (user.type === 'Night Staff') {
-    //           return <Navigate to='staff/dashboard'/>
-    //         }
-   } 
-  
-  return children
-  
+    return <AnonymousLayout/>;
+  }
+  return children;
 }
 
 // export const ProtectedLayout1 = ({children}) => {

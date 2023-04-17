@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import config from "../config.json"
 import Logo from "./Logo";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LogoutIcon from "../Allassets/icons/logout.png";
 import Awaiting from "../Allassets/assets/images/awaiting_response.svg";
 import OrderHistory from "../Allassets/assets/images/order_history.svg";
@@ -12,8 +12,13 @@ import Zoho from "../Allassets/assets/images/zoho.svg";
 import Password from "../Allassets/assets/images/password.svg";
 import GatewaySetting from "../Allassets/assets/images/gateway_setting.svg";
 import ManageTeam from "../Allassets/assets/images/manage_team.svg";
-function Sidebar() {
+import { NavLink } from "react-router-dom";
+function Sidebar(props) {
   const navigate = useNavigate();
+  const location = useLocation();
+  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let utype = loginUser.type ? loginUser.type : ''
+  let u_type = utype ? `/${utype.toLowerCase()}` : '';
   const logoutHnadler = () => {
     localStorage.removeItem("isLoggedIn");
     navigate('/')
@@ -26,6 +31,7 @@ function Sidebar() {
       alert(error);
     });
   }, [])
+
   return (
     <>
       <aside id="minileftbar" className="minileftbar">
@@ -64,116 +70,116 @@ function Sidebar() {
                 </div>
               </li>
               <li className="">
-                <a
-                  href="awaiting-order"
+                <NavLink
+                  to={`${u_type}/awaiting-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Awaiting} alt=""/>
                   <span>Awaiting Customer</span>{" "}
                   <span className="badge badge-default float-right">{tiles.awiatingCount}</span>
-                </a>
+                </NavLink>
               </li>
               <li className="">
-                <a
-                  href="awaiting-govt-order"
+                <NavLink
+                  to={`${u_type}/awaiting-govt-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Awaiting} alt=""/>
                   <span>Awaiting Govt</span>{" "}
                   <span className="badge badge-default float-right">{tiles.awaitingGovtCount}</span>
-                </a>
+                </NavLink>
               </li>
               <li className="">
-                <a
-                  href="order-history"
+                <NavLink
+                  to={`${u_type}/order-history`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={OrderHistory} alt=""/>
                   <span>Order History</span>{" "}
                   <span className="badge badge-default float-right">{tiles.historyCount}</span>
-                </a>
+                </NavLink>
               </li>
               <li className="">
-                <a
-                  href="delete-order"
+                <NavLink
+                  to={`${u_type}/delete-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={DeletedOrder} alt=""/>
                   <span>Deleted Orders</span>{" "}
                   <span className="badge badge-default float-right">{tiles.deletedCount}</span>
-                </a>
+                </NavLink>
               </li>
               <li className="">
-                <a
-                  href="refund-order"
+                <NavLink
+                  to={`${u_type}/refund-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={RefundOrder} alt=""/>
                   <span>Refund Orders</span>{" "}
                   <span className="badge badge-default float-right">{tiles.refundCount}</span>
-                </a>
+                </NavLink>
               </li>
-              <li className="active open">
-                <a
-                  href="rejected-order"
+              <li className="">
+                <NavLink
+                  to={`${u_type}/rejected-order`}
                   className="menu-toggle toggled waves-effect waves-block"
                 >
                   <img src={RefundOrder} alt=""/>
                   <span>Rejected ETA</span>{" "}
                   <span className="badge badge-default float-right">{tiles.rejectedCount}</span>
-                </a>
+                </NavLink>
               </li>
               <li className="header">Reporting</li>
               <li>
-                <a
-                  href="javascript:void(0);"
+                <NavLink
+                  to="javascript:void(0);"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Zoho} alt=""/>
                   <span>Zoho</span>
                   <span className="badge badge-default float-right">0</span>
-                </a>
+                </NavLink>
               </li>
               <li className="header">Settings</li>
               <li className="sm_menu_btm ">
                 {" "}
-                <a
-                  href="change-password"
+                <NavLink
+                  to={`${u_type}/change-password`} 
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Password} alt=""/>
                   <span>Change Password</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sm_menu_btm ">
                 {" "}
-                <a
-                  href="settings"
+                <NavLink
+                  to={`${u_type}/settings`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={GatewaySetting} alt=""/>
                   <span>Gateway</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sm_menu_btm ">
                 {" "}
-                <a
-                  href="manage-team"
+                <NavLink
+                  to={`${u_type}/manage-team`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={ManageTeam} alt=""/>
                   <span>Manage Team</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sm_menu_btm ">
                 {" "}
-                <a
-                  href="manage-country"
+                <NavLink
+                  to={`${u_type}/manage-country`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={GatewaySetting} alt=""/>
                   <span>Manage Country</span>
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>
