@@ -45,7 +45,7 @@ const LoginAdmin = async (req, res) => {
         if (userInfo != null) {
           return {
             status: 1,
-            message: 'Welcome To The Turkey Admin Portal',
+            message: 'Welcome To The Canada Admin Portal',
             jwtToken: authService.generateJwtToken(userInfo),
             data: userInfo,
           }

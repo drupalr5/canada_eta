@@ -25,7 +25,7 @@ const AddOrder = async (req, res) => {
 const getAllOrder = async (req, res) => {
   try {
     let whereClause = req.body ? req.body : req.params
-    if (whereClause && Object.keys(whereClause).length === 0) {
+    if (Object.keys(whereClause).length === 0) {
       whereClause = req.query
     }
     let resultLimit = whereClause.limit ? +whereClause.limit : null;
@@ -33,7 +33,10 @@ const getAllOrder = async (req, res) => {
     let conditionalClause = whereClause ? whereClause : {}
     const main_tbl = await models.tblmain.findAll({ where: conditionalClause, limit: resultLimit })
     .then(result => {
-      return result
+      return {
+        status: 1,
+        data: result
+      }
     })
     .catch(err => {
       return err;
@@ -55,7 +58,10 @@ const getOneOrder = async (req, res) => {
     let orderId = req.params.id;
     const main_tbl = await models.tblmain.findOne({ where: { order_id: orderId } })
     .then(result => {
-      return result
+      return {
+        status: 1,
+        data: result
+      }
     })
     .catch(err => {
       return err;

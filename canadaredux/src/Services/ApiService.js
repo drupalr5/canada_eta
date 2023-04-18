@@ -22,12 +22,12 @@ export default class ApiService {
     return config;
   };
 
-  static get = async (url) =>
-    axios.get(url);
+  static get = async (url, params)  => {
+    return await axios.get(url, { params });
+  }
 
   static post = async function post(url, data) {
-    console.log(data)
-    console.log(url)
+
     return axios.post(url, data);
   };
 

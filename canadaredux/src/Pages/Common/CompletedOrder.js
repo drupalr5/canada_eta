@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../../config.json"
 import OrderRender from "./OrderRender";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getOrdersList } from "../../Redux/orderSlice";
 function CompletedOrder(props) {
-  const [completedOrder, setCompletedOrder] = useState({});
+  const dispatch = useDispatch();
+  const [orderList, setOrderList] = useState([]);
   let loginUser = JSON.parse(localStorage.getItem("user"));
-  let utype = loginUser.type ? loginUser.type : ''
+  let utype = loginUser.type ? loginUser.type : null;
   if (utype && utype != "Team") {
     utype = null
   }
@@ -16,12 +18,12 @@ function CompletedOrder(props) {
       process_status: 'Completed',
       assign_to: utype
     }
-    axios.get(config.API_URL + '/order/get', { params: param }).then((response) => {
-      setCompletedOrder(response.data)
-    }).catch((error) => {
-      alert(error);
+    dispatch(getOrdersList(param))
+    .unwrap()
+    .then((res) => {
+      setOrderList(res?.data)
     });
-  }, [])
+  }, [dispatch])
 
   return (
     <>
