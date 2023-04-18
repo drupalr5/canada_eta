@@ -17,11 +17,11 @@ import { NavLink } from "react-router-dom";
 function Sidebar(props) {
   const navigate = useNavigate();
   const location = useLocation();
-  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
   let utype = loginUser.type ? loginUser.type : ''
   let u_type = utype ? `/${utype.toLowerCase()}` : '';
   const logoutHnadler = () => {
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
     navigate('/')
   };
   const [tiles, setTiles] = useState({});

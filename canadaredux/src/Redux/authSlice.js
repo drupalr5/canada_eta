@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import config from "../config.json";
 import AuthService from "../Services/AuthService";
 
 export const authenticate = createAsyncThunk("auth/authenticate", async (user) => {
@@ -10,8 +8,9 @@ export const authenticate = createAsyncThunk("auth/authenticate", async (user) =
     const response = await AuthService.login(user)
     const data = response?.data;
     // console.log(response)
-    localStorage.setItem("user", JSON.stringify(data.result))
-    localStorage.setItem("jwtToken", data?.jwtToken)
+    // localStorage.setItem("user", JSON.stringify(data.result))
+    // localStorage.setItem("jwtToken", data?.jwtToken)
+    localStorage.setItem("user", JSON.stringify({'data': JSON.stringify(data.data), 'token':data?.jwtToken}))
     return data;
   } catch (error) {
     console.log(error);
@@ -43,5 +42,4 @@ const authSlice = createSlice({
     },
   },
 });
-console.log(authSlice)
 export default authSlice.reducer;

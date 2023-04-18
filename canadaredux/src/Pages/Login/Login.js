@@ -16,26 +16,22 @@ function Login(props) {
   const loginHnadler = () => {
     // console.log(values)
     dispatch(authenticate(values))
-    .unwrap()
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-    // let email = values.email;
-    // let password = values.password;
-    // axios.get(`http://localhost:3001/api/admin/${email}/${password}`).then((response) => {
-    //   if(response.data!='') {
-    //     localStorage.setItem("isLoggedIn", "1");
-    //     localStorage.setItem("user", JSON.stringify(response.data));
-    //     navigate('admin/dashboard')
-    //   } else {
-    //     alert('Email and password not correct');
-    //   }
-    // }).catch((error) => {
-    //   alert(error);
-    // });
+      .unwrap()
+      .then((res) => {
+        if (res.status === 1) {
+          if (res.data.type == "Admin") {
+            navigate("/admin");
+          } else if (res.data.type == "Team") {
+            navigate("/team");
+          } else if (res.data.type == "Night Staff") {
+            navigate("/staff");
+          }
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const { handleChange, values, errors, handleSubmit } = useForm(loginHnadler);
   useEffect(() => {

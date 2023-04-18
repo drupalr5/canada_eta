@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 
 function TopBar() {
   const [tiles, setTiles] = useState({});
-  let loginUser = JSON.parse(localStorage.getItem("user"));
+  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
   let utype = loginUser.type ? loginUser.type : ''
   let u_type = utype ? `/${utype.toLowerCase()}` : '';
   if (utype && utype != "Team") {

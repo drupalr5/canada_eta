@@ -25,12 +25,10 @@ export default class ApiService {
   static get = async (url) =>
     axios.get(url);
 
-  static post = async function post(url, data, responseType) {
-    if (typeof responseType === "undefined") {
-      return axios.post(url, data, this.getConfigs());
-    } else {
-      return axios.post(url, data, this.getConfigs(responseType));
-    }
+  static post = async function post(url, data) {
+    console.log(data)
+    console.log(url)
+    return axios.post(url, data);
   };
 
   static put = async (url, data) => axios.put(url, data, this.getConfigs());

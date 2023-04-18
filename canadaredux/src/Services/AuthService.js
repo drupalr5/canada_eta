@@ -3,7 +3,7 @@ import config from "../config.json";
 
 export default class AuthService {
   // static login = (user) => ApiService.post("/admin/admin-login", user);
-  static login = (user) => ApiService.get(`${config.API_URL}/admin/${user.email}/${user.password}`);
+  static login = (user) => ApiService.post(`${config.API_URL}/admin/login`,user);
 
   static userInfo = () => ApiService.get("/user_info");
 
