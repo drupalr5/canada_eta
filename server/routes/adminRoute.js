@@ -3,6 +3,7 @@ const adminRouter = express.Router();
 const adminService = require("../services/admin/adminLoginService")
 
 adminRouter.post('/create', adminService.AddAdmin);
+adminRouter.post('/login', adminService.LoginAdmin);
 adminRouter.get('/all', adminService.getAllAdmin);
 adminRouter.get('/:email/:password', adminService.getOneAdmin);
 adminRouter.put('/update/:id', adminService.updateAdmin);

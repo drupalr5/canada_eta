@@ -22,6 +22,32 @@ const AddAdmin = async (req, res) => {
   }
 }
 
+const LoginAdmin = async (req, res) => {
+  try {
+    let data = req.body
+    const main_tbl = await models.tbl_admin.findOne({ 
+      attributes: { exclude: ['password'] },
+      where : {
+          email:data?.email,
+          password:data?.password
+      }})
+      .then(result => {
+        return result
+      })
+      .catch(err => {
+        return err;
+      })
+    res.send(main_tbl)
+  }
+  catch (error) {
+    let msg = {
+      status: 0,
+      message: 'Something Went Wrong.',
+      error: error.message
+    }
+    res.send(msg)
+  }
+}
 const getAllAdmin = async (req, res) => {
   try {
     const main_tbl = await models.tbl_admin.findAll({})
@@ -125,5 +151,6 @@ module.exports = {
   getOneAdmin,
   updateAdmin,
   deleteAdmin,
-  getAdminById
+  getAdminById,
+  LoginAdmin
 }
