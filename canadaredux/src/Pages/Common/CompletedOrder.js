@@ -27,7 +27,7 @@ function CompletedOrder(props) {
 
   return (
     <>
-      <OrderRender heading={props.heading} tableHeading="" orders={completedOrder} />
+      <OrderRender heading={props.heading} tableHeading="" orders={orderList} />
     </>
   );
 }
