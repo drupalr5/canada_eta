@@ -1,5 +1,7 @@
-const models = require("../../models")
-const authService = require("../front/authServices")
+const models = require("../../models");
+const authService = require("../front/authServices");
+const Joi = require('joi');
+
 const AddAdmin = async (req, res) => {
   try {
     let info = req.body;
@@ -24,18 +26,42 @@ const AddAdmin = async (req, res) => {
 
 const LoginAdmin = async (req, res) => {
   try {
-    let data = req.body
-    const main_tbl = await models.tbl_admin.findOne({ 
+    let data = req.body;
+    let { error, value } = validateAdminUserLogin(data);
+    if (error) {
+      return {
+        status: 0,
+        message: error.message
+      }
+    }
+    const main_tbl = await models.tbl_admin.findOne({
       attributes: { exclude: ['password'] },
-      where : {
-          email:data?.email,
-          password:data?.password
-      }})
-      .then(result => {
-        return result
-      })
-      .catch(err => {
-        return err;
+      where: {
+        email: data?.email,
+        password: data?.password
+      }
+    })
+      .then(userInfo => {
+        if (userInfo != null) {
+          return {
+            status: 1,
+            message: 'Welcome To The Turkey Admin Portal',
+            jwtToken: authService.generateJwtToken(userInfo),
+            data: userInfo,
+          }
+        } else {
+          return {
+            status: 0,
+            message: 'Please Check Your Email And Password.',
+            data: []
+          }
+        }
+      }).catch(error => {
+        return {
+          status: 0,
+          message: 'Something Went Wrong',
+          error: error.message
+        }
       })
     res.send(main_tbl)
   }
@@ -48,6 +74,57 @@ const LoginAdmin = async (req, res) => {
     res.send(msg)
   }
 }
+
+const getUserByEmail = async (email, columns) => {
+  try {
+    if (typeof columns === 'undefined') {
+      columns = ['*'];
+    } else if (typeof columns == 'string') {
+      columns = [columns];
+    }
+    let whereClause = { email: email };
+    return await models.adminModel.findOne({
+      attributes: columns,
+      where: whereClause,
+      subQuery: false,
+      raw: true,
+    })
+      .then(function (result) {
+        if (result !== null) {
+          return result;
+        } else {
+          return 0;
+        }
+      })
+      .catch((err) => {
+        return err;
+      })
+  } catch (err) {
+    return {
+      status: 0,
+      message: 'Something Went Wrong.',
+      result: err,
+    }
+  }
+}
+
+const validateAdminUserLogin = (data) => {
+  const schema = Joi.object()
+    .keys({
+      ['email']: Joi.string().email().required().messages({
+        'string.empty': `Email cannot be an empty`,
+        'string.email': `Please enter a valid email address.`,
+        'any.required': `Email field is required`,
+      }),
+      ['password']: Joi.string().required().messages({
+        'string.empty': `Password cannot be an empty`,
+        'any.required': `Password field is required`,
+      }),
+    })
+    .options({ allowUnknown: true })
+  return schema.validate(data);
+};
+
 const getAllAdmin = async (req, res) => {
   try {
     const main_tbl = await models.tbl_admin.findAll({})
@@ -152,5 +229,6 @@ module.exports = {
   updateAdmin,
   deleteAdmin,
   getAdminById,
-  LoginAdmin
+  LoginAdmin,
+  getUserByEmail
 }
