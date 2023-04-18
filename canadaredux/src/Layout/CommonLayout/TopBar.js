@@ -30,7 +30,7 @@ function TopBar() {
       <div className="row clearfix main-folder-section">
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <NavLink to={u_type} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <NavLink to={`${u_type}/`} className={({ isActive }) => (isActive ? 'active open' : '')}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={NewOrderImage} alt="Order Logo" />

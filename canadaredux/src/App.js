@@ -3,9 +3,9 @@ import "./App.css";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AnonymousLayout from "./Layout/AnonymousLayout";
-import AdminLayout from "./Layout/AdminLayout";
-import TeamLayout from "./Layout/TeamLayout";
-import StaffLayout from "./Layout/StaffLayout";
+import AdminLayout from "./Layout/AdminLayout/AdminLayout";
+import TeamLayout from "./Layout/TeamLayout/TeamLayout";
+import StaffLayout from "./Layout/StaffLayout/StaffLayout";
 
 function App() {
   return (

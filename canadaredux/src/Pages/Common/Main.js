@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import TopBar from "./TopBar";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import Header from "../../Layout/CommonLayout/Header";
+import TopBar from "../../Layout/CommonLayout/TopBar";
+import Sidebar from "../../Layout/CommonLayout/Sidebar";
+import Footer from "../../Layout/CommonLayout/Footer";
 import { useNavigate } from "react-router-dom";
 // const Header = React.lazy(() => import("./Header"));
 

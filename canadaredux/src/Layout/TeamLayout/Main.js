@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-// import Main from "../Pages/Common/Main";
 import Home from "../../Pages/Common/Home";
 import PriorityOrder from "../../Pages/Common/PriorityOrder";
 import PendingOrder from "../../Pages/Common/PendingOrder";
@@ -11,13 +10,10 @@ import OrderHistory from "../../Pages/Common/OrderHistory";
 import DeleteOrder from "../../Pages/Common/DeleteOrder";
 import RefundOrder from "../../Pages/Common/RefundOrder";
 import RejectedOrder from "../../Pages/Common/RejectedOrder";
-import ChangePassword from "../../Pages/Admin/ChangePassword";
-import Settings from "../../Pages/Admin/Settings";
-import ManageTeam from "../../Pages/Admin/ManageTeam";
-import ManageCountry from "../../Pages/Admin/ManageCountry";
+import WebsiteIssue from "../../Pages/Team/WebsiteIssue";
 import OrderDetails from "../../Pages/Common/OrderDetails";
 
-function AdminLayout() {
+function TeamLayout() {
   return (
     <>
       <Routes>
@@ -63,20 +59,8 @@ function AdminLayout() {
           element={<RejectedOrder heading="Rejected Orders" />}
         ></Route>
         <Route
-          path="change-password"
-          element={<ChangePassword heading="Update Password" />}
-        ></Route>
-        <Route
-          path="settings"
-          element={<Settings heading="Gateway Setting" />}
-        ></Route>
-        <Route
-          path="manage-team"
-          element={<ManageTeam heading="Manage Team" />}
-        ></Route>
-        <Route
-          path="manage-country"
-          element={<ManageCountry heading="Country Listing" />}
+          path="website-issue"
+          element={<WebsiteIssue heading="User Accounts" />}
         ></Route>
         <Route
           path="order-details"
@@ -87,4 +71,4 @@ function AdminLayout() {
   );
 }
 
-export default AdminLayout;
+export default TeamLayout;
