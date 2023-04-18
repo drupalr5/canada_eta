@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Table from "./Table";
 import PageHeading from "./PageHeading";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-// import useForm from "../Hooks/useForm";
-// import { useForm } from "react-hook-form";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Col from "react-bootstrap/esm/Col";
@@ -15,6 +13,7 @@ import config from "../config.json";
 function ManageTeam(props) {
   const [user, setUser] = useState({});
   const [msg, setMsg] = useState("");
+  const userRef = useRef({});
   let loginUser = JSON.parse(localStorage.getItem("user"));
   let id = loginUser.id;
   const style = { height: "40px" };
@@ -25,6 +24,7 @@ function ManageTeam(props) {
       .get(`${config.API_URL}/admin/${id}`)
       .then((response) => {
         setUser(response.data);
+        userRef.current = response.data
       })
       .catch((error) => {
         alert(error);
@@ -32,6 +32,8 @@ function ManageTeam(props) {
   }, [id]);
   const updateHandler = (data) => {
     console.log(data);
+    data.profile_path = values.fileUpload && values.fileUpload.name;
+    
     axios
       .put(`${config.API_URL}/admin/update/${id}`, {params :data})
       .then((response) => {
@@ -63,22 +65,37 @@ function ManageTeam(props) {
         "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers"
       ),
   });
-  const initialValues = {
-    "id": 1,
-    "name": "Admin",
-    "email": "teams@canada-eta.online",
-    "password": "wynzac-rafzos-8pIhb",
-    "type": "Admin",
-    "profile_path": null,
-    "create_ts": "2020-04-30T09:16:41.000Z"
+  console.log('user', user);
+  let initialValues = {};
+if (typeof id !== 'undefined' && typeof user !== 'undefined') {
+  initialValues = {
+    "name": user?.name,
+    "email": user?.email,
+    "password": user?.password,
+    "type": user?.type,
+    "profile_path": user?.profile_path
+  }
+} else {
+  initialValues = {
+    "name": "",
+    "email": "",
+    "password": "",
+    "type": "",
+    "profile_path": null
+  }
 }
-  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+
+console.log('initialValues', initialValues);
+
+  const { values, errors, handleBlur, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: initialValues,
+    enableReinitialize: true,
     validationSchema: foundOrderSchema,
     onSubmit: updateHandler,
   });
   return (
     <>
+      {console.log('values', values)}
       <div className="row clearfix">
         <div className="col-lg-12 col-md-12 col-sm-12">
           <div className="card">
@@ -163,10 +180,17 @@ function ManageTeam(props) {
                       <Form.Label>Upload Profile Picture</Form.Label>
                       <Form.Control
                         type="file"
-                        name="password"
-                        placeholder="Enter Password"
+                        name="fileUpload"                        
+                        accept="image/*"
+                        onChange={(e) =>
+                          setFieldValue(
+                            "fileUpload",
+                            e.currentTarget.files[0]
+                          )
+                        }
                       />
                     </Form.Group>
+                    <p>{errors.fileUpload}</p>
                   </Col>
                   <Col></Col>
                 </Row>

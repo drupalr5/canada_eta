@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import AnonymousLayout from "./Layout/AnonymousLayout";
 import AdminLayout from "./Layout/AdminLayout";
-import {ProtectedLayout,ProtectedLayout1} from "./Layout/ProtectedLayout";
 import TeamLayout from "./Layout/TeamLayout";
 import StaffLayout from "./Layout/StaffLayout";
 import NoMatch from "./Layout/NoMatch";
@@ -15,8 +14,8 @@ function App() {
     <div className="App">
     <Routes>
       <Route path="/" element={<AnonymousLayout />}></Route>
-      <Route path="admin/*" element={<ProtectedLayout><AdminLayout /></ProtectedLayout>}></Route>
-      <Route path="team/*" element={<ProtectedLayout><TeamLayout /></ProtectedLayout>}></Route>
+      <Route path="admin/*" element={<AdminLayout />}></Route>
+      <Route path="team/*" element={<TeamLayout />}></Route>
       <Route path="staff/*" element={<StaffLayout />}></Route>
       <Route path="*" element={<NoMatch />}></Route>     
     </Routes>
