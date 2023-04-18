@@ -4,11 +4,13 @@ import PageHeading from "./PageHeading";
 import axios from "axios";
 import config from "../../config.json"
 import OrderRender from "./OrderRender";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getOrdersList } from "../../Redux/orderSlice";
 function PendingOrder(props) {
-  const [orderlist, setOrderList] = useState({});
+  const dispatch = useDispatch();
+  const [orderList, setOrderList] = useState([]);
   let loginUser = JSON.parse(localStorage.getItem("user"));
-  let utype = loginUser.type ? loginUser.type : '';
+  let utype = loginUser.type ? loginUser.type : null;
   if (utype && utype != "Team") {
     utype = null
   }
@@ -19,16 +21,16 @@ function PendingOrder(props) {
       doc_uploaded: 1,
       assign_to: utype
     }
-    axios.get(config.API_URL + '/order/get',{params: param}).then((response) => {
-      setOrderList(response.data)
-    }).catch((error) => {
-      alert(error);
+    dispatch(getOrdersList(param))
+    .unwrap()
+    .then((res) => {
+      setOrderList(res?.data)
     });
-  }, [])
+  }, [dispatch])
 
   return (
     <>
-      <OrderRender heading={props.heading} tableHeading="" orders={orderlist} />
+      <OrderRender heading={props.heading} tableHeading="" orders={orderList} />
     </>
   );
 }
