@@ -14,8 +14,9 @@ export default class OrderServices {
   static getOrderDetailsByOrderId = (orderId) =>
     ApiService.get(`${api_url}/${orderId}`);
 
-  static deleteOrdersData = (deleteData) =>
-    ApiService.put(`${api_url}/update/${deleteData.order_id}`, deleteData);
+  static deleteOrdersData = ({ order_id, data }) =>
+    ApiService.put(`${api_url}/update/${order_id}`, data);
+
 
   static updateMultipleOrderData = (deleteData) =>
     ApiService.put(`${api_url}/update-multiple`, deleteData);

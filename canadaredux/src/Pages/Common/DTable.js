@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import config from "../../config.json"
 import { useNavigate, useLocation } from "react-router-dom";
 import FilterComponent from "./FilterComponent"
-
+import { updateMultipleOrderData } from "../../Redux/orderSlice"
+import { useDispatch } from "react-redux";
 function Table(props) {
+  const dispatch = useDispatch();
   const resultD = props.results;
   const [pending, setPending] = React.useState(true);
   const navigate = useNavigate();
@@ -18,11 +19,11 @@ function Table(props) {
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
   useEffect(() => {
-		const timeout = setTimeout(() => {
-			setPending(false);
-		}, 2000);
-		return () => clearTimeout(timeout);
-	}, []);
+    const timeout = setTimeout(() => {
+      setPending(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     if (filterText) {
@@ -44,25 +45,7 @@ function Table(props) {
     );
   }, [filterText, resetPaginationToggle]);
 
-  const deleteOrderHandler = (e) => {
-    e.preventDefault();
-    const oid = e.target.attributes.oid.nodeValue;
-    const deleteOrder = window.confirm(`Are you sure you want to delete this order? ${oid}`);
-    if (deleteOrder) {
-      let updateData = {
-        process_status: "Deleted"
-      }
-      axios.put(config.API_URL + '/order/update/' + oid, updateData).then(res => {
-        if (res.status == 200) {
-          alert("Your order is deleted");
-          navigate(location.pathname)
-        }
-      })
-        .catch(error => {
-          alert(error);
-        })
-    }
-  }
+
   const handleChange = ({ selectedRows }) => {
     setSelectedRows(selectedRows);
   }
@@ -81,19 +64,14 @@ function Table(props) {
         let updateData = {
           process_status: "Deleted"
         }
-        axios.put(config.API_URL + '/order/update-multiple', updateData, {
+        dispatch(updateMultipleOrderData({
+          data: updateData,
           params: {
             "oids": oids
           }
-        }).then(res => {
-          if (res.status == 200) {
-            alert("Your order(s) is deleted");
-            navigate(location.pathname)
-          }
-        })
-          .catch(error => {
-            alert(error);
-          })
+        }
+        ))
+
         setResultD(newArray);
       }
     }
@@ -107,61 +85,6 @@ function Table(props) {
     });
   }
 
-  const columns = [
-    {
-      name: "Order ID",
-      selector: row => row.order_id,
-      sortable: true,
-    },
-    {
-      name: "Name",
-      selector: row => row.name,
-      sortable: true
-    },
-    {
-      name: "Email",
-      selector: row => row.email,
-      sortable: true
-    },
-    {
-      name: "Telephone",
-      selector: row => row.telephone,
-      sortable: true
-    },
-    {
-      name: "Assign to",
-      selector: row => row.assign_to,
-      sortable: true
-    },
-    {
-      name: "Status",
-      selector: row => row.status,
-      sortable: true
-    },
-    {
-      name: "Action",
-      selector: (row) =>
-        props.results?.length ? (
-          <span>
-            <Link
-              to={`/order-details?id=${row.order_id}&oid=${row.id}&ot=${row.status}&pre_no=${row.id}`}
-              className="blue-border"
-            >
-              View
-            </Link>{" | "}
-            <Link
-              to="#"
-              onClick={deleteOrderHandler}
-              oid={row.order_id}
-            >
-              Delete
-            </Link>
-          </span>
-        ) : (
-          " "
-        ),
-    }
-  ];
   const paginationOption = {
     rowsPerPageText: 'Show', rangeSeparatorText: 'of', noRowsPerPage: false, selectAllRowsItem: true, selectAllRowsItemText: 'All'
   }
@@ -177,7 +100,7 @@ function Table(props) {
             <div className="body">
               <div className="table-responsive">
                 <DataTable
-                  columns={columns}
+                  columns={props.columns}
                   persistTableHead
                   data={resultd.length > 0 ? resultd : props.results}
                   defaultSortField="Order id"

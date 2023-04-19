@@ -22,7 +22,7 @@ export default class ApiService {
     return config;
   };
 
-  static get = async (url, params)  => {
+  static get = async (url, params) => {
     return await axios.get(url, { params });
   }
 
@@ -31,13 +31,12 @@ export default class ApiService {
     return axios.post(url, data);
   };
 
-  static put = async (url, data) => axios.put(url, data, this.getConfigs());
+  static put = async (url, data) => axios.put(url, data);
+  static patch = async (url, data) => axios.patch(url, data);
 
-  static patch = async (url, data) => axios.patch(url, data, this.getConfigs());
+  static delete = async (url) => axios.delete(url);
 
-  static delete = async (url) => axios.delete(url, this.getConfigs());
-
-  static download = async (url) => axios.get(url, this.getConfigs());
+  static download = async (url) => axios.get(url);
 
   static upload = async (url, data) => {
     const config = this.getConfigs();

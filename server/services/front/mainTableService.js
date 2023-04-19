@@ -101,8 +101,8 @@ const updateOrder = async (req, res) => {
 
 const updateMultipleOrder = async (req, res) => {
   try {
-    let orderIds = req.query.oids;
-    const main_tbl = await models.tblmain.update(req.body, { where: { order_id: orderIds } })
+    let orderIds = req.body?.params?.oids;
+    const main_tbl = await models.tblmain.update(req?.body?.data, { where: { order_id: orderIds } })
     .then(result => {
       return result
     })

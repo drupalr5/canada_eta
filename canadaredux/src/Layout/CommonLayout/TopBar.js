@@ -47,7 +47,7 @@ function TopBar() {
                   dataspeed="2000"
                   data-fresh-interval="700"
                 >
-                  {tiles.new_order}
+                  {tiles?.new_order}
                 </h3>
               </div>
             </Link>
@@ -68,7 +68,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  {tiles.priority_order}
+                  {tiles?.priority_order}
                 </h3>
               </div>
             </Link>
@@ -90,7 +90,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  {tiles.pending_order}
+                  {tiles?.pending_order}
                 </h3>
               </div>
             </Link>
@@ -111,7 +111,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  {tiles.complete_order}
+                  {tiles?.complete_order}
                 </h3>
               </div>
             </Link>
@@ -132,7 +132,7 @@ function TopBar() {
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
-                  {tiles.customer_contact}
+                  {tiles?.customer_contact}
                 </h3>
               </div>
             </Link>

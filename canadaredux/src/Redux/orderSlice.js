@@ -56,9 +56,9 @@ export const getOrderDetailsByOrderId = createAsyncThunk(
 
 export const deleteOrdersData = createAsyncThunk(
   "/order/deleteOrdersData",
-  async (data) => {
+  async ({ order_id, data }) => {
     try {
-      await OrderService.deleteOrdersData(data);
+      await OrderService.deleteOrdersData({ order_id, data });
       return data.orderId;
     } catch (error) {
       return error.response.data;
@@ -91,7 +91,7 @@ export const permanentDeleteOrdersData = createAsyncThunk(
   }
 );
 
-const OrderSlice = createSlice ({
+const OrderSlice = createSlice({
   name: "order",
   initialState: {
     loading: false,
@@ -149,7 +149,6 @@ const OrderSlice = createSlice ({
     });
     builder.addCase(deleteOrdersData.fulfilled, (state, action) => {
       state.loading = false;
-      state.count = action?.payload?.data;
     });
     builder.addCase(deleteOrdersData.rejected, (state, action) => {
       state.loading = false;
@@ -160,7 +159,6 @@ const OrderSlice = createSlice ({
     });
     builder.addCase(updateMultipleOrderData.fulfilled, (state, action) => {
       state.loading = false;
-      state.count = action?.payload?.data;
     });
     builder.addCase(updateMultipleOrderData.rejected, (state, action) => {
       state.loading = false;
@@ -171,7 +169,6 @@ const OrderSlice = createSlice ({
     });
     builder.addCase(permanentDeleteOrdersData.fulfilled, (state, action) => {
       state.loading = false;
-      state.count = action?.payload?.data;
     });
     builder.addCase(permanentDeleteOrdersData.rejected, (state, action) => {
       state.loading = false;
