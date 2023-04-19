@@ -1,5 +1,4 @@
 import React from "react";
-import Table from "./Table";
 import DTable from "./DTable";
 import PageHeading from "./PageHeading";
 import { Link } from "react-router-dom";
@@ -54,14 +53,6 @@ function OrderRender(props) {
         dispatch(getOrderSideBarCount(param))
       })
       .catch()
-   
-        
-      // dispatch(getOrderTiles(param)).unwrap().then((res) => {
-      //   console.log("1")
-      // })
-      // dispatch(getOrderSideBarCount(param)).unwrap().then((res) => {
-      //   console.log("2")
-      // })
     }
   }
   const columns = [
@@ -119,6 +110,7 @@ function OrderRender(props) {
         ),
     }
   ];
+  console.log(result)
   return (
     <>
       <DTable tableHeading='' results={result} teamMemeber={props.displayTeamMember} columns={columns}>

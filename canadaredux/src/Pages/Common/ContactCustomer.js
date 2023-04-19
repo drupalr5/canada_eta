@@ -1,35 +1,53 @@
 import React, { useState, useEffect } from "react";
-import Table from "./Table";
 import PageHeading from "./PageHeading";
-import axios from "axios";
-import config from "../../config.json"
-import OrderRender from "./OrderRender";
+import DTable from "./DTable";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersList } from "../../Redux/orderSlice";
+import OrderListHook from "../../Hooks/OrderListHook";
+import { deleteOrdersData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
+import useAuthParameter from "../../Hooks/useAuthParameter";
 function ContactCustomer(props) {
   const dispatch = useDispatch();
-  const [orderList, setOrderList] = useState([]);
-  let loginUser = JSON.parse(localStorage.getItem("user"));
-  let utype = loginUser.type ? loginUser.type : null;
-  if (utype && utype != "Team") {
-    utype = null
+  const orderList = useSelector(state => state.order.orderData);
+  const { user, utype, name, path, param } = useAuthParameter();
+  let orderParam = {
+    payment_status: 'Success',
+    process_status: 'Contact Customer',
+    assign_to: utype
   }
   useEffect(() => {
-    let param = {
-      payment_status: 'Success',
-      process_status: 'Contact Customer',
-      assign_to: utype
-    }
-    dispatch(getOrdersList(param))
-    .unwrap()
-    .then((res) => {
-      setOrderList(res?.data)
-    });
+    dispatch(getOrdersList(orderParam))
+      .unwrap()
+      .then((res) => {
+      });
   }, [dispatch])
+
+  const deleteOrderHandler = (e) => {
+    e.preventDefault();
+    const oid = e.target.attributes.oid.nodeValue;
+    const deleteOrder = window.confirm(`Are you sure you want to delete this order? ${oid}`);
+    if (deleteOrder) {
+      let updateData = {
+        process_status: "Deleted"
+      }
+      dispatch(deleteOrdersData({ order_id: oid, data: updateData }))
+        .unwrap()
+        .then((res) => {
+          dispatch(getOrderTiles(param))
+          dispatch(getOrderSideBarCount(param))
+          dispatch(getOrdersList(orderParam))
+        })
+        .catch()
+    }
+  }
+
+  const ReactDataTable = OrderListHook(orderList, [], deleteOrderHandler)
 
   return (
     <>
-      <OrderRender heading={props.heading} tableHeading="" orders={orderList} />
+      <DTable orders={ReactDataTable?.result} columns={ReactDataTable?.columns} teamMemeber={false}>
+        <PageHeading pagename={props.heading} />
+      </DTable>
     </>
   );
 }

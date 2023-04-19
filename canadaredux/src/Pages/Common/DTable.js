@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import axios from "axios";
-import config from "../../config.json"
-import { useNavigate, useLocation } from "react-router-dom";
 import FilterComponent from "./FilterComponent"
 import { updateMultipleOrderData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
 import useAuthParameter from "../../Hooks/useAuthParameter";
 import { useDispatch } from "react-redux";
 function Table(props) {
   const dispatch = useDispatch();
-  const resultD = props.results;
+  const resultD = props.orders;
   const [pending, setPending] = React.useState(true);
-  const navigate = useNavigate();
-  const location = useLocation();
   const [selectedRows, setSelectedRows] = useState(false);
   const [resultd, setResultD] = useState(resultD);
 
   const [filterText, setFilterText] = React.useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-
+  const [toggleCleared, setToggleCleared] = React.useState(false);
   const { user, type, name, path, param } = useAuthParameter();
 
   useEffect(() => {
@@ -30,7 +25,7 @@ function Table(props) {
 
   const subHeaderComponentMemo = React.useMemo(() => {
     if (filterText) {
-      const newArray = resultd.length ? resultd : props.results.filter(
+      const newArray = resultD.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
       )
       setResultD(newArray)
@@ -39,7 +34,7 @@ function Table(props) {
     const handleClear = (e) => {
       if (filterText) {
         setResetPaginationToggle(!resetPaginationToggle);
-        setResultD(resultd.length ? resultd : props.results)
+        setResultD(props.orders)
         setFilterText('');
       }
     };
@@ -61,8 +56,8 @@ function Table(props) {
       }
 
       if (window.confirm(`Are you sure you want to delete:\r ${oids.length ? oids.map(r => r) : ''} ?`)) {
-        // setToggleCleared(!toggleCleared);
-        const newArray = differenceBy(props.results, selectedRows, 'id');
+        setToggleCleared(!toggleCleared);
+        const newArray = differenceBy(props.orders, selectedRows);
         let updateData = {
           process_status: "Deleted"
         }
@@ -77,6 +72,7 @@ function Table(props) {
           .then((res) => {
             dispatch(getOrderTiles(param))
             dispatch(getOrderSideBarCount(param))
+            setSelectedRows(false);
           })
           .catch()
 
@@ -85,7 +81,7 @@ function Table(props) {
     }
   }
 
-  function differenceBy(array1, array2, id) {
+  function differenceBy(array1, array2) {
     return array1.filter(object1 => {
       return !array2.some(object2 => {
         return object1.id === object2.id;
@@ -110,7 +106,8 @@ function Table(props) {
                 <DataTable
                   columns={props.columns}
                   persistTableHead
-                  data={resultd.length > 0 ? resultd : props.results}
+                  data={resultd.length > 0 ? resultd : props?.orders}
+                  // data={props?.orders}
                   defaultSortField="Order id"
                   pagination
                   selectableRows
@@ -125,6 +122,7 @@ function Table(props) {
                   subHeader
                   subHeaderComponent={subHeaderComponentMemo}
                   progressPending={pending}
+                  clearSelectedRows={toggleCleared}
                 />
               </div>
               {props.teamMemeber &&
