@@ -171,7 +171,7 @@ const updateAdmin = async (req, res) => {
     const main_tbl = await models.tbl_admin
       .update(req.body, { where: { id: id } })
       .then(async (result) => {
-        if (result) {
+        if (result[0] == 1) {
           let response = await models.tbl_admin.findOne({
             where: { id: id },
             attributes: { exclude: ["password"] },
@@ -180,6 +180,13 @@ const updateAdmin = async (req, res) => {
             status: 1,
             message: "Password Changed Successfully.",
             data: response,
+          });
+        }
+        else {
+          return res.send({
+            status: 0,
+            message: "Password does not change, please try again.",
+            data: result,
           });
         }
       })

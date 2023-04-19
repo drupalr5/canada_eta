@@ -17,7 +17,7 @@ function TopBar() {
         // setTiles(response?.payload)
       })
       .catch((error) => {
-        alert(error);
+        alert({error});
       });
   }, [dispatch])
   return (
@@ -34,7 +34,7 @@ function TopBar() {
                 <h3
                   className="m-b-10"
                   data-from="0"
-                  data-to="0"
+                  data-to={tiles?.new_order}
                   dataspeed="2000"
                   data-fresh-interval="700"
                 >
@@ -55,7 +55,7 @@ function TopBar() {
                 <h3
                   className="m-b-10 number count-to"
                   data-from="0"
-                  data-to="1"
+                  data-to={tiles?.priority_order}
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
@@ -77,7 +77,7 @@ function TopBar() {
                 <h3
                   className="m-b-10 number count-to"
                   data-from="0"
-                  data-to="5"
+                  data-to={tiles?.pending_order}
                   data-speed="2000"
                   data-fresh-interval="700"
                 >
@@ -98,7 +98,7 @@ function TopBar() {
                 <h3
                   className="m-b-10 number count-to"
                   data-from="0"
-                  data-to={tiles.complete_order}
+                  data-to={tiles?.complete_order}
                   data-speed="2000"
                   data-fresh-interval="700"
                 >

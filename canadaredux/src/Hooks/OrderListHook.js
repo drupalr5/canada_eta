@@ -20,7 +20,7 @@ const OrderListHook = (orderList, tablecolumns, deleteOrderHandler) => {
       }
     );
   });
-console.log(tablecolumns)
+
   let columns = tablecolumns;
   if (tablecolumns.length == 0) {
     columns = [

@@ -22,7 +22,6 @@ function ChangePassword(props) {
     )
       .unwrap()
       .then((res) => {
-        console.log(res.message)
         if (res.status === 1) {
           console.log(res.message)
           setMsg(res.message);

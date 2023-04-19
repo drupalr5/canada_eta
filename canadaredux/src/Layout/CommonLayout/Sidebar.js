@@ -37,7 +37,6 @@ function Sidebar(props) {
         alert(error);
       });
   }, [dispatch]);
-console.log(type)
   return (
     <>
       <aside id="minileftbar" className="minileftbar">
@@ -158,7 +157,7 @@ console.log(type)
                   <span className="badge badge-default float-right">0</span>
                 </NavLink>
               </li>
-              {(type==='Admin') ? <AdminSidebar /> : ''}
+              {(type === 'Admin') ? <AdminSidebar /> : ''}
             </ul>
           </div>
         </div>

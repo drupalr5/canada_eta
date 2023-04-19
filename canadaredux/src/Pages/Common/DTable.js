@@ -54,7 +54,7 @@ function Table(props) {
       if (selectedRows.length > 0) {
         selectedRows.map(r => oids.push(r.order_id));
       }
-
+      setPending(true)
       if (window.confirm(`Are you sure you want to delete:\r ${oids.length ? oids.map(r => r) : ''} ?`)) {
         setToggleCleared(!toggleCleared);
         const newArray = differenceBy(props.orders, selectedRows);
@@ -73,6 +73,7 @@ function Table(props) {
             dispatch(getOrderTiles(param))
             dispatch(getOrderSideBarCount(param))
             setSelectedRows(false);
+            setPending(false)
           })
           .catch()
 
