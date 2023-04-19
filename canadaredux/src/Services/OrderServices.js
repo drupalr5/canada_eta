@@ -6,8 +6,8 @@ export default class OrderServices {
   static getOrderTiles = (order) =>
     ApiService.get(`${api_url}/ordertiles`, order);
 
-  static getOrderSidebarCount = () =>
-    ApiService.get(`${api_url}/ordercounts`);
+  static getOrderSidebarCount = (param) =>
+    ApiService.get(`${api_url}/ordercounts`, param);
 
   static getOrdersList = (order) => ApiService.get(`${api_url}/get`, order);
 

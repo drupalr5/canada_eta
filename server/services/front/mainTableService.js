@@ -171,9 +171,9 @@ const gettilesOrder = async (req, res) => {
       'processing_type': "Priority Processing",
       'doc_uploaded': 0,
     }
-    if (qassign_to) {
-      priorityOrder.assign_to = qassign_to;
-    }
+    // if (qassign_to) {
+    //   priorityOrder.assign_to = qassign_to;
+    // }
     const priorityOrderResult = await models.tblmain.count({ where: priorityOrder })
     .then(result => {
       return result
@@ -252,10 +252,13 @@ const getCountsOrder = async (req, res) => {
   try {
     // Awiating count.
     let awiatingCount, awaitingGovtCount, historyCount, deletedCount, refundCount, rejectedCount = 0;
-
+    let qassign_to = req.query.assign_to ? req.query.assign_to : null;
     const awiating = {
       'payment_status': "Success",
       'process_status': "Awiating",
+    }
+    if (qassign_to) {
+      awiating.assign_to = qassign_to;
     }
     const awiatingResult = await models.tblmain.count({ where: awiating })
       .then(result => {
@@ -269,6 +272,9 @@ const getCountsOrder = async (req, res) => {
       'payment_status': "Success",
       'process_status': "AwaitingGovt",
     }
+    if (qassign_to) {
+      awaitingGovt.assign_to = qassign_to;
+    }
     const awaitingGovtResult = await models.tblmain.count({ where: awaitingGovt })
       .then(result => {
         return result
@@ -280,6 +286,9 @@ const getCountsOrder = async (req, res) => {
     // History order
     const history = {
       'payment_status': "Success",
+    }
+    if (qassign_to) {
+      history.assign_to = qassign_to;
     }
     const historyResult = await models.tblmain.count({ where: history })
       .then(result => {
@@ -294,6 +303,9 @@ const getCountsOrder = async (req, res) => {
       'payment_status': "Success",
       'process_status': "Deleted",
     }
+    if (qassign_to) {
+      deleted.assign_to = qassign_to;
+    }
     const deletedResult = await models.tblmain.count({ where: deleted })
       .then(result => {
         return result
@@ -306,6 +318,9 @@ const getCountsOrder = async (req, res) => {
       'payment_status': "Success",
       'process_status': "Refund",
     }
+    if (qassign_to) {
+      refund.assign_to = qassign_to;
+    }
     const refundResult = await models.tblmain.count({ where: refund })
       .then(result => {
         return result
@@ -317,6 +332,9 @@ const getCountsOrder = async (req, res) => {
     const rejected = {
       'payment_status': "Success",
       'process_status': "Rejected",
+    }
+    if (qassign_to) {
+      rejected.assign_to = qassign_to;
     }
     const rejectedResult = await models.tblmain.count({ where: rejected })
       .then(result => {
