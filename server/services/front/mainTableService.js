@@ -351,7 +351,7 @@ const getCountsOrder = async (req, res) => {
       'refundCount': refundResult,
       'rejectedCount': rejectedResult
     }
-    res.send(results)
+    res.status(200).send(results)
   }
   catch (error) {
     let msg = {

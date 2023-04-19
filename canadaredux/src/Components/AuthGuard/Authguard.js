@@ -32,7 +32,7 @@ export const Authguard = ({ children }) => {
   const { pathname } = useLocation();
 
 
-  useEffect(() => {    console.log(token)
+  useEffect(() => {
     if (pathname === "/") {
       if(token) {
         if (type === "Admin") {
