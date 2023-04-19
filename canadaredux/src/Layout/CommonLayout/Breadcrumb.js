@@ -63,6 +63,8 @@ function Breadcrumb() {
           break;
       }
       setBreadcrumb(text);
+      text = text=='Dashboard' ? '' : (text +' |')
+      document.title = `${text} ETA Canada`;
     }
   }, [pathname]);
   return <>{breadcrumb}</>;

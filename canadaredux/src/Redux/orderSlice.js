@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import OrderService from "../Services/OrderServices";
 export const getOrderSideBarCount = createAsyncThunk(
   "/order/getOrderSideBarCount",
-  async () => {
+  async (param) => {
     try {
-      const response = await OrderService.getOrderSidebarCount();
+      const response = await OrderService.getOrderSidebarCount(param);
       const data = await response.data;
       return data;
     } catch (error) {
@@ -17,7 +17,7 @@ export const getOrderTiles = createAsyncThunk(
   "/order/getOrderTiles",
   async (order) => {
     try {
-      const response = await OrderService.getOrderTiles({ order });
+      const response = await OrderService.getOrderTiles(order);
       // console.log(response)
       const data = response.data;
       return data;

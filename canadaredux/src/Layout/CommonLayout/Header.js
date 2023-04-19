@@ -15,7 +15,7 @@ const Header = (props) => {
       <div className="block-header">
         <div className="row clearfix">
           <div className="col-lg-5 col-md-5 col-sm-12">
-            <h2>Dashboard - (ETA Canada)</h2>
+            <h2>{props.breadcrumb} - (ETA Canada)</h2>
             <ul className="breadcrumb padding-0">
               <li className="breadcrumb-item">
                 <a href="home">

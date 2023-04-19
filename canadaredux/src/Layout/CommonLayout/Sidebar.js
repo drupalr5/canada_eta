@@ -28,9 +28,15 @@ function Sidebar(props) {
     dispatch(logout());
     navigate("/");
   };
+  if (utype && utype !== "Team") {
+    utype = null
+  }
+  let param = {
+    assign_to: utype
+  }
   const [tiles, setTiles] = useState({});
   useEffect(() => {
-    dispatch(getOrderSideBarCount())
+    dispatch(getOrderSideBarCount(param))
       .unwrap()
       .then((res) => {
         setTiles(res);
@@ -38,15 +44,7 @@ function Sidebar(props) {
       .catch((error) => {
         alert(error);
       });
-    // axios
-    //   .get(config.API_URL + "/order/ordercounts")
-    //   .then((response) => {
-    //     setTiles(response.data);
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

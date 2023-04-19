@@ -14,7 +14,7 @@ function TopBar() {
   let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
   let utype = loginUser.type ? loginUser.type : null
   let u_type = utype ? `/${utype.toLowerCase()}` : '';
-  if (utype && utype != "Team") {
+  if (utype && utype !== "Team") {
     utype = null
   }
   let param = {
