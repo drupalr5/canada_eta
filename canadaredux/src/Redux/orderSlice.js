@@ -58,8 +58,8 @@ export const deleteOrdersData = createAsyncThunk(
   "/order/deleteOrdersData",
   async ({ order_id, data }) => {
     try {
-      await OrderService.deleteOrdersData({ order_id, data });
-      return data.orderId;
+      const response = await OrderService.deleteOrdersData({ order_id, data });
+      return response;
     } catch (error) {
       return error.response.data;
     }
@@ -70,8 +70,8 @@ export const updateMultipleOrderData = createAsyncThunk(
   "/order/updateMultipleOrderData",
   async (data) => {
     try {
-      await OrderService.updateMultipleOrderData(data);
-      return data.orderId;
+      const response = await OrderService.updateMultipleOrderData(data);
+      return response;
     } catch (error) {
       return error.response.data;
     }
@@ -96,15 +96,18 @@ const OrderSlice = createSlice({
   initialState: {
     loading: false,
     orderData: [],
+    tilesCount: {},
+    sideBarCount: {}
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getOrderSideBarCount.pending, (state) => {
       state.loading = true;
+      state.sideBarCount = {};
     });
     builder.addCase(getOrderSideBarCount.fulfilled, (state, action) => {
       state.loading = false;
-      state.count = action?.payload?.data;
+      state.sideBarCount = action?.payload;
     });
     builder.addCase(getOrderSideBarCount.rejected, (state, action) => {
       state.loading = false;
@@ -112,10 +115,11 @@ const OrderSlice = createSlice({
 
     builder.addCase(getOrderTiles.pending, (state) => {
       state.loading = true;
+      state.tilesCount = {};
     });
     builder.addCase(getOrderTiles.fulfilled, (state, action) => {
       state.loading = false;
-      state.count = action?.payload?.data;
+      state.tilesCount = action?.payload;
     });
     builder.addCase(getOrderTiles.rejected, (state, action) => {
       state.loading = false;

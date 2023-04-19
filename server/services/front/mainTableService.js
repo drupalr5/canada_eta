@@ -83,10 +83,10 @@ const updateOrder = async (req, res) => {
     let orderId = req.params.id;
     const main_tbl = await models.tblmain.update(req.body, { where: { order_id: orderId } })
     .then(result => {
-      return result
+      return res.send(result)
     })
     .catch(err => {
-      return err;
+      return res.send(err);
     })
   }
   catch (error) {
@@ -104,10 +104,10 @@ const updateMultipleOrder = async (req, res) => {
     let orderIds = req.body?.params?.oids;
     const main_tbl = await models.tblmain.update(req?.body?.data, { where: { order_id: orderIds } })
     .then(result => {
-      return result
+      return res.send(result)
     })
     .catch(err => {
-      return err;
+      return res.send(err);
     })
   }
   catch (error) {

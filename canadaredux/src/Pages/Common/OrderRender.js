@@ -2,15 +2,24 @@ import React from "react";
 import Table from "./Table";
 import DTable from "./DTable";
 import PageHeading from "./PageHeading";
-import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { deleteOrdersData } from "../../Redux/orderSlice"
+import { deleteOrdersData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
 import { useDispatch } from "react-redux";
 function OrderRender(props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
   const result = [];
+  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
+  let utype = loginUser.type ? loginUser.type : null
+  if (utype && utype !== "Team") {
+    utype = null
+  }
+  let param = {}
+  if (utype) {
+    param = {
+      assign_to: utype
+    }
+  }
+
   Array.isArray(props.orders) && props.orders.map((row, index) => {
     let id = row.id;
     let oid = row.order_id;
@@ -38,20 +47,21 @@ function OrderRender(props) {
       let updateData = {
         process_status: "Deleted"
       }
-      console.log("d")
       dispatch(deleteOrdersData({order_id: oid, data:updateData}))
       .unwrap()
-      .then()
+      .then((res) => {
+        dispatch(getOrderTiles(param))
+        dispatch(getOrderSideBarCount(param))
+      })
       .catch()
-      // axios.put(config.API_URL + '/order/update/' + oid, updateData).then(res => {
-      //   if (res.status == 200) {
-      //     alert("Your order is deleted");
-      //     navigate(location.pathname)
-      //   }
+   
+        
+      // dispatch(getOrderTiles(param)).unwrap().then((res) => {
+      //   console.log("1")
       // })
-      //   .catch(error => {
-      //     alert(error);
-      //   })
+      // dispatch(getOrderSideBarCount(param)).unwrap().then((res) => {
+      //   console.log("2")
+      // })
     }
   }
   const columns = [

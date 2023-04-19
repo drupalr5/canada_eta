@@ -4,7 +4,7 @@ import axios from "axios";
 import config from "../../config.json"
 import { useNavigate, useLocation } from "react-router-dom";
 import FilterComponent from "./FilterComponent"
-import { updateMultipleOrderData } from "../../Redux/orderSlice"
+import { updateMultipleOrderData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
 import { useDispatch } from "react-redux";
 function Table(props) {
   const dispatch = useDispatch();
@@ -17,6 +17,19 @@ function Table(props) {
 
   const [filterText, setFilterText] = React.useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
+
+  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
+  let utype = loginUser.type ? loginUser.type : null
+  let u_type = utype ? `/${utype.toLowerCase()}` : '';
+  if (utype && utype !== "Team") {
+    utype = null
+  }
+  let param = {}
+  if (utype) {
+    param = {
+      assign_to: utype
+    }
+  }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -71,6 +84,12 @@ function Table(props) {
           }
         }
         ))
+          .unwrap()
+          .then((res) => {
+            dispatch(getOrderTiles(param))
+            dispatch(getOrderSideBarCount(param))
+          })
+          .catch()
 
         setResultD(newArray);
       }

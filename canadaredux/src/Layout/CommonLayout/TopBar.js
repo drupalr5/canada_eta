@@ -6,10 +6,10 @@ import PendingOrderImage from "../../Allassets/assets/images/pending_order.svg";
 import CompletedOrderImage from "../../Allassets/assets/images/completed_order.svg";
 import ContactOrderImage from "../../Allassets/assets/images/contact_customer.svg";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getOrderTiles } from "../../Redux/orderSlice";
 function TopBar() {
-  const [tiles, setTiles] = useState({});
+  const tiles = useSelector(state => state?.order?.tilesCount)
   const dispatch = useDispatch();
   let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
   let utype = loginUser.type ? loginUser.type : null
@@ -23,7 +23,7 @@ function TopBar() {
   useEffect(() => {
     dispatch(getOrderTiles(param))
       .then(response => {
-        setTiles(response?.payload)
+        // setTiles(response?.payload)
       })
       .catch((error) => {
         alert(error);

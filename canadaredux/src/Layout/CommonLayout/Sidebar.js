@@ -13,7 +13,7 @@ import Password from "../../Allassets/assets/images/password.svg";
 import GatewaySetting from "../../Allassets/assets/images/gateway_setting.svg";
 import ManageTeam from "../../Allassets/assets/images/manage_team.svg";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/authSlice";
 import { getOrderSideBarCount } from "../../Redux/orderSlice";
 
@@ -34,12 +34,13 @@ function Sidebar(props) {
   let param = {
     assign_to: utype
   }
-  const [tiles, setTiles] = useState({});
+  // const [tiles, setTiles] = useState({});
+  const tiles = useSelector(state => state?.order?.sideBarCount)
   useEffect(() => {
     dispatch(getOrderSideBarCount(param))
       .unwrap()
       .then((res) => {
-        setTiles(res);
+        // setTiles(res);
       })
       .catch((error) => {
         alert(error);
