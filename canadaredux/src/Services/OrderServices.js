@@ -3,9 +3,6 @@ import config from "../config.json";
 const api_url = `${config?.API_URL}/order`;
 
 export default class OrderServices {  
-  static getAllFolderCount = () =>
-    ApiService.get("/ordercounts");
-
   static getOrderTiles = (order) =>
     ApiService.get(`${api_url}/ordertiles`, order);
 

@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import OrderService from "../Services/OrderServices";
-export const getAllFolderCount = createAsyncThunk(
-  "/order/getAllFolderCount",
-  async () => {
+export const getAllSideBarCount = createAsyncThunk(
+  "/order/getAllSideBarCount",
+  async (params) => {
     try {
-      const response = await OrderService.getAllFolderCount();
+      const response = await OrderService.getOrdersList(params);
       const data = await response.data;
       return data;
     } catch (error) {
@@ -95,18 +95,18 @@ const OrderSlice = createSlice ({
   name: "order",
   initialState: {
     loading: false,
-    orderData: []
+    orderData: [],
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllFolderCount.pending, (state) => {
+    builder.addCase(getAllSideBarCount.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getAllFolderCount.fulfilled, (state, action) => {
+    builder.addCase(getAllSideBarCount.fulfilled, (state, action) => {
       state.loading = false;
       state.count = action?.payload?.data;
     });
-    builder.addCase(getAllFolderCount.rejected, (state, action) => {
+    builder.addCase(getAllSideBarCount.rejected, (state, action) => {
       state.loading = false;
     });
 

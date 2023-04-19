@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrdersList } from "../../Redux/orderSlice";
 
 function AwaitingOrder(props) {
-  // const OrderData = useSelector((state) => state?.order?.orderData);
   const dispatch = useDispatch();
   const [orderList, setOrderList] = useState([]);
   let loginUser = JSON.parse(localStorage.getItem("user"));
