@@ -8,18 +8,20 @@ import ContactOrderImage from "../../Allassets/assets/images/contact_customer.sv
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import { getOrderTiles } from "../../Redux/orderSlice";
+import useAuthParameter from "../../Hooks/useAuthParameter";
 function TopBar() {
   const tiles = useSelector(state => state?.order?.tilesCount)
   const dispatch = useDispatch();
-  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
-  let utype = loginUser.type ? loginUser.type : null
-  let u_type = utype ? `/${utype.toLowerCase()}` : '';
-  if (utype && utype !== "Team") {
-    utype = null
-  }
-  let param = {
-    assign_to: utype
-  }
+  const { user, type, name, path, param } = useAuthParameter();
+  // let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
+  // let utype = loginUser.type ? loginUser.type : null
+  // let u_type = utype ? `/${utype.toLowerCase()}` : '';
+  // if (utype && utype !== "Team") {
+  //   utype = null
+  // }
+  // let param = {
+  //   assign_to: utype
+  // }
   useEffect(() => {
     dispatch(getOrderTiles(param))
       .then(response => {
@@ -34,7 +36,7 @@ function TopBar() {
       <div className="row clearfix main-folder-section">
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${u_type}/`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/`} className={({ isActive }) => (isActive ? 'active open' : '')}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={NewOrderImage} alt="Order Logo" />
@@ -55,7 +57,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${u_type}/priority-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/priority-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={PendingOrderImage} alt="Priority Orders" />
@@ -77,7 +79,7 @@ function TopBar() {
 
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${u_type}/pending-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/pending-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={PendingOrderImage} alt="Pending Orders" />
@@ -98,7 +100,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${u_type}/completed-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/completed-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={CompletedOrderImage} alt="Completed Order" />
@@ -119,7 +121,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${u_type}/contact-customer`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/contact-customer`} className={({ isActive }) => (isActive ? 'active open' : '')}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={ContactOrderImage} alt="Contact Order" />

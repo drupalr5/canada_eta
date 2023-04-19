@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
 import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
 import "../../Allassets/assets/css/sb-css/sb-admin.css";
+import backgroundImage from "../../Allassets/assets/images/canada-bg-logo.png";
 import useForm from "../../Hooks/useForm";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../Redux/authSlice";
 function Login(props) {
@@ -19,11 +19,11 @@ function Login(props) {
       .unwrap()
       .then((res) => {
         if (res.status === 1) {
-          if (res.data.type == "Admin") {
+          if (res.data.type === "Admin") {
             navigate("/admin");
-          } else if (res.data.type == "Team") {
+          } else if (res.data.type === "Team") {
             navigate("/team");
-          } else if (res.data.type == "Night Staff") {
+          } else if (res.data.type === "Night Staff") {
             navigate("/staff");
           }
         } else {
@@ -35,8 +35,7 @@ function Login(props) {
   };
   const { handleChange, values, errors, handleSubmit } = useForm(loginHnadler);
   useEffect(() => {
-    document.body.style.backgroundImage =
-      'url("https://canada-eta.online/admin/assets/images/canada-bg-logo.png")';
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
     document.body.style.backgroundRepeat = "no - repeat";
     document.body.style.backgroundAttachment = "fixed";
     document.body.style.maxWidth = "100%";

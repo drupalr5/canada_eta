@@ -5,6 +5,7 @@ import config from "../../config.json"
 import { useNavigate, useLocation } from "react-router-dom";
 import FilterComponent from "./FilterComponent"
 import { updateMultipleOrderData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
+import useAuthParameter from "../../Hooks/useAuthParameter";
 import { useDispatch } from "react-redux";
 function Table(props) {
   const dispatch = useDispatch();
@@ -18,18 +19,7 @@ function Table(props) {
   const [filterText, setFilterText] = React.useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
-  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
-  let utype = loginUser.type ? loginUser.type : null
-  let u_type = utype ? `/${utype.toLowerCase()}` : '';
-  if (utype && utype !== "Team") {
-    utype = null
-  }
-  let param = {}
-  if (utype) {
-    param = {
-      assign_to: utype
-    }
-  }
+  const { user, type, name, path, param } = useAuthParameter();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -73,7 +63,6 @@ function Table(props) {
       if (window.confirm(`Are you sure you want to delete:\r ${oids.length ? oids.map(r => r) : ''} ?`)) {
         // setToggleCleared(!toggleCleared);
         const newArray = differenceBy(props.results, selectedRows, 'id');
-        console.log(oids)
         let updateData = {
           process_status: "Deleted"
         }

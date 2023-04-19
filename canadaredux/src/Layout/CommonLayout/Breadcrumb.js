@@ -56,14 +56,20 @@ function Breadcrumb() {
           text = "Order Details";
           break;
         case "website-issue":
-          text = "User Accounts";
+          text = "Website Issues";
+          break;
+        case "traffic-statistics":
+          text = "Traffic Statistics";
+          break;
+        case "site_report_analytics":
+          text = "Profit & Loss";
           break;
         default:
           text = "Dashboard";
           break;
       }
       setBreadcrumb(text);
-      text = text=='Dashboard' ? '' : (text +' |')
+      text = text == "Dashboard" ? "" : text + " |";
       document.title = `${text} ETA Canada`;
     }
   }, [pathname]);

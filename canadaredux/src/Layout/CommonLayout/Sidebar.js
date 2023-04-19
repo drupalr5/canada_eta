@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import config from "../../config.json";
 import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "../../Allassets/icons/logout.png";
@@ -16,25 +14,17 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/authSlice";
 import { getOrderSideBarCount } from "../../Redux/orderSlice";
+import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function Sidebar(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
-  let utype = loginUser.type ? loginUser.type : null;
-  let u_type = utype ? `/${utype.toLowerCase()}` : null;
+  const { user, type, name, path, param } = useAuthParameter();
   const logoutHnadler = () => {
     localStorage.removeItem("user");
     dispatch(logout());
     navigate("/");
   };
-  if (utype && utype !== "Team") {
-    utype = null
-  }
-  let param = {
-    assign_to: utype
-  }
-  // const [tiles, setTiles] = useState({});
   const tiles = useSelector(state => state?.order?.sideBarCount)
   useEffect(() => {
     dispatch(getOrderSideBarCount(param))
@@ -66,7 +56,7 @@ function Sidebar(props) {
                     <Logo />
                   </div>
                   <div className="detail">
-                    <h6>Admin</h6>
+                    <h6>{name}</h6>
                     <a
                       className="nav-link waves-effect waves-block"
                       href="#"
@@ -84,75 +74,75 @@ function Sidebar(props) {
                   </div>
                 </div>
               </li>
-              <li className="">
+              <li>
                 <NavLink
-                  to={`${u_type}/awaiting-order`}
+                  to={`${path}/awaiting-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Awaiting} alt="" />
                   <span>Awaiting Customer</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles.awiatingCount}
+                    {tiles?.awiatingCount}
                   </span>
                 </NavLink>
               </li>
-              <li className="">
+              <li>
                 <NavLink
-                  to={`${u_type}/awaiting-govt-order`}
+                  to={`${path}/awaiting-govt-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Awaiting} alt="" />
                   <span>Awaiting Govt</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles.awaitingGovtCount}
+                    {tiles?.awaitingGovtCount}
                   </span>
                 </NavLink>
               </li>
-              <li className="">
+              <li>
                 <NavLink
-                  to={`${u_type}/order-history`}
+                  to={`${path}/order-history`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={OrderHistory} alt="" />
                   <span>Order History</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles.historyCount}
+                    {tiles?.historyCount}
                   </span>
                 </NavLink>
               </li>
-              <li className="">
+              <li>
                 <NavLink
-                  to={`${u_type}/delete-order`}
+                  to={`${path}/delete-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={DeletedOrder} alt="" />
                   <span>Deleted Orders</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles.deletedCount}
+                    {tiles?.deletedCount}
                   </span>
                 </NavLink>
               </li>
-              <li className="">
+              <li>
                 <NavLink
-                  to={`${u_type}/refund-order`}
+                  to={`${path}/refund-order`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={RefundOrder} alt="" />
                   <span>Refund Orders</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles.refundCount}
+                    {tiles?.refundCount}
                   </span>
                 </NavLink>
               </li>
-              <li className="">
+              <li>
                 <NavLink
-                  to={`${u_type}/rejected-order`}
+                  to={`${path}/rejected-order`}
                   className="menu-toggle toggled waves-effect waves-block"
                 >
                   <img src={RefundOrder} alt="" />
                   <span>Rejected ETA</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles.rejectedCount}
+                    {tiles?.rejectedCount}
                   </span>
                 </NavLink>
               </li>
@@ -169,9 +159,8 @@ function Sidebar(props) {
               </li>
               <li className="header">Settings</li>
               <li className="sm_menu_btm ">
-                {" "}
                 <NavLink
-                  to={`${u_type}/change-password`}
+                  to={`${path}/change-password`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Password} alt="" />
@@ -179,9 +168,8 @@ function Sidebar(props) {
                 </NavLink>
               </li>
               <li className="sm_menu_btm ">
-                {" "}
                 <NavLink
-                  to={`${u_type}/settings`}
+                  to={`${path}/settings`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={GatewaySetting} alt="" />
@@ -189,9 +177,8 @@ function Sidebar(props) {
                 </NavLink>
               </li>
               <li className="sm_menu_btm ">
-                {" "}
                 <NavLink
-                  to={`${u_type}/manage-team`}
+                  to={`${path}/manage-team`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={ManageTeam} alt="" />
@@ -199,9 +186,8 @@ function Sidebar(props) {
                 </NavLink>
               </li>
               <li className="sm_menu_btm ">
-                {" "}
                 <NavLink
-                  to={`${u_type}/manage-country`}
+                  to={`${path}/manage-country`}
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={GatewaySetting} alt="" />
