@@ -1,33 +1,49 @@
 import React, { useState } from "react";
 import PageHeading from "../Common/PageHeading";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import useForm from "../../Hooks/useForm";
-import config from "../../config.json"
+import useAuthParameter from "../../Hooks/useAuthParameter";
+import { changePassword } from "../../Redux/authSlice";
+import { useDispatch } from "react-redux";
 
 function ChangePassword(props) {
   const [msg, setMsg] = useState("");
-
+  const authParams = useAuthParameter();
+  const dispatch = useDispatch();
+  let id = authParams?.user?.id;
   const style = { height: "40px" };
   const updatePassword = (event) => {
-    // event.preventDefault();
-    let loginUser = JSON.parse(localStorage.getItem("user"));
-    let id = loginUser.id;
-    axios
-      .put(`${ config.API_URL }/admin/update/${id}`, {
-        params: { password: values.password },
+    dispatch(
+      changePassword({
+        userId: id,
+        passwordParams: { password: values.password },
       })
-      .then((response) => {
-        if (response.data.message === "Success...") {
-          setMsg("Password updated succusessfully");
+    )
+      .unwrap()
+      .then((res) => {
+        console.log(res.message)
+        if (res.status === 1) {
+          console.log(res.message)
+          setMsg(res.message);
         } else {
-          setMsg(response.data.message);
+          setMsg(res.message);
         }
-      })
-      .catch((error) => {
-        setMsg(error);
       });
+    // axios
+    //   .put(`${ config.API_URL }/admin/update/${id}`, {
+    //     params: { password: values.password },
+    //   })
+    //   .then((response) => {
+    //     if (response.data.message === "Success...") {
+    //       setMsg("Password updated succusessfully");
+    //     } else {
+    //       setMsg(response.data.message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     setMsg(error);
+    //   });
   };
   const { handleChange, values, errors, handleSubmit } =
     useForm(updatePassword);
@@ -50,7 +66,7 @@ function ChangePassword(props) {
                     type="password"
                     name="password"
                     placeholder="Enter your password"
-                    value={values.password}
+                    defaultValue={values.password}
                     onChange={handleChange}
                     style={style}
                   />

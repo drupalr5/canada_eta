@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/authSlice";
 import { getOrderSideBarCount } from "../../Redux/orderSlice";
 import useAuthParameter from "../../Hooks/useAuthParameter";
+import AdminSidebar from "./AdminSidebar";
 
 function Sidebar(props) {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Sidebar(props) {
         alert(error);
       });
   }, [dispatch]);
-
+console.log(type)
   return (
     <>
       <aside id="minileftbar" className="minileftbar">
@@ -82,7 +83,7 @@ function Sidebar(props) {
                   <img src={Awaiting} alt="" />
                   <span>Awaiting Customer</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles?.awiatingCount}
+                    {tiles.awiatingCount}
                   </span>
                 </NavLink>
               </li>
@@ -94,7 +95,7 @@ function Sidebar(props) {
                   <img src={Awaiting} alt="" />
                   <span>Awaiting Govt</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles?.awaitingGovtCount}
+                    {tiles.awaitingGovtCount}
                   </span>
                 </NavLink>
               </li>
@@ -106,7 +107,7 @@ function Sidebar(props) {
                   <img src={OrderHistory} alt="" />
                   <span>Order History</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles?.historyCount}
+                    {tiles.historyCount}
                   </span>
                 </NavLink>
               </li>
@@ -118,7 +119,7 @@ function Sidebar(props) {
                   <img src={DeletedOrder} alt="" />
                   <span>Deleted Orders</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles?.deletedCount}
+                    {tiles.deletedCount}
                   </span>
                 </NavLink>
               </li>
@@ -130,7 +131,7 @@ function Sidebar(props) {
                   <img src={RefundOrder} alt="" />
                   <span>Refund Orders</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles?.refundCount}
+                    {tiles.refundCount}
                   </span>
                 </NavLink>
               </li>
@@ -142,7 +143,7 @@ function Sidebar(props) {
                   <img src={RefundOrder} alt="" />
                   <span>Rejected ETA</span>{" "}
                   <span className="badge badge-default float-right">
-                    {tiles?.rejectedCount}
+                    {tiles.rejectedCount}
                   </span>
                 </NavLink>
               </li>
@@ -157,43 +158,7 @@ function Sidebar(props) {
                   <span className="badge badge-default float-right">0</span>
                 </NavLink>
               </li>
-              <li className="header">Settings</li>
-              <li className="sm_menu_btm ">
-                <NavLink
-                  to={`${path}/change-password`}
-                  className="menu-toggle waves-effect waves-block"
-                >
-                  <img src={Password} alt="" />
-                  <span>Change Password</span>
-                </NavLink>
-              </li>
-              <li className="sm_menu_btm ">
-                <NavLink
-                  to={`${path}/settings`}
-                  className="menu-toggle waves-effect waves-block"
-                >
-                  <img src={GatewaySetting} alt="" />
-                  <span>Gateway</span>
-                </NavLink>
-              </li>
-              <li className="sm_menu_btm ">
-                <NavLink
-                  to={`${path}/manage-team`}
-                  className="menu-toggle waves-effect waves-block"
-                >
-                  <img src={ManageTeam} alt="" />
-                  <span>Manage Team</span>
-                </NavLink>
-              </li>
-              <li className="sm_menu_btm ">
-                <NavLink
-                  to={`${path}/manage-country`}
-                  className="menu-toggle waves-effect waves-block"
-                >
-                  <img src={GatewaySetting} alt="" />
-                  <span>Manage Country</span>
-                </NavLink>
-              </li>
+              {(type==='Admin') ? <AdminSidebar /> : ''}
             </ul>
           </div>
         </div>

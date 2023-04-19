@@ -7,8 +7,8 @@ export default class AuthService {
 
   static userInfo = () => ApiService.get("/user_info");
 
-  static changePassword = (newPassword) =>
-    ApiService.post("/admin/change-password", newPassword);
+  static changePassword = (userId, newPassword) => 
+    ApiService.put(`${config.API_URL}/admin/update/${userId}`, newPassword);
 
   /**
    *

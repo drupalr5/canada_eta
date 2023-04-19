@@ -5,13 +5,8 @@ export const authenticate = createAsyncThunk(
   "auth/authenticate",
   async (user) => {
     try {
-      // const response = await axios
-      //   .get(`${config.API_URL}/admin/${user.email}/${user.password}`);
       const response = await AuthService.login(user);
       const data = response?.data;
-      // console.log(response)
-      // localStorage.setItem("user", JSON.stringify(data.result))
-      // localStorage.setItem("jwtToken", data?.jwtToken)
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -22,6 +17,18 @@ export const authenticate = createAsyncThunk(
       return data;
     } catch (error) {
       console.log(error);
+      return error.response.data;
+    }
+  }
+);
+export const changePassword = createAsyncThunk(
+  "admin/changePassword",
+  async (user) => {
+    try {      
+      const response = await AuthService.changePassword(user.userId, user.passwordParams);
+      const data = response?.data;
+      return data;
+    } catch (error) {
       return error.response.data;
     }
   }
