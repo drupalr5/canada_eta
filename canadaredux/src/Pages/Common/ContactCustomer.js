@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import PageHeading from "./PageHeading";
 import DTable from "./DTable";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrdersList } from "../../Redux/orderSlice";
-import OrderListHook from "../../Hooks/OrderListHook";
-import { deleteOrdersData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
+import { getOrdersList, deleteOrdersData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice";
+import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 function ContactCustomer(props) {
   const dispatch = useDispatch();
@@ -41,7 +40,7 @@ function ContactCustomer(props) {
     }
   }
 
-  const ReactDataTable = OrderListHook(orderList, [], deleteOrderHandler)
+  const ReactDataTable = useOrderListHook(orderList, [], deleteOrderHandler)
 
   return (
     <>

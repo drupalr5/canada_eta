@@ -23,26 +23,12 @@ function ChangePassword(props) {
       .unwrap()
       .then((res) => {
         if (res.status === 1) {
-          console.log(res.message)
+          console.log(res.message);
           setMsg(res.message);
         } else {
           setMsg(res.message);
         }
       });
-    // axios
-    //   .put(`${ config.API_URL }/admin/update/${id}`, {
-    //     params: { password: values.password },
-    //   })
-    //   .then((response) => {
-    //     if (response.data.message === "Success...") {
-    //       setMsg("Password updated succusessfully");
-    //     } else {
-    //       setMsg(response.data.message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setMsg(error);
-    //   });
   };
   const { handleChange, values, errors, handleSubmit } =
     useForm(updatePassword);
