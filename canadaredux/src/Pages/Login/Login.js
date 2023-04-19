@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
 import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
@@ -12,6 +12,12 @@ function Login(props) {
   const navigate = useNavigate();
   useEffect(() => {
     document.body.classList.remove("theme-black");
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
+    document.body.style.backgroundRepeat = "no - repeat";
+    document.body.style.backgroundAttachment = "fixed";
+    document.body.style.maxWidth = "100%";
+    document.body.style.backgroundSize = "cover";
+    document.title = "Admin Section";
   }, []);
   const loginHnadler = () => {
     // console.log(values)
@@ -34,15 +40,6 @@ function Login(props) {
       });
   };
   const { handleChange, values, errors, handleSubmit } = useForm(loginHnadler);
-  useEffect(() => {
-    document.body.style.backgroundImage = `url(${backgroundImage})`;
-    document.body.style.backgroundRepeat = "no - repeat";
-    document.body.style.backgroundAttachment = "fixed";
-    document.body.style.maxWidth = "100%";
-    document.body.style.backgroundSize = "cover";
-    document.title = "Admin Section";
-    // setIsAuthenticate(localStorage.getItem("isLoggedIn"));
-  }, []);
   return (
     <>
       <div className="container">

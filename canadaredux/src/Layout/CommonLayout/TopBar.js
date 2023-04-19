@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import config from "../../config.json"
 import NewOrderImage from "../../Allassets/assets/images/new_order.svg";
 import PendingOrderImage from "../../Allassets/assets/images/pending_order.svg";
 import CompletedOrderImage from "../../Allassets/assets/images/completed_order.svg";
@@ -13,15 +11,6 @@ function TopBar() {
   const tiles = useSelector(state => state?.order?.tilesCount)
   const dispatch = useDispatch();
   const { user, type, name, path, param } = useAuthParameter();
-  // let loginUser = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
-  // let utype = loginUser.type ? loginUser.type : null
-  // let u_type = utype ? `/${utype.toLowerCase()}` : '';
-  // if (utype && utype !== "Team") {
-  //   utype = null
-  // }
-  // let param = {
-  //   assign_to: utype
-  // }
   useEffect(() => {
     dispatch(getOrderTiles(param))
       .then(response => {
