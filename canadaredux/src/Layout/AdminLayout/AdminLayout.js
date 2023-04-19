@@ -18,7 +18,7 @@ function AdminLayout(props) {
         <div className="container-fluid">
           <Header breadcrumb={<Breadcrumb />} />
           <TopBar />
-          <Sidebar onLogout="" />
+          <Sidebar/>
           <Main />
           <Footer />
         </div>

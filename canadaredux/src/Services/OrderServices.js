@@ -2,13 +2,15 @@ import ApiService from "./ApiService";
 import config from "../config.json";
 const api_url = `${config?.API_URL}/order`;
 
-export default class OrderServices {  
+export default class OrderServices {
   static getOrderTiles = (order) =>
     ApiService.get(`${api_url}/ordertiles`, order);
 
-  static getOrdersList = (order) => 
-    ApiService.get(`${api_url}/get`, order);
-  
+  static getOrderSidebarCount = () =>
+    ApiService.get(`${api_url}/ordercounts`);
+
+  static getOrdersList = (order) => ApiService.get(`${api_url}/get`, order);
+
   static getOrderDetailsByOrderId = (orderId) =>
     ApiService.get(`${api_url}/${orderId}`);
 

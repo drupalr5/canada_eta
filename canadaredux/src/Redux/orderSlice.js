@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import OrderService from "../Services/OrderServices";
-export const getAllSideBarCount = createAsyncThunk(
-  "/order/getAllSideBarCount",
-  async (params) => {
+export const getOrderSideBarCount = createAsyncThunk(
+  "/order/getOrderSideBarCount",
+  async () => {
     try {
-      const response = await OrderService.getOrdersList(params);
+      const response = await OrderService.getOrderSidebarCount();
       const data = await response.data;
       return data;
     } catch (error) {
@@ -99,14 +99,14 @@ const OrderSlice = createSlice ({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllSideBarCount.pending, (state) => {
+    builder.addCase(getOrderSideBarCount.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getAllSideBarCount.fulfilled, (state, action) => {
+    builder.addCase(getOrderSideBarCount.fulfilled, (state, action) => {
       state.loading = false;
       state.count = action?.payload?.data;
     });
-    builder.addCase(getAllSideBarCount.rejected, (state, action) => {
+    builder.addCase(getOrderSideBarCount.rejected, (state, action) => {
       state.loading = false;
     });
 
