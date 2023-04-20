@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Logo from "./Logo";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutIcon from "../../Allassets/icons/logout.png";
 import Awaiting from "../../Allassets/assets/images/awaiting_response.svg";
 import OrderHistory from "../../Allassets/assets/images/order_history.svg";
 import DeletedOrder from "../../Allassets/assets/images/deleted_order.svg";
 import RefundOrder from "../../Allassets/assets/images/refund_order.svg";
 import Zoho from "../../Allassets/assets/images/zoho.svg";
-import Password from "../../Allassets/assets/images/password.svg";
-import GatewaySetting from "../../Allassets/assets/images/gateway_setting.svg";
-import ManageTeam from "../../Allassets/assets/images/manage_team.svg";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/authSlice";
@@ -20,7 +17,11 @@ import AdminSidebar from "./AdminSidebar";
 function Sidebar(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, type, name, path, param } = useAuthParameter();
+  const useAuth = useAuthParameter();
+  const param = useAuth?.param;
+  const path = useAuth?.path;
+  const type = useAuth?.type;
+  const name = useAuth?.name;
   const logoutHnadler = () => {
     localStorage.removeItem("user");
     dispatch(logout());
@@ -31,7 +32,6 @@ function Sidebar(props) {
     dispatch(getOrderSideBarCount(param))
       .unwrap()
       .then((res) => {
-        // setTiles(res);
       })
       .catch((error) => {
         console.log(error);
@@ -42,7 +42,7 @@ function Sidebar(props) {
       <aside id="minileftbar" className="minileftbar">
         <ul className="menu_list">
           <li>
-            <a href="javascript:void(0);" className="bars"></a>
+            <Link to="javascript:void(0);" className="bars"></Link>
           </li>
         </ul>
       </aside>
@@ -57,9 +57,9 @@ function Sidebar(props) {
                   </div>
                   <div className="detail">
                     <h6>{name}</h6>
-                    <a
+                    <Link
                       className="nav-link waves-effect waves-block"
-                      href="#"
+                      to="/"
                       onClick={logoutHnadler}
                     >
                       <img
@@ -70,7 +70,7 @@ function Sidebar(props) {
                         alt=""
                       />
                       Logout
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>

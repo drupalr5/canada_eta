@@ -1,5 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-const useOrderListHook = (orderList, tablecolumns, deleteOrderHandler) => {
+import { useDispatch } from "react-redux";
+import { getOrdersList, deleteOrdersData, getOrderSideBarCount, getOrderTiles, updateMultipleOrderData } from "../Redux/orderSlice";
+const useOrderListHook = (orderList, tablecolumns, orderParam, param) => {
+  const dispatch = useDispatch();
+  const [selectedRows, setSelectedRows] = useState(false);
+  const [toggleCleared, setToggleCleared] = useState(false);
   let rows = [];
   Array.isArray(orderList) &&
     orderList.map((row, index) => {
@@ -8,7 +14,7 @@ const useOrderListHook = (orderList, tablecolumns, deleteOrderHandler) => {
       let process_status = row.process_status;
       let pre_no = index + 1;
       let view = `order-details?id=${oid}&oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
-      rows.push({
+      return rows.push({
         id: pre_no,
         order_id: oid,
         name: row.passport_first_name + " " + row.passport_surname,
@@ -18,8 +24,62 @@ const useOrderListHook = (orderList, tablecolumns, deleteOrderHandler) => {
         status: process_status,
         action: view,
       }
-    );
-  });
+      );
+    });
+
+  const deleteOrderHandler = (e) => {
+    e.preventDefault();
+    const oid = e.target.attributes.oid.nodeValue;
+    const deleteOrder = window.confirm(`Are you sure you want to delete this order? ${oid}`);
+    if (deleteOrder) {
+      let updateData = {
+        process_status: "Deleted"
+      }
+      dispatch(deleteOrdersData({ order_id: oid, data: updateData }))
+        .unwrap()
+        .then((res) => {
+          dispatch(getOrderTiles(param))
+          dispatch(getOrderSideBarCount(param))
+          dispatch(getOrdersList(orderParam))
+        })
+        .catch()
+    }
+  }
+
+  const handleChange = ({ selectedRows }) => {
+    setSelectedRows(selectedRows);
+  }
+
+  const rowsDeleteOrder = () => {
+    if (selectedRows.length > 0) {
+      const oids = [];
+      if (selectedRows.length > 0) {
+        selectedRows.map(r => oids.push(r.order_id));
+      }
+      // setPending(true)
+      if (window.confirm(`Are you sure you want to delete:\r ${oids.length ? oids.map(r => r) : ''} ?`)) {
+        setToggleCleared(!toggleCleared);
+        let updateData = {
+          process_status: "Deleted"
+        }
+        dispatch(updateMultipleOrderData({
+          data: updateData,
+          params: {
+            "oids": oids
+          }
+        }
+        ))
+          .unwrap()
+          .then((res) => {
+            dispatch(getOrderTiles(param))
+            dispatch(getOrderSideBarCount(param))
+            dispatch(getOrdersList(orderParam))
+            setSelectedRows(false);
+          })
+          .catch()
+      }
+    }
+  }
   let columns = tablecolumns;
   if (tablecolumns.length == 0) {
     columns = [
@@ -75,7 +135,6 @@ const useOrderListHook = (orderList, tablecolumns, deleteOrderHandler) => {
       },
     ];
   }
-
-  return { rows, columns };
+  return { rows, columns, handleChange, rowsDeleteOrder, toggleCleared };
 };
 export default useOrderListHook;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import NewOrderImage from "../../Allassets/assets/images/new_order.svg";
 import PendingOrderImage from "../../Allassets/assets/images/pending_order.svg";
 import CompletedOrderImage from "../../Allassets/assets/images/completed_order.svg";
@@ -10,7 +10,9 @@ import useAuthParameter from "../../Hooks/useAuthParameter";
 function TopBar() {
   const tiles = useSelector(state => state?.order?.tilesCount)
   const dispatch = useDispatch();
-  const { user, type, name, path, param } = useAuthParameter();
+  const useAuth = useAuthParameter();
+  const param = useAuth?.param;
+  const path = useAuth?.path;
   useEffect(() => {
     dispatch(getOrderTiles(param))
       .then(response => {

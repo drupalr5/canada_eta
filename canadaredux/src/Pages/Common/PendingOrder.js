@@ -1,52 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeading from "./PageHeading";
 import DTable from "./DTable";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrdersList, deleteOrdersData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice";
-import useAuthParameter from "../../Hooks/useAuthParameter";
+import { getOrdersList } from "../../Redux/orderSlice";
 import useOrderListHook from "../../Hooks/useOrderListHook";
+import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function PendingOrder(props) {
-  const orderList = useSelector(state => state.order.orderData)
-  const dispatch = useDispatch();
-  const { user, utype, name, path, param } = useAuthParameter();
+  const useAuth = useAuthParameter();
+  const param = useAuth?.param;
+  const utype = useAuth?.utype;
   let orderParam =  {
     payment_status: 'Success',
     process_status: 'Pending',
     doc_uploaded: 1,
     assign_to: utype
   }
-  useEffect(() => {    
+  const dispatch = useDispatch();
+  const [pending, setPending] = useState(true);
+  const orderList = useSelector(state => state.order.orderData);
+  useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
       .then((res) => {
+        const timeout = setTimeout(() => {
+          setPending(false);
+        }, 2000);
+        return () => clearTimeout(timeout);
       });
-  }, [dispatch]);
-  const deleteOrderHandler = (e) => {
-    e.preventDefault();
-    const oid = e.target.attributes.oid.nodeValue;
-    const deleteOrder = window.confirm(`Are you sure you want to delete this order? ${oid}`);
-    if (deleteOrder) {
-      let updateData = {
-        process_status: "Deleted"
-      }
-      dispatch(deleteOrdersData({ order_id: oid, data: updateData }))
-        .unwrap()
-        .then((res) => {
-          dispatch(getOrderTiles(param))
-          dispatch(getOrderSideBarCount(param))
-          dispatch(getOrdersList(orderParam))
-        })
-        .catch()
-    }
-  }
-  const { rows, columns} = useOrderListHook(orderList, [], deleteOrderHandler)
+  }, [dispatch])
+
+  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } = useOrderListHook(orderList, [], orderParam, param)
+
   return (
     <>
-      <DTable
-      orders={rows}
-        teamMemeber={false}
+      <DTable orders={rows}
         columns={columns}
+        teamMemeber={false}
+        handleChange={handleChange}
+        rowsDeleteOrder={rowsDeleteOrder}
+        pending={pending}
+        toggleCleared={toggleCleared}
       >
         <PageHeading pagename={props.heading} />
       </DTable>

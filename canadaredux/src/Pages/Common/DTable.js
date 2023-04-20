@@ -1,39 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import DataTable from "react-data-table-component";
 import FilterComponent from "./FilterComponent"
-import { updateMultipleOrderData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice"
-import useAuthParameter from "../../Hooks/useAuthParameter";
-import { useDispatch } from "react-redux";
-function Table(props) {
-  const dispatch = useDispatch();
-  let resultD = props.orders;
-  const [pending, setPending] = React.useState(true);
-  const [selectedRows, setSelectedRows] = useState(false);
 
-  const [filterText, setFilterText] = React.useState('');
-  const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-  const [toggleCleared, setToggleCleared] = React.useState(false);
-  const { user, type, name, path, param } = useAuthParameter();
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setPending(false);
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  const subHeaderComponentMemo = React.useMemo(() => {
+function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pending, toggleCleared, children }) {
+  const [filterText, setFilterText] = useState('');
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  // function differenceBy(array1, array2) {
+  //   return array1.filter(object1 => {
+  //     return !array2.some(object2 => {
+  //       return object1.id === object2.id;
+  //     });
+  //   });
+  // }
+  const subHeaderComponentMemo = useMemo(() => {
     if (filterText) {
-      const newArray = resultD.filter(
+      const filterResult = orders.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
       )
-      // setResultD(newArray)
+      orders = filterResult;
     }
-
     const handleClear = (e) => {
       if (filterText) {
         setResetPaginationToggle(!resetPaginationToggle);
-        // setResultD(props.orders)
         setFilterText('');
       }
     };
@@ -41,53 +29,6 @@ function Table(props) {
       <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
     );
   }, [filterText, resetPaginationToggle]);
-
-
-  const handleChange = ({ selectedRows }) => {
-    setSelectedRows(selectedRows);
-  }
-
-  const rowsDeleteOrder = () => {
-    if (selectedRows.length > 0) {
-      const oids = [];
-      if (selectedRows.length > 0) {
-        selectedRows.map(r => oids.push(r.order_id));
-      }
-      setPending(true)
-      if (window.confirm(`Are you sure you want to delete:\r ${oids.length ? oids.map(r => r) : ''} ?`)) {
-        setToggleCleared(!toggleCleared);
-        const newArray = differenceBy(props.orders, selectedRows);
-        let updateData = {
-          process_status: "Deleted"
-        }
-        dispatch(updateMultipleOrderData({
-          data: updateData,
-          params: {
-            "oids": oids
-          }
-        }
-        ))
-          .unwrap()
-          .then((res) => {
-            dispatch(getOrderTiles(param))
-            dispatch(getOrderSideBarCount(param))
-            setSelectedRows(false);
-            setPending(false)
-          })
-          .catch()
-
-        // setResultD(newArray);
-      }
-    }
-  }
-
-  function differenceBy(array1, array2) {
-    return array1.filter(object1 => {
-      return !array2.some(object2 => {
-        return object1.id === object2.id;
-      });
-    });
-  }
 
   const paginationOption = {
     rowsPerPageText: 'Show', rangeSeparatorText: 'of', noRowsPerPage: false, selectAllRowsItem: true, selectAllRowsItemText: 'All'
@@ -99,14 +40,14 @@ function Table(props) {
         <div className="col-lg-12">
           <div className="card">
             <div className="header">
-              {props.children}
+              {children}
             </div>
             <div className="body">
               <div className="table-responsive">
                 <DataTable
-                  columns={props.columns}
+                  columns={columns}
                   persistTableHead
-                  data={resultD.length > 0 ? resultD : props?.orders}
+                  data={orders}
                   // data={props?.orders}
                   defaultSortField="Order id"
                   pagination
@@ -125,7 +66,7 @@ function Table(props) {
                   clearSelectedRows={toggleCleared}
                 />
               </div>
-              {props.teamMemeber &&
+              {teamMemeber &&
                 <div className="row clearfix">
                   <div className="col-lg-6 col-md-6 col-sm-12 m-b-20">
                     <b>Team Member</b>
