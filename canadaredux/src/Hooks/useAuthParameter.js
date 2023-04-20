@@ -3,7 +3,7 @@ const useAuthParameter = () => {
   let type = user.type ? user.type : null;
   let atype = user.type ? user.type : null;
   let name = user ? user.name : null;
-  let path = type ? `/${type.toLowerCase()}` : null;
+  let path = type ? `/${type.replace(' ', "_").toLowerCase()}` : null;
   if (atype && atype !== "Team") {
     atype = null;
   }

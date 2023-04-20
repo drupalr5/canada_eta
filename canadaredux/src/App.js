@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<AnonymousLayout />} />
         <Route path="/admin/*" element={<AdminLayout />}></Route>
         <Route path="/team/*" element={<TeamLayout />}></Route>
-        <Route path="/staff/*" element={<StaffLayout />}></Route>
+        <Route path="/night_staff/*" element={<StaffLayout />}></Route>
       </Routes>
     </>
   );

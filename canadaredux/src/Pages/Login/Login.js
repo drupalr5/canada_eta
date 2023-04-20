@@ -33,7 +33,7 @@ function Login(props) {
           } else if (res.data.type === "Team") {
             navigate("/team");
           } else if (res.data.type === "Night Staff") {
-            navigate("/staff");
+            navigate("/night_staff");
           }
           setErr('')
         } else {
