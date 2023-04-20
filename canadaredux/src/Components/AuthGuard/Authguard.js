@@ -10,8 +10,9 @@ export const Authguard = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (pathname === "/" || (pathname.includes('/admin') || pathname.includes('/team') || pathname.includes('/staff'))) {
-      if(token) {
+    console.log(pathname);
+    if (pathname === "/") {
+      if (token) {
         if (type === "Admin") {
           return navigate("/admin"); //navigate("admin/dashboard");
         } else if (type === "Team") {
@@ -19,11 +20,32 @@ export const Authguard = ({ children }) => {
         } else if (type === "Night Staff") {
           return navigate("/staff");
         }
-      }else {
-        return navigate("/");
       }
-    } else if(!token && (pathname.includes('/admin') || pathname.includes('/team') || pathname.includes('/staff'))){
+    } else if (
+      !token &&
+      (pathname.includes("/admin") ||
+        pathname.includes("/team") ||
+        pathname.includes("/staff"))
+    ) {
       return navigate("/");
+    } else if (
+      token &&
+      type === "Admin" &&
+      (pathname.includes("/team") || pathname.includes("/staff"))
+    ) {
+      return navigate("/admin");
+    } else if (
+      token &&
+      type === "Team" &&
+      (pathname.includes("/admin") || pathname.includes("/staff"))
+    ) {
+      return navigate("/team");
+    } else if (
+      token &&
+      type === "staff" &&
+      (pathname.includes("/team") || pathname.includes("/admin"))
+    ) {
+      return navigate("/staff");
     }
   }, [token, navigate, dispatch, pathname, type]);
   return children;
