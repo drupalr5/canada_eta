@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PageHeading from "./PageHeading";
 import DTable from "./DTable";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersList, deleteOrdersData, getOrderSideBarCount, getOrderTiles } from "../../Redux/orderSlice";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 import useOrderListHook from "../../Hooks/useOrderListHook";
-
 
 function AwaitingGovtOrder(props) {
   const orderList = useSelector(state => state.order.orderData)

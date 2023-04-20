@@ -34,7 +34,7 @@ function Sidebar(props) {
         // setTiles(res);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   }, [dispatch]);
   return (

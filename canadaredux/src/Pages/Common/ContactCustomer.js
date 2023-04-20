@@ -40,11 +40,11 @@ function ContactCustomer(props) {
     }
   }
 
-  const ReactDataTable = useOrderListHook(orderList, [], deleteOrderHandler)
+  const { rows, columns} = useOrderListHook(orderList, [], deleteOrderHandler)
 
   return (
     <>
-      <DTable orders={ReactDataTable?.result} columns={ReactDataTable?.columns} teamMemeber={false}>
+      <DTable orders={rows} columns={columns} teamMemeber={false}>
         <PageHeading pagename={props.heading} />
       </DTable>
     </>

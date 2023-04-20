@@ -23,7 +23,6 @@ function ChangePassword(props) {
       .unwrap()
       .then((res) => {
         if (res.status === 1) {
-          console.log(res.message);
           setMsg(res.message);
         } else {
           setMsg(res.message);

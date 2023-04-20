@@ -6,10 +6,9 @@ import useAuthParameter from "../../Hooks/useAuthParameter";
 import { useDispatch } from "react-redux";
 function Table(props) {
   const dispatch = useDispatch();
-  const resultD = props.orders;
+  let resultD = props.orders;
   const [pending, setPending] = React.useState(true);
   const [selectedRows, setSelectedRows] = useState(false);
-  const [resultd, setResultD] = useState(resultD);
 
   const [filterText, setFilterText] = React.useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
@@ -28,13 +27,13 @@ function Table(props) {
       const newArray = resultD.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
       )
-      setResultD(newArray)
+      // setResultD(newArray)
     }
 
     const handleClear = (e) => {
       if (filterText) {
         setResetPaginationToggle(!resetPaginationToggle);
-        setResultD(props.orders)
+        // setResultD(props.orders)
         setFilterText('');
       }
     };
@@ -77,7 +76,7 @@ function Table(props) {
           })
           .catch()
 
-        setResultD(newArray);
+        // setResultD(newArray);
       }
     }
   }
@@ -107,7 +106,7 @@ function Table(props) {
                 <DataTable
                   columns={props.columns}
                   persistTableHead
-                  data={resultd.length > 0 ? resultd : props?.orders}
+                  data={resultD.length > 0 ? resultD : props?.orders}
                   // data={props?.orders}
                   defaultSortField="Order id"
                   pagination
@@ -118,7 +117,7 @@ function Table(props) {
                   sortIcon={true}
                   paginationComponentOptions={paginationOption}
                   paginationRowsPerPageOptions={[10, 15, 20, 25, 30]}
-                  paginationIconNext={"Next"}
+                  // paginationIconNext={"Next"}
                   noBottomColumns={false}
                   subHeader
                   subHeaderComponent={subHeaderComponentMemo}

@@ -27,7 +27,7 @@ function ManageTeam(props) {
         userRef.current = response.data
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   }, [id]);
   const updateHandler = (data) => {
