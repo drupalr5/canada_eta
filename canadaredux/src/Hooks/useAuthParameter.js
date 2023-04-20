@@ -1,5 +1,5 @@
 const useAuthParameter = () => {
-  let user = JSON.parse(JSON.parse(localStorage.getItem("user")).data);
+  let user = JSON.parse(localStorage.getItem("user"))? JSON.parse(JSON.parse(localStorage.getItem("user")).data) : '';
   let type = user.type ? user.type : null;
   let atype = user.type ? user.type : null;
   let name = user ? user.name : null;
@@ -10,7 +10,8 @@ const useAuthParameter = () => {
   let param = {
     assign_to: atype,
   };
-  return { user, type, name, path, param };
+  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  return { user, type, name, path, param, token };
 };
 
 export default useAuthParameter;

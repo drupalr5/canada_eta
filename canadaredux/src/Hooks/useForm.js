@@ -41,9 +41,6 @@ const useForm = (callback) => {
           setErrors(newObj);
         }
         break;
-
-      default:
-        break;
     }
   };
 
@@ -69,7 +66,7 @@ const useForm = (callback) => {
     if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
       callback();
     } else {
-      alert("There is an Error!");
+      // alert("There is an Error!");      
     }
   };
   return {

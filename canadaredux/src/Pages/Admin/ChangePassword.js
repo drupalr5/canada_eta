@@ -6,9 +6,11 @@ import useForm from "../../Hooks/useForm";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 import { changePassword } from "../../Redux/authSlice";
 import { useDispatch } from "react-redux";
+import { encryptVal } from "../../utility/utility";
 
 function ChangePassword(props) {
   const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
   const authParams = useAuthParameter();
   const dispatch = useDispatch();
   let id = authParams?.user?.id;
@@ -17,15 +19,17 @@ function ChangePassword(props) {
     dispatch(
       changePassword({
         userId: id,
-        passwordParams: { password: values.password },
+        passwordParams: { password: encryptVal(values.password) },
       })
     )
       .unwrap()
       .then((res) => {
         if (res.status === 1) {
           setMsg(res.message);
+          setErr('')
         } else {
-          setMsg(res.message);
+          setErr(res.message);
+          setMsg('')
         }
       });
   };
@@ -41,7 +45,8 @@ function ChangePassword(props) {
             </div>
             <div className="body">
               <Form onSubmit={handleSubmit}>
-                {msg && msg}
+              <p style={{color: 'red'}}>{err && err}</p>
+              <p style={{color: 'green'}}>{msg && msg}</p>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>
                     <strong>Enter New Password</strong>
@@ -53,9 +58,10 @@ function ChangePassword(props) {
                     defaultValue={values.password}
                     onChange={handleChange}
                     style={style}
+                    required="required"
                   />
                 </Form.Group>
-                <p>{errors && errors.password}</p>
+                <p style={{color: 'red'}}>{errors && errors.password}</p>
                 <Button variant="primary" type="submit">
                   Update Password
                 </Button>

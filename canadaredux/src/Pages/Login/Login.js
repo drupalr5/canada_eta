@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
 import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
@@ -7,9 +7,13 @@ import backgroundImage from "../../Allassets/assets/images/canada-bg-logo.png";
 import useForm from "../../Hooks/useForm";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../Redux/authSlice";
+import { encryptVal } from "../../utility/utility";
+
 function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
   useEffect(() => {
     document.body.classList.remove("theme-black");
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -20,8 +24,7 @@ function Login(props) {
     document.title = "Admin Section";
   }, []);
   const loginHnadler = () => {
-    // console.log(values)
-    dispatch(authenticate(values))
+    dispatch(authenticate({email: (values.email), password: encryptVal(values.password)}))
       .unwrap()
       .then((res) => {
         if (res.status === 1) {
@@ -32,7 +35,9 @@ function Login(props) {
           } else if (res.data.type === "Night Staff") {
             navigate("/staff");
           }
+          setErr('')
         } else {
+          setErr(res.message)
         }
       })
       .catch((error) => {
@@ -47,8 +52,10 @@ function Login(props) {
           <div className="card-header">Login</div>
           <div className="card-body">
             <form onSubmit={handleSubmit} method="post">
+            <p style={{color: 'red'}}>{err && err}</p>
               <div className="form-group">
                 <div className="form-label-group">
+                
                   <input
                     type="email"
                     id="inputEmail"
@@ -61,7 +68,7 @@ function Login(props) {
                   />
                   <label htmlFor="inputEmail">Email address</label>
                 </div>
-                {errors.email && <p>{errors.email}</p>}
+                <p style={{color: 'red'}}>{errors.email && errors.email}</p>
               </div>
               <div className="form-group">
                 <div className="form-label-group">
@@ -76,7 +83,7 @@ function Login(props) {
                   />
                   <label htmlFor="inputPassword">Password</label>
                 </div>
-                {errors.password && <p>{errors.password}</p>}
+                <p style={{color: 'red'}}>{errors.password && errors.password}</p>
               </div>
               <button type="submit" className="btn btn-primary btn-block">
                 Login
