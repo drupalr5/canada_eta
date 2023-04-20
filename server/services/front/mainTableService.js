@@ -1,16 +1,16 @@
 const { INTEGER } = require("sequelize");
 const models = require("../../models")
-
+const columns = ['id', 'order_id', 'passport_first_name', 'passport_surname', 'email', 'telephone_number', 'create_ts', 'assign_to', 'process_status'];
 const AddOrder = async (req, res) => {
   try {
     let info = req.body;
     const main_tbl = await models.tblmain.create(info)
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err
-    })
+      .then(result => {
+        return result;
+      })
+      .catch(err => {
+        return err
+      })
     res.send(main_tbl)
   }
   catch (error) {
@@ -31,16 +31,16 @@ const getAllOrder = async (req, res) => {
     let resultLimit = whereClause.limit ? +whereClause.limit : null;
     delete whereClause["limit"];
     let conditionalClause = whereClause ? whereClause : {}
-    const main_tbl = await models.tblmain.findAll({ where: conditionalClause, limit: resultLimit })
-    .then(result => {
-      return {
-        status: 1,
-        data: result
-      }
-    })
-    .catch(err => {
-      return err;
-    })
+    const main_tbl = await models.tblmain.findAll({ attributes: columns, where: conditionalClause, limit: resultLimit })
+      .then(result => {
+        return {
+          status: 1,
+          data: result
+        }
+      })
+      .catch(err => {
+        return err;
+      })
     res.send(main_tbl)
   }
   catch (error) {
@@ -56,17 +56,17 @@ const getAllOrder = async (req, res) => {
 const getOneOrder = async (req, res) => {
   try {
     let orderId = req.params.id;
-    const main_tbl = await models.tblmain.findOne({ where: { order_id: orderId } })
-    .then(result => {
-      return {
-        status: 1,
-        data: result
-      }
-    })
-    .catch(err => {
-      return err;
-    })
-    
+    const main_tbl = await models.tblmain.findOne({ attributes: columns, where: { order_id: orderId } })
+      .then(result => {
+        return {
+          status: 1,
+          data: result
+        }
+      })
+      .catch(err => {
+        return err;
+      })
+
   }
   catch (error) {
     let msg = {
@@ -82,12 +82,12 @@ const updateOrder = async (req, res) => {
   try {
     let orderId = req.params.id;
     const main_tbl = await models.tblmain.update(req.body, { where: { order_id: orderId } })
-    .then(result => {
-      return res.send(result)
-    })
-    .catch(err => {
-      return res.send(err);
-    })
+      .then(result => {
+        return res.send(result)
+      })
+      .catch(err => {
+        return res.send(err);
+      })
   }
   catch (error) {
     let msg = {
@@ -103,12 +103,12 @@ const updateMultipleOrder = async (req, res) => {
   try {
     let orderIds = req.body?.params?.oids;
     const main_tbl = await models.tblmain.update(req?.body?.data, { where: { order_id: orderIds } })
-    .then(result => {
-      return res.send(result)
-    })
-    .catch(err => {
-      return res.send(err);
-    })
+      .then(result => {
+        return res.send(result)
+      })
+      .catch(err => {
+        return res.send(err);
+      })
   }
   catch (error) {
     let msg = {
@@ -124,12 +124,12 @@ const deleteOrder = async (req, res) => {
   try {
     let orderId = req.params.id;
     const main_tbl = await models.tblmain.destroy({ where: { order_id: orderId } })
-    .then(result => {
-      return result
-    })
-    .catch(err => {
-      return err;
-    })
+      .then(result => {
+        return result
+      })
+      .catch(err => {
+        return err;
+      })
   }
   catch (error) {
     let msg = {
@@ -157,12 +157,12 @@ const gettilesOrder = async (req, res) => {
       newOrder.assign_to = qassign_to;
     }
     const newOrderResult = await models.tblmain.count({ where: newOrder })
-    .then(result => {
-      return result
-    })
-    .catch(err => {
-      return err;
-    })
+      .then(result => {
+        return result
+      })
+      .catch(err => {
+        return err;
+      })
 
     //Pririty order
     const priorityOrder = {
@@ -175,12 +175,12 @@ const gettilesOrder = async (req, res) => {
     //   priorityOrder.assign_to = qassign_to;
     // }
     const priorityOrderResult = await models.tblmain.count({ where: priorityOrder })
-    .then(result => {
-      return result
-    })
-    .catch(err => {
-      return err;
-    })
+      .then(result => {
+        return result
+      })
+      .catch(err => {
+        return err;
+      })
 
     // pendingOrder order
     const pendingOrder = {
@@ -205,12 +205,12 @@ const gettilesOrder = async (req, res) => {
     }
 
     const completeOrderResult = await models.tblmain.count({ where: completeOrder })
-    .then(result => {
-      return result
-    })
-    .catch(err => {
-      return err;
-    })
+      .then(result => {
+        return result
+      })
+      .catch(err => {
+        return err;
+      })
 
     // contact order
     const contact = {
@@ -221,12 +221,12 @@ const gettilesOrder = async (req, res) => {
       contact.assign_to = qassign_to;
     }
     const contactOrderResult = await models.tblmain.count({ where: contact })
-    .then(result => {
-      return result
-    })
-    .catch(err => {
-      return err;
-    })
+      .then(result => {
+        return result
+      })
+      .catch(err => {
+        return err;
+      })
 
     let results = {
       'new_order': newOrderResult,
