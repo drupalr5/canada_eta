@@ -7,9 +7,7 @@ import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function CompletedOrder(props) {
-  const useAuth = useAuthParameter();
-  const param = useAuth?.param;
-  const utype = useAuth?.utype;
+  const { param, utype } = useAuthParameter();
   let orderParam = {
     payment_status: 'Success',
     process_status: 'Completed',

@@ -7,9 +7,7 @@ import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function OrderHistory(props) {
-  const useAuth = useAuthParameter();
-  const param = useAuth?.param;
-  const utype = useAuth?.utype;
+  const { param, utype } = useAuthParameter();
   let orderParam = {
     payment_status: 'Success',
     assign_to: utype

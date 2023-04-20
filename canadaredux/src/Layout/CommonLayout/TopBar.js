@@ -10,9 +10,7 @@ import useAuthParameter from "../../Hooks/useAuthParameter";
 function TopBar() {
   const tiles = useSelector(state => state?.order?.tilesCount)
   const dispatch = useDispatch();
-  const useAuth = useAuthParameter();
-  const param = useAuth?.param;
-  const path = useAuth?.path;
+  const { param, path } = useAuthParameter();
   useEffect(() => {
     dispatch(getOrderTiles(param))
       .then(response => {

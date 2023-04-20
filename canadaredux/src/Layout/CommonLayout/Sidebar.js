@@ -17,11 +17,7 @@ import AdminSidebar from "./AdminSidebar";
 function Sidebar(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const useAuth = useAuthParameter();
-  const param = useAuth?.param;
-  const path = useAuth?.path;
-  const type = useAuth?.type;
-  const name = useAuth?.name;
+  const { param, path, type, name } = useAuthParameter();
   const logoutHnadler = () => {
     localStorage.removeItem("user");
     dispatch(logout());
