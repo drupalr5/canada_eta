@@ -181,8 +181,7 @@ const updateAdmin = async (req, res) => {
             message: "Password Changed Successfully.",
             data: response,
           });
-        }
-        else {
+        } else {
           return res.send({
             status: 0,
             message: "Password does not change, please try again.",
@@ -191,7 +190,11 @@ const updateAdmin = async (req, res) => {
         }
       })
       .catch((error) => {
-        return res.send({ status: 0, message: "Something Went Wrong.", error: error.message });
+        return res.send({
+          status: 0,
+          message: "Something Went Wrong.",
+          error: error.message,
+        });
       });
   } catch (error) {
     let msg = {
@@ -241,6 +244,48 @@ const getAdminById = async (req, res) => {
     res.send(msg);
   }
 };
+const getSetting = async (req, res) => {
+  try {
+    console.log(models.tbl_setting);
+    const settingtbl = await models.tbl_setting
+      .findAll({})
+      .then((result) => {
+        console.log(result)
+        res.send(result); 
+      })
+      .catch((err) => {
+        return err;
+      });
+  } catch (error) {
+    let msg = {
+      status: 0,
+      message: "Something Went Wrong.",
+      error: error.message,
+    };
+    res.send(msg);
+  }
+};
+
+const updateSettings = async (req, res) => {
+  try {
+    let orderId = req.params.id;
+    const settingtbl = await models.tbl_setting
+      .update(req.body, { where: { order_id: orderId } })
+      .then((result) => {
+        return res.send(result);
+      })
+      .catch((err) => {
+        return res.send(err);
+      });
+  } catch (error) {
+    let msg = {
+      status: 0,
+      message: "Something Went Wrong.",
+      error: error.message,
+    };
+    res.send(msg);
+  }
+};
 
 module.exports = {
   AddAdmin,
@@ -251,4 +296,6 @@ module.exports = {
   getAdminById,
   LoginAdmin,
   getUserByEmail,
+  getSetting,
+  updateSettings,
 };

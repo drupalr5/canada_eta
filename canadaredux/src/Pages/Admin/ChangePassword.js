@@ -11,9 +11,9 @@ import { encryptVal } from "../../utility/utility";
 function ChangePassword(props) {
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
-  const authParams = useAuthParameter();
+  const { user } = useAuthParameter();
   const dispatch = useDispatch();
-  let id = authParams?.user?.id;
+  let id = user?.id;
   const style = { height: "40px" };
   const updatePassword = (event) => {
     dispatch(
