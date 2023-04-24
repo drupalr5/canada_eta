@@ -56,15 +56,16 @@ const getAllOrder = async (req, res) => {
 const getOneOrder = async (req, res) => {
   try {
     let orderId = req.params.id;
-    const main_tbl = await models.tblmain.findOne({ attributes: columns, where: { order_id: orderId } })
+    console.log(orderId)
+    const main_tbl = await models.tblmain.findOne({ where: { order_id: orderId } })
       .then(result => {
-        return {
+        res.send( {
           status: 1,
           data: result
-        }
+        })
       })
       .catch(err => {
-        return err;
+        res.send( err)
       })
 
   }

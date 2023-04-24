@@ -96,6 +96,7 @@ const OrderSlice = createSlice({
   initialState: {
     loading: false,
     orderData: [],
+    OrderDetails: [],
     tilesCount: {},
     sideBarCount: {}
   },
@@ -142,7 +143,7 @@ const OrderSlice = createSlice({
     });
     builder.addCase(getOrderDetailsByOrderId.fulfilled, (state, action) => {
       state.loading = false;
-      state.count = action?.payload?.data;
+      state.OrderDetails = [action?.payload?.data];
     });
     builder.addCase(getOrderDetailsByOrderId.rejected, (state, action) => {
       state.loading = false;

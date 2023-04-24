@@ -79,7 +79,7 @@ function AdminLayout() {
           element={<ManageCountry heading="Country Listing" />}
         ></Route>
         <Route
-          path="order-details"
+          path="order-details/:orderId"
           element={<OrderDetails heading="Order Details" />}
         ></Route>
       </Routes>

@@ -20,7 +20,7 @@ const useOrderListHook = (orderList, tablecolumns, orderParam, param) => {
       let oid = row.order_id;
       let process_status = row.process_status;
       let pre_no = index + 1;
-      let view = `${path}/order-details?id=${oid}&oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
+      let view = `${path}/order-details/${oid}?oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
       return rows.push({
         id: pre_no,
         order_id: oid,
@@ -126,7 +126,7 @@ const useOrderListHook = (orderList, tablecolumns, orderParam, param) => {
           rows?.length ? (
             <span>
               <Link
-                to={`${path}/order-details?id=${row.order_id}&oid=${row.id}&ot=${row.status}&pre_no=${row.id}`}
+                to={row.action}
                 className="blue-border"
               >
                 View
