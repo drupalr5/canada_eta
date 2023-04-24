@@ -1,7 +1,8 @@
 const models = require("../../models");
 const authService = require("../front/authServices");
 const Joi = require("joi");
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const AddAdmin = async (req, res) => {
   try {
     let info = req.body;
@@ -229,12 +230,11 @@ const getAdminById = async (req, res) => {
     const main_tbl = await models.tbl_admin
       .findOne({ where: { id: Id } })
       .then((result) => {
-        return result;
+        return res.send(result);
       })
       .catch((err) => {
         return err;
       });
-    res.status(200).send(main_tbl);
   } catch (error) {
     let msg = {
       status: 0,
@@ -250,8 +250,8 @@ const getSetting = async (req, res) => {
     const settingtbl = await models.tbl_setting
       .findAll({})
       .then((result) => {
-        console.log(result)
-        res.send(result); 
+        console.log(result);
+        res.send(result);
       })
       .catch((err) => {
         return err;
@@ -268,14 +268,36 @@ const getSetting = async (req, res) => {
 
 const updateSettings = async (req, res) => {
   try {
-    let orderId = req.params.id;
+    console.log();
+    let gatewayId = req.body.gateway_name;
     const settingtbl = await models.tbl_setting
-      .update(req.body, { where: { order_id: orderId } })
-      .then((result) => {
-        return res.send(result);
+      .update({ is_active: 1 }, { where: { id: gatewayId } })
+      .then(async (result) => {
+        await models.tbl_setting.update(
+          { is_active: 0 },
+          { where: {id: {[Op.not]:gatewayId}} }
+        );
+        if (result[0] === 1) {
+          return res.send({
+            status: 1,
+            message: "Updated setting successfully",
+            data: result,
+          });
+        } else {
+          // const settingtbl = await models.tbl_setting.findAll({});
+          return res.send({
+            status: 0,
+            message: "Already updated, change and update again",
+            data: result,
+          });
+        }
       })
       .catch((err) => {
-        return res.send(err);
+        return res.send({
+          status: 0,
+          message: "Something Went Wrong.",
+          error: err.message,
+        });
       });
   } catch (error) {
     let msg = {

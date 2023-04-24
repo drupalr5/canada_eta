@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import PageHeading from "../Common/PageHeading";
-import useForm from "../../Hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getGatewayList } from "../../Redux/gatewaySlice";
+import { getGatewayList, updateGatewayData } from "../../Redux/gatewaySlice";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 function Settings(props) {
-  // const [msg, setMsg] = useState("");
-  // const [err, setErr] = useState("");
+  const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
   const gateway = useSelector((state) => state?.gateway?.gateway);
-  const [defaultOption, setDefaultOption] = useState("");
+  const [defaultOption, setDefaultOption] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getGatewayList())
       .unwrap()
       .then((response) => {
-        // setDefaultOption(response)
         response?.map((item) => {
-          if (item.is_active === '1') {            
+          if (item.is_active === "1") {
             setDefaultOption(item.id);
           }
         });
@@ -26,30 +26,37 @@ function Settings(props) {
         // console.log(error)
       });
   }, []);
-  const submitHandler = (event) => {
+  const submitHandler = () => {
     // event.preventDefault();
-    console.log(values)
-  //   dispatch(
-  //     changePassword({
-  //       userId: id,
-  //       passwordParams: { password: encryptVal(values.password) },
-  //     })
-  //   )
-  //     .unwrap()
-  //     .then((res) => {
-  //       if (res.status === 1) {
-  //         setMsg(res.message);
-  //         setErr('')
-  //       } else {
-  //         setErr(res.message);
-  //         setMsg('')
-  //       }
-  //     });
+    // console.log(values);
+    dispatch(updateGatewayData(values))
+    .unwrap()
+    .then((res) => {
+      if (res.status === 1) {
+        setMsg(res.message)
+        setErr('')
+      } else {
+        setMsg('')
+        setErr(res.message)
+      }
+    });
   };
-  const { handleChange, values, errors, handleSubmit } = useForm(submitHandler);
-  // const test = gateway?.map((item) => {
-  //   if(item.is_active === 1) { console.log(item); setDefaultOption(item.id) }})
-  
+  const gatewaySchema = yup.object({
+    gateway_name: yup.string().required("Please select gateway name"),
+  });
+  let initialValues = {};
+  if (defaultOption != null) {
+    initialValues.gateway_name = defaultOption;
+  } else {
+    initialValues.gateway_name = "";
+  }
+  const { values, errors, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    enableReinitialize: true,
+    validationSchema: gatewaySchema,
+    onSubmit: submitHandler,
+  });
+
   return (
     <>
       <div className="row clearfix">
@@ -60,6 +67,8 @@ function Settings(props) {
             </div>
             <div className="body">
               <form onSubmit={handleSubmit}>
+              <p style={{color: 'red'}}>{err && err}</p>
+              <p style={{color: 'green'}}>{msg && msg}</p>
                 <label htmlFor="gateway_name">
                   <strong>Gateway</strong>
                 </label>
@@ -70,7 +79,7 @@ function Settings(props) {
                     height: "calc(3.25rem + 2px) !important",
                     height: "40px",
                   }}
-                  defaultValue={defaultOption}
+                  value={values.gateway_name}
                   onChange={handleChange}
                 >
                   <option value="">Select Gateway</option>
@@ -82,6 +91,7 @@ function Settings(props) {
                     );
                   })}
                 </select>
+                <p style={{ color: "red" }}>{errors.gateway_name}</p>
                 <div className="col-sm-12">
                   <br />
                   <button className="btn btn-primary" type="submit">

@@ -1,52 +1,54 @@
 import React, { useState, useEffect, useRef } from "react";
 import Table from "../Common/Table";
 import PageHeading from "../Common/PageHeading";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/Row";
-import config from "../../config.json";
+import useAuthParameter from "../../Hooks/useAuthParameter";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData, updateUser } from "../../Redux/manageSlice";
 
 function ManageTeam(props) {
-  const [user, setUser] = useState({});
   const [msg, setMsg] = useState("");
-  const userRef = useRef({});
-  let loginUser = JSON.parse(localStorage.getItem("user"));
-  let id = loginUser.id;
+  const [defaultOption, setDefaultOption] = useState({});
+  const { user } = useAuthParameter();
+  const id = user?.id;
+  const singleUser = useSelector(state => state?.manage?.manage);
+  
   const style = { height: "40px" };
+  const dispatch = useDispatch();
   // const { register, handleSubmit, formState: { errors } } = useForm();
 
   useEffect(() => {
-    axios
-      .get(`${config.API_URL}/admin/${id}`)
-      .then((response) => {
-        setUser(response.data);
-        userRef.current = response.data
-      })
-      .catch((error) => {
-        console.log(error);
+    dispatch(getUserData(id))
+      .unwrap()
+      .then((res) => {
+        setDefaultOption(res)
       });
-  }, [id]);
-  const updateHandler = (data) => {
-    console.log(data);
-    data.profile_path = values.fileUpload && values.fileUpload.name;
-    
-    axios
-      .put(`${config.API_URL}/admin/update/${id}`, {params :data})
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.message === "Success...") {
-          setMsg("Updated user succusessfully");
-        } else {
-          setMsg(response.data.message);
-        }
-      })
-      .catch((error) => {
-        setMsg(error);
-      });
+  }, []);
+  const updateHandler = () => {
+    console.log(values);
+    dispatch(updateUser({id: id, values:values}))
+      .unwrap()
+      .then((res) => {});
+    //   console.log(data);
+    //   data.profile_path = values.fileUpload && values.fileUpload.name;
+    //   axios
+    //     .put(`${config.API_URL}/admin/update/${id}`, {params :data})
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       if (response.data.message === "Success...") {
+    //         setMsg("Updated user succusessfully");
+    //       } else {
+    //         setMsg(response.data.message);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       setMsg(error);
+    //     });
   };
   const foundOrderSchema = yup.object({
     // orderId: yup.string().required("Please enter your Order Id"),
@@ -57,7 +59,7 @@ function ManageTeam(props) {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         "Please enter correct Email Id"
       ),
-      password: yup
+    password: yup
       .string()
       .required("Please enter your password")
       .matches(
@@ -65,29 +67,32 @@ function ManageTeam(props) {
         "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers"
       ),
   });
-  console.log('user', user);
   let initialValues = {};
-if (typeof id !== 'undefined' && typeof user !== 'undefined') {
-  initialValues = {
-    "name": user?.name,
-    "email": user?.email,
-    "password": user?.password,
-    "type": user?.type,
-    "profile_path": user?.profile_path
+  if (typeof singleUser !== "undefined") {
+    initialValues = {
+      name: singleUser?.name,
+      email: singleUser?.email,
+      password: singleUser?.password,
+      type: singleUser?.type,
+      profile_path: singleUser?.profile_path,
+    };
+  } else {
+    initialValues = {
+      name: defaultOption?.name,
+      email: defaultOption?.email,
+      password: defaultOption?.password,
+      type: defaultOption?.type,
+      profile_path: defaultOption?.profile_path,
+    };;
   }
-} else {
-  initialValues = {
-    "name": "",
-    "email": "",
-    "password": "",
-    "type": "",
-    "profile_path": null
-  }
-}
-
-// console.log('initialValues', initialValues);
-
-  const { values, errors, handleBlur, handleChange, setFieldValue, handleSubmit } = useFormik({
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    setFieldValue,
+    handleSubmit,
+  } = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: foundOrderSchema,
@@ -95,7 +100,6 @@ if (typeof id !== 'undefined' && typeof user !== 'undefined') {
   });
   return (
     <>
-      {console.log('values', values)}
       <div className="row clearfix">
         <div className="col-lg-12 col-md-12 col-sm-12">
           <div className="card">
@@ -104,7 +108,7 @@ if (typeof id !== 'undefined' && typeof user !== 'undefined') {
             </div>
             <div className="body">
               <Form onSubmit={handleSubmit}>
-              {msg && msg}
+                {msg && msg}
                 <Row>
                   <Col>
                     <Form.Group className="mb-3" controlId="formText">
@@ -135,7 +139,7 @@ if (typeof id !== 'undefined' && typeof user !== 'undefined') {
                         style={style}
                       />
                     </Form.Group>
-                    <p>{errors.email}</p>
+                    <p style={{ color: "red" }}>{errors.email}</p>
                   </Col>
                 </Row>
                 <Row>
@@ -151,7 +155,7 @@ if (typeof id !== 'undefined' && typeof user !== 'undefined') {
                         style={style}
                       />
                     </Form.Group>
-                    <p>{errors.password}</p>
+                    <p style={{ color: "red" }}>{errors.password}</p>
                   </Col>
                   <Col>
                     <Form.Group className="mb-3" controlId="formSelect">
@@ -180,17 +184,14 @@ if (typeof id !== 'undefined' && typeof user !== 'undefined') {
                       <Form.Label>Upload Profile Picture</Form.Label>
                       <Form.Control
                         type="file"
-                        name="fileUpload"                        
+                        name="fileUpload"
                         accept="image/*"
                         onChange={(e) =>
-                          setFieldValue(
-                            "fileUpload",
-                            e.currentTarget.files[0]
-                          )
+                          setFieldValue("fileUpload", e.currentTarget.files[0])
                         }
                       />
                     </Form.Group>
-                    <p>{errors.fileUpload}</p>
+                    <p style={{ color: "red" }}>{errors.fileUpload}</p>
                   </Col>
                   <Col></Col>
                 </Row>

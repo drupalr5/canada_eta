@@ -2,11 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import GatewayService from "../Services/GatewayService";
 
 export const getGatewayList = createAsyncThunk(
-  "/gateway/getGatewayList",
+  "gateway/getGatewayList",
   async () => {
     try {
       const response = await GatewayService.gatewaySetting();
-      // console.log(response)
       const data = response.data;
       return data;
     } catch (error) {
@@ -15,17 +14,18 @@ export const getGatewayList = createAsyncThunk(
   }
 );
 
-// export const updateMultipleOrderData = createAsyncThunk(
-//   "/order/updateMultipleOrderData",
-//   async (data) => {
-//     try {
-//       const response = await OrderService.updateMultipleOrderData(data);
-//       return response;
-//     } catch (error) {
-//       return error.response.data;
-//     }
-//   }
-// );
+export const updateGatewayData = createAsyncThunk(
+  "admin/updateGatewayData",
+  async (values) => {
+    try {
+      const response = await GatewayService.updateGatewaySetting(values);
+      const data = response?.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
 
 const GatewaySlice = createSlice({
   name: "gateway",
@@ -48,17 +48,6 @@ const GatewaySlice = createSlice({
       state.loading = false;
     });
 
-    
-
-    // builder.addCase(permanentDeleteOrdersData.pending, (state) => {
-    //   state.loading = true;
-    // });
-    // builder.addCase(permanentDeleteOrdersData.fulfilled, (state, action) => {
-    //   state.loading = false;
-    // });
-    // builder.addCase(permanentDeleteOrdersData.rejected, (state, action) => {
-    //   state.loading = false;
-    // });
   }
 })
 

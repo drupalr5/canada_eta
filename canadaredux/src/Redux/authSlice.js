@@ -26,6 +26,7 @@ export const changePassword = createAsyncThunk(
   async (user) => {
     try {      
       const response = await AuthService.changePassword(user.userId, user.passwordParams);
+      console.log(response);
       const data = response?.data;
       return data;
     } catch (error) {
