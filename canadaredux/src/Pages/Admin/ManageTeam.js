@@ -16,8 +16,8 @@ function ManageTeam(props) {
   const [defaultOption, setDefaultOption] = useState({});
   const { user } = useAuthParameter();
   const id = user?.id;
-  const singleUser = useSelector(state => state?.manage?.manage);
-  
+  const singleUser = useSelector((state) => state?.manage?.manage);
+
   const style = { height: "40px" };
   const dispatch = useDispatch();
   // const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,12 +26,12 @@ function ManageTeam(props) {
     dispatch(getUserData(id))
       .unwrap()
       .then((res) => {
-        setDefaultOption(res)
+        setDefaultOption(res);
       });
   }, []);
   const updateHandler = () => {
     console.log(values);
-    dispatch(updateUser({id: id, values:values}))
+    dispatch(updateUser({ id: id, values: values }))
       .unwrap()
       .then((res) => {});
     //   console.log(data);
@@ -83,7 +83,7 @@ function ManageTeam(props) {
       password: defaultOption?.password,
       type: defaultOption?.type,
       profile_path: defaultOption?.profile_path,
-    };;
+    };
   }
   const {
     values,
@@ -107,7 +107,7 @@ function ManageTeam(props) {
               <PageHeading pagename={props.heading} />
             </div>
             <div className="body">
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit} encType="multipart/form-data">
                 {msg && msg}
                 <Row>
                   <Col>
@@ -189,6 +189,13 @@ function ManageTeam(props) {
                         onChange={(e) =>
                           setFieldValue("fileUpload", e.currentTarget.files[0])
                         }
+                      />
+                      <img
+                        src={values?.fileUpload?.name}
+                        alt={values?.fileUpload?.name}
+                        className="img-thumbnail mt-2"
+                        height={200}
+                        width={200}
                       />
                     </Form.Group>
                     <p style={{ color: "red" }}>{errors.fileUpload}</p>
