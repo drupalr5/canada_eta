@@ -208,6 +208,48 @@ const updateAdmin = async (req, res) => {
   }
 };
 
+const updateData = async (req, res) => {
+  try {
+    let id = req.params.id;
+    console.log(req)
+    // const main_tbl = await models.tbl_admin
+    //   .update(req.body, { where: { id: id } })
+    //   .then(async (result) => {
+    //     if (result[0] == 1) {
+    //       let response = await models.tbl_admin.findOne({
+    //         where: { id: id },
+    //         attributes: { exclude: ["password"] },
+    //       });
+    //       return res.send({
+    //         status: 1,
+    //         message: "Password Changed Successfully.",
+    //         data: response,
+    //       });
+    //     } else {
+    //       return res.send({
+    //         status: 0,
+    //         message: "Password does not change, please try again.",
+    //         data: result,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     return res.send({
+    //       status: 0,
+    //       message: "Something Went Wrong.",
+    //       error: error.message,
+    //     });
+    //   });
+  } catch (error) {
+    let msg = {
+      status: 0,
+      message: "Something Went Wrong.",
+      error: error.message,
+    };
+    res.send(msg);
+  }
+};
+
 const deleteAdmin = async (req, res) => {
   try {
     let Id = req.params.id;
@@ -370,6 +412,7 @@ module.exports = {
   getAllAdmin,
   getOneAdmin,
   updateAdmin,
+  updateData,
   deleteAdmin,
   getAdminById,
   LoginAdmin,
