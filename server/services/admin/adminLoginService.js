@@ -3,6 +3,7 @@ const authService = require("../front/authServices");
 const Joi = require("joi");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const uploadFile = require("../../middleware/upload");
 const AddAdmin = async (req, res) => {
   try {
     let info = req.body;
@@ -268,14 +269,13 @@ const getSetting = async (req, res) => {
 
 const updateSettings = async (req, res) => {
   try {
-    console.log();
     let gatewayId = req.body.gateway_name;
     const settingtbl = await models.tbl_setting
       .update({ is_active: 1 }, { where: { id: gatewayId } })
       .then(async (result) => {
         await models.tbl_setting.update(
           { is_active: 0 },
-          { where: {id: {[Op.not]:gatewayId}} }
+          { where: { id: { [Op.not]: gatewayId } } }
         );
         if (result[0] === 1) {
           return res.send({
@@ -309,6 +309,62 @@ const updateSettings = async (req, res) => {
   }
 };
 
+const userFileUpload = async (req, res) => {
+  try {
+    await uploadFile(req, res);
+    if (req.file == undefined) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    res.status(200).send({
+      message: "Uploaded the file successfully: " + req.file.originalname,
+    });
+
+
+    // let id = req.params.id;
+    // const main_tbl = await models.tbl_admin
+    //   .update(req.body, { where: { id: id } })
+    //   .then(async (result) => {
+    //     if (result[0] == 1) {
+    //       let response = await models.tbl_admin.findOne({
+    //         where: { id: id },
+    //         attributes: { exclude: ["password"] },
+    //       });
+    //       return res.send({
+    //         status: 1,
+    //         message: "Password Changed Successfully.",
+    //         data: response,
+    //       });
+    //     } else {
+    //       return res.send({
+    //         status: 0,
+    //         message: "Password does not change, please try again.",
+    //         data: result,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     return res.send({
+    //       status: 0,
+    //       message: "Something Went Wrong.",
+    //       error: error.message,
+    //     });
+    //   });
+  }
+  catch (error) {
+    console.log(error);
+
+    // if (err.code == "LIMIT_FILE_SIZE") {
+    //   return res.status(500).send({
+    //     message: "File size cannot be larger than 2MB!",
+    //   });
+    // }
+
+    // res.status(500).send({
+    //   message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+    // });
+  }
+}
 module.exports = {
   AddAdmin,
   getAllAdmin,
@@ -320,4 +376,5 @@ module.exports = {
   getUserByEmail,
   getSetting,
   updateSettings,
+  userFileUpload
 };
