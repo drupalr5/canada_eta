@@ -1,7 +1,7 @@
 const models = require("../../models");
 const authService = require("../front/authServices");
 const Joi = require("joi");
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const uploadFile = require("../../middleware/upload");
 const AddAdmin = async (req, res) => {
@@ -131,8 +131,9 @@ const validateAdminUserLogin = (data) => {
 
 const getAllAdmin = async (req, res) => {
   try {
+    let type = req.query?.type;
     const main_tbl = await models.tbl_admin
-      .findAll({})
+      .findAll({ where: { type: { [Op.not]: type } } })
       .then((result) => {
         return result;
       })
@@ -211,7 +212,7 @@ const updateAdmin = async (req, res) => {
 const updateData = async (req, res) => {
   try {
     let id = req.params.id;
-    console.log(req)
+    console.log(req);
     // const main_tbl = await models.tbl_admin
     //   .update(req.body, { where: { id: id } })
     //   .then(async (result) => {
@@ -289,11 +290,9 @@ const getAdminById = async (req, res) => {
 };
 const getSetting = async (req, res) => {
   try {
-    console.log(models.tbl_setting);
     const settingtbl = await models.tbl_setting
       .findAll({})
       .then((result) => {
-        console.log(result);
         res.send(result);
       })
       .catch((err) => {
@@ -362,7 +361,6 @@ const userFileUpload = async (req, res) => {
       message: "Uploaded the file successfully: " + req.file.originalname,
     });
 
-
     // let id = req.params.id;
     // const main_tbl = await models.tbl_admin
     //   .update(req.body, { where: { id: id } })
@@ -392,8 +390,7 @@ const userFileUpload = async (req, res) => {
     //       error: error.message,
     //     });
     //   });
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
 
     // if (err.code == "LIMIT_FILE_SIZE") {
@@ -406,7 +403,7 @@ const userFileUpload = async (req, res) => {
     //   message: `Could not upload the file: ${req.file.originalname}. ${err}`,
     // });
   }
-}
+};
 module.exports = {
   AddAdmin,
   getAllAdmin,
@@ -419,5 +416,5 @@ module.exports = {
   getUserByEmail,
   getSetting,
   updateSettings,
-  userFileUpload
+  userFileUpload,
 };

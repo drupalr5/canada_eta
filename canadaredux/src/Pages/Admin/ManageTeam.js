@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Table from "../Common/Table";
 import PageHeading from "../Common/PageHeading";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -9,14 +8,19 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/Row";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, updateUser } from "../../Redux/manageSlice";
+import { getUserData, updateUser, getUsersList } from "../../Redux/manageSlice";
+import Image from "./Image";
+import DTable from "../Common/DTable";
+import { Link } from "react-router-dom";
 
 function ManageTeam(props) {
   const [msg, setMsg] = useState("");
   const [defaultOption, setDefaultOption] = useState({});
+  const [pending, setPending] = useState(true);
   const { user } = useAuthParameter();
   const id = user?.id;
   const singleUser = useSelector((state) => state?.manage?.manage);
+  const userList = useSelector((state) => state?.manage?.list);
 
   const style = { height: "40px" };
   const dispatch = useDispatch();
@@ -28,7 +32,15 @@ function ManageTeam(props) {
       .then((res) => {
         setDefaultOption(res);
       });
-  }, []);
+    dispatch(getUsersList({ type: "admin" }))
+      .unwrap()
+      .then((res) => {
+        const timeout = setTimeout(() => {
+          setPending(false);
+        }, 2000);
+        return () => clearTimeout(timeout);
+      });
+  }, [dispatch]);
   const updateHandler = () => {
     console.log(values);
     dispatch(updateUser({ id: id, values: values }))
@@ -98,6 +110,72 @@ function ManageTeam(props) {
     validationSchema: foundOrderSchema,
     onSubmit: updateHandler,
   });
+  let columns = [
+    {
+      name: "#",
+      selector: (row) => row.id,
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Type",
+      selector: (row) => row.type,
+      sortable: true,
+    },
+    {
+      name: "Action",
+      selector: (row) =>
+        rows?.length ? (
+          <span>
+            <Link to="#" className="blue-border">
+              Edit
+            </Link>
+            {" | "}
+            <Link to="#" onClick={deleteUserHandler} id={row.id}>
+              Delete
+            </Link>
+          </span>
+        ) : (
+          " "
+        ),
+    },
+  ];
+  let rows = [];
+  Array.isArray(userList) &&
+    userList.map((row, index) => {
+      return rows.push({
+        id: row.id,
+        name: row.name,
+        email: row.email,
+        type: row.type,
+      });
+    });
+  const deleteUserHandler = (e) => {
+    e.preventDefault();
+    const id = e.target.attributes.id.nodeValue;
+    const deleteOrder = window.confirm(
+      `Are you sure you want to delete this user? ${id}`
+    );
+    if (deleteOrder) {
+      // dispatch(deleteOrdersData({ id: id}))
+      //   .unwrap()
+      //   .then((res) => {
+      //     dispatch(getOrderTiles(param));
+      //     dispatch(getOrderSideBarCount(param));
+      //     dispatch(getOrdersList(orderParam));
+      //   })
+      //   .catch();
+    }
+  };
   return (
     <>
       <div className="row clearfix">
@@ -184,21 +262,15 @@ function ManageTeam(props) {
                       <Form.Label>Upload Profile Picture</Form.Label>
                       <Form.Control
                         type="file"
-                        name="fileUpload"
+                        name="file"
                         accept="image/*"
                         onChange={(e) =>
-                          setFieldValue("fileUpload", e.currentTarget.files[0])
+                          setFieldValue("file", e.currentTarget.files[0])
                         }
                       />
-                      <img
-                        src={values?.fileUpload?.name}
-                        alt={values?.fileUpload?.name}
-                        className="img-thumbnail mt-2"
-                        height={200}
-                        width={200}
-                      />
+                      <Image file={values.file} />
                     </Form.Group>
-                    <p style={{ color: "red" }}>{errors.fileUpload}</p>
+                    <p style={{ color: "red" }}>{errors.file}</p>
                   </Col>
                   <Col></Col>
                 </Row>
@@ -210,7 +282,18 @@ function ManageTeam(props) {
           </div>
         </div>
       </div>
-      <Table />
+      <DTable
+        orders={rows}
+        columns={columns}
+        teamMemeber={false}
+        // handleChange={handleChange}
+        // rowsDeleteOrder={rowsDeleteOrder}
+        pending={pending}
+        selectableRows={false}
+        // toggleCleared={toggleCleared}
+      >
+        <PageHeading pagename="Manage Team List" />
+      </DTable>
     </>
   );
 }

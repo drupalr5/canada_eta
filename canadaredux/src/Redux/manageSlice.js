@@ -27,12 +27,25 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const getUsersList = createAsyncThunk(
+  "manage/getUsersList",
+  async (params) => {
+    try {
+      const response = await ManageService.getUsersList(params);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  }
+);
 const ManageSlice = createSlice({
   name: "manage",
   initialState: {
     loading: false,
     error: null,
     manage: [],
+    list: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -47,7 +60,17 @@ const ManageSlice = createSlice({
     builder.addCase(getUserData.rejected, (state, action) => {
       state.loading = false;
     });
-
+    builder.addCase(getUsersList.pending, (state) => {
+      state.loading = true;
+      state.manage = [];
+    });
+    builder.addCase(getUsersList.fulfilled, (state, action) => {
+      state.loading = false;
+      state.list = action?.payload;
+    });
+    builder.addCase(getUsersList.rejected, (state, action) => {
+      state.loading = false;
+    });
   }
 })
 

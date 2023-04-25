@@ -7,4 +7,7 @@ export default class ManageService {
 
   static getUserData = (id) =>
     ApiService.get(`${config.API_URL}/admin/user/${id}`);
+
+  static getUsersList = (params) =>
+    ApiService.get(`${config.API_URL}/admin/all`, params);
 }

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import DataTable from "react-data-table-component";
 import FilterComponent from "./FilterComponent"
 
-function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pending, toggleCleared, children }) {
+function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pending, toggleCleared, selectableRows= true, children }) {
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // function differenceBy(array1, array2) {
@@ -33,6 +33,14 @@ function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pe
   const paginationOption = {
     rowsPerPageText: 'Show', rangeSeparatorText: 'of', noRowsPerPage: false, selectAllRowsItem: true, selectAllRowsItemText: 'All'
   }
+  const customStyles = {
+    headCells: {
+        style: {
+            fontWeight: 'bold',
+            fontSize: '15px'
+        },
+    },
+};
 
   return (
     <>
@@ -51,7 +59,7 @@ function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pe
                   // data={props?.orders}
                   defaultSortField="Order id"
                   pagination
-                  selectableRows
+                  selectableRows={selectableRows}
                   onSelectedRowsChange={handleChange}
                   striped={true}
                   highlightOnHover={true}
@@ -64,6 +72,7 @@ function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pe
                   subHeaderComponent={subHeaderComponentMemo}
                   progressPending={pending}
                   clearSelectedRows={toggleCleared}
+                  customStyles={customStyles}
                 />
               </div>
               {teamMemeber &&

@@ -9,7 +9,7 @@ const store = configureStore({
         auth: authSlice,
         order: orderSlice,
         gateway: gatewaySlice,
-        user:manageSlice,
+        manage:manageSlice,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({ serializableCheck: false });
