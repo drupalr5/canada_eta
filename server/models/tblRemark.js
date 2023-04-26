@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoInrement: true,
-        primaryKey: true
+        primaryKey: true,
     },
     order_id: {
       type: DataTypes.STRING,
@@ -31,5 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false,
     createdAt: false,
   });
+  tblRemark.associate = function (models) {
+    tblRemark.belongsTo(models.tblmain, {
+        foreignKey: 'order_id'
+    });
+    
+}
   return tblRemark;
 };

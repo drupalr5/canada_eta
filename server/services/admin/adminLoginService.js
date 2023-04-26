@@ -358,6 +358,8 @@ const userFileUpload = async (req, res) => {
         fileName: req.file.originalname,
       });
     })
+    console.log(req);
+    await uploadFile(req, res);
     if (req.file == undefined) {
       return res
         .status(400)
