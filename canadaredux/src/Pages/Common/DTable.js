@@ -15,7 +15,9 @@ function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pe
   const subHeaderComponentMemo = useMemo(() => {
     if (filterText) {
       const filterResult = orders.filter(
-        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+        item => (item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || 
+        item.order_id && item.order_id.toLowerCase().includes(filterText.toLowerCase())
+        )
       )
       orders = filterResult;
     }

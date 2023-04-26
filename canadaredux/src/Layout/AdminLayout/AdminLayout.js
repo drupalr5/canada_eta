@@ -5,7 +5,7 @@ import Sidebar from "../CommonLayout/Sidebar";
 import Footer from "../CommonLayout/Footer";
 import Main from "./Main";
 import { useEffect } from "react";
-
+import ToastifyComponent from "../../Pages/Common/ToastifyComponent";
 
 function AdminLayout(props) {
   useEffect(() => {
@@ -18,6 +18,7 @@ function AdminLayout(props) {
         <div className="container-fluid">
           <Header breadcrumb={<Breadcrumb />} />
           <TopBar />
+          <ToastifyComponent/>
           <Sidebar/>
           <Main />
           <Footer />

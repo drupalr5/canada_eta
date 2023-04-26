@@ -1,24 +1,135 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import PageHeading from "./PageHeading";
-import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { getOrderDetailsByOrderId } from "../../Redux/orderSlice";
 import useAuthParameter from "../../Hooks/useAuthParameter";
+import { getOrderRemarksByOrderId, createOrderRemarksByOrderId } from "../../Redux/remarkSlice";
+import { updateOrdersData } from "../../Redux/orderSlice";
 // import query from 'react-query';
+
 function OrderDetails(props) {
   const { orderId } = useParams();
-  const { path } = useAuthParameter();
+  const { path, type, usDate, usTime, currentTime } = useAuthParameter();
+
+  const initialRemark = {
+    whatsapp: "",
+    telephone: "",
+    status_refund: "",
+    voided: "",
+    chargeback: "",
+    remark: "",
+    remark_name: type,
+    order_id: orderId,
+    us_date: usDate,
+    us_time: usTime,
+    create_ts: currentTime
+  }
   const orderDetails = useSelector(state => state.order.OrderDetails);
-  const { search } = useLocation();
   const queryParams = new URLSearchParams(window.location.search)
   const oid = queryParams.get("oid");
   const ot = queryParams.get("ot");
   const pre_no = queryParams.get("pre_no");
   const dispatch = useDispatch();
+  const OrderRemarks = useSelector(state => state.remarks.OrderRemarks);
 
+  const [remarkInput, setremarkInput] = useState(initialRemark);
+  const RemarkShowHandler = (id) => {
+    document.getElementById(id).style.display = "block";
+    document.querySelector(".show_hide_data_again-" + id).style.display = "none";
+    document.querySelector(".hide_data-" + id).style.display = "block";
+  }
+  const RemarkHideHandler = (id) => {
+    document.getElementById(id).style.display = "none";
+    document.querySelector(".show_hide_data_again-" + id).style.display = "block";
+    document.querySelector(".hide_data-" + id).style.display = "none";
+  }
+  console.log(remarkInput)
+  const whatsappToggle = (e) => {
+    setremarkInput({
+      ...remarkInput, whatsapp: (remarkInput.whatsapp == "Y") ? "" : "Y"
+    })
+  }
+  const telephoneToggle = (e) => {
+    setremarkInput({
+      ...remarkInput, telephone: (remarkInput.telephone == "Y") ? "" : "Y"
+    });
+  }
+  const refundToggle = (e) => {
+    setremarkInput({
+      ...remarkInput, status_refund: (remarkInput.status_refund == "Y") ? "" : "Y"
+    });
+  }
+  const voidedToggle = (e) => {
+    setremarkInput({
+      ...remarkInput, voided: (remarkInput.voided == "Y") ? "" : "Y"
+    });
+  }
+  const chargebackToggle = (e) => {
+    setremarkInput({
+      ...remarkInput, chargeback: (remarkInput.chargeback == "Y") ? "" : "Y"
+    });
+  }
+  const commentHandler = (e) => {
+    console.log(e.target.value)
+    setremarkInput({
+      ...remarkInput, remark: e.target.value
+    });
+  }
+
+  const SaveRemarkHandler = (e) => {
+    e.preventDefault();
+    dispatch(createOrderRemarksByOrderId(remarkInput)).then(result => {
+      if (result.payload.errors) {
+        toast.error(`${result.payload.errors[0].message}`, {
+          className: "toast-message",
+        });
+      }
+      else {
+        toast.success(`Remark has been added successfully`, {
+          className: "toast-message",
+        });
+      }
+    })
+      .catch(err => {
+        console.log(err);
+      })
+    let updateData = {
+      remark: remarkInput.remark
+    }
+    dispatch(updateOrdersData({ order_id: orderId, data: updateData }))
+      .then(result => {
+        console.log(result)
+      })
+  }
+
+  const updateOrderState = (status) => {
+    //status.preventDefault();
+    console.log(status)
+    let updateData = {
+      process_status: status
+    }
+    dispatch(updateOrdersData({ order_id: orderId, data: updateData }))
+      .then(result => {
+        console.log(result)
+        if (result.payload) {
+          if (result.payload.errors) {
+            toast.error(`${result.payload.errors[0].message}`, {
+              className: "toast-message",
+            });
+          }
+          else {
+            toast.success(`Order has been updated successfully`, {
+              className: "toast-message",
+            });
+          }
+        }
+      })
+  }
   useEffect(() => {
     dispatch(getOrderDetailsByOrderId(orderId))
+    dispatch(getOrderRemarksByOrderId(orderId))
   }, [orderId, dispatch])
   return (
     <div className="row clearfix">
@@ -76,7 +187,7 @@ function OrderDetails(props) {
                     </table>
                     {orderDetails ? orderDetails.map((item) => {
                       return (
-                        <form className="form-inline" action="details.php?action=resend_mail&amp;pre_no=1&amp;ot=Contact Customer&amp;oid=19802" method="POST" id="form1">
+                        <form className="form-inline" method="POST" id="form1">
                           <input type="hidden" name="order_id" value={item.order_id} />
                           <div className="form-group">
                             <input type="text" name="email" className="form-control" style={{ width: '800px !important' }} value={item.email} />
@@ -138,7 +249,7 @@ function OrderDetails(props) {
                                 </td>
                               </tr>
                               <tr>
-                                <td colspan="2">
+                                <td colSpan="2">
                                   <button type="submit" className="blue-btn">Submit</button>
                                 </td>
                               </tr>
@@ -174,7 +285,7 @@ function OrderDetails(props) {
 
                           {
                             item.representative_is &&
-                            <tr>
+                            <>
                               <tr style={{ backgroundColor: '#A9A9A9', color: '#fff' }}>
                                 <th width="250px;">Parent/guardian or representative details</th>
                                 <td></td>
@@ -183,7 +294,7 @@ function OrderDetails(props) {
                                 <th width="250px;">I am </th>
                                 <td>{item.representative_is}</td>
                               </tr>
-                            </tr>
+                            </>
                           }
                           {
                             item.being_paid &&
@@ -389,7 +500,6 @@ function OrderDetails(props) {
                           }
                           {
                             item.marital_status &&
-
                             <tr style={{ backgroundColor: '#A9A9A9', color: '#fff' }}>
                               <th width="250px;">Personal Details</th>
                               <td></td>
@@ -516,7 +626,7 @@ function OrderDetails(props) {
                           }
                           {
                             item.apartment_number &&
-                            <tr style="background-color: #A9A9A9;color: #fff;">
+                            <tr style={{ backgroundColor: '#A9A9A9', color: '#fff' }}>
                               <th width="250px;">Residential address</th>
                               <td></td>
                             </tr>
@@ -531,7 +641,7 @@ function OrderDetails(props) {
                           {
                             item.house_name &&
                             <tr>
-                              <th width="250px;">Apartment/unit number</th>
+                              <th width="250px;">Street/civic number or house name</th>
                               <td>{item.house_name}</td>
                             </tr>
                           }
@@ -767,26 +877,29 @@ function OrderDetails(props) {
                 </div>
                 <div className="card-block">
                   <div className="table-responsive" style={{ padding: '10px' }}>
-                    <form action={`${path}/order-details/${orderId}?action=remark&id=${orderId}`} method="post">
+                    <form>
                       <input type="hidden" name="pre_no" value={pre_no} />
                       <input type="hidden" name="ot" value={ot} />
                       <input type="hidden" name="oid" value={oid} />
-                      <textarea name="remark" style={{ display: 'inline-block' }} className="form-control"></textarea>
+                      <textarea name="remark" style={{
+                        display: 'inline-block',
+                        padding: "15px"
+                      }} className="form-control" onChange={commentHandler} />
                       <br />
-                      <input type="checkbox" name="whatsapp" value="Y" /><b> Whatsapp</b>
-                      <input type="checkbox" name="telephone" value="Y" /><b> Telephone</b>
-                      <input type="checkbox" name="status_refund" value="Y" /><b> Refund</b>
-                      <input type="checkbox" name="voided" value="Y" /><b> Voided</b>
-                      <input type="checkbox" name="chargeback" value="Y" /><b> Chargeback</b>
+                      <input type="checkbox" name="whatsapp" value={remarkInput.whatsapp} onChange={whatsappToggle} /><b> Whatsapp</b>
+                      <input type="checkbox" name="telephone" value={remarkInput.telephone} onChange={telephoneToggle} /><b> Telephone</b>
+                      <input type="checkbox" name="status_refund" value={remarkInput.status_refund} onChange={refundToggle} /><b> Refund</b>
+                      <input type="checkbox" name="voided" value={remarkInput.voided} onChange={voidedToggle} /><b> Voided</b>
+                      <input type="checkbox" name="chargeback" value={remarkInput.chargeback} onChange={chargebackToggle} /><b> Chargeback</b>
                       <br /><br />
-                      <button type="submit" className="blue-btn" value="Remark" name="submit">Save Comment</button>
-                      <button type="submit" className="blue-btn" value="Awating" name="submit">Move to Awating Response</button>
-                      <button type="submit" className="blue-btn" value="AwaitingGovt" name="submit">Move to Awaiting GOVT</button>
-                      <button type="submit" className="blue-btn" value="Refund" name="submit">Move to Completed Refunds</button>
-                      <button type="submit" className="blue-btn" value="Chargebacks" name="submit">Move to Chargebacks</button>
-                      <button type="submit" className="blue-btn" value="Rejected" name="submit">Move to Rejected</button>
-                      <input type="hidden" name="check" value="" className="form-control" />
-                      <button type="submit" className="blue-btn" value="Completed" name="submit">Move to Completeded Orders</button>
+                      <button className="blue-btn" value="Remark" name="submit" onClick={SaveRemarkHandler}>Save Comment</button>
+                      <button className="blue-btn" value="Awating" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Awating") }}>Move to Awating Response</button>
+                      <button className="blue-btn" value="AwaitingGovt" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("AwaitingGovt") }}>Move to Awaiting GOVT</button>
+                      <button className="blue-btn" value="Refund" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Refund") }}>Move to Completed Refunds</button>
+                      <button className="blue-btn" value="Chargebacks" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Chargebacks") }}>Move to Chargebacks</button>
+                      <button className="blue-btn" value="Rejected" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Rejected") }}>Move to Rejected</button>
+
+                      <button className="blue-btn" value="Completed" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Completed") }}>Move to Completeded Orders</button>
                     </form>
                   </div>
                 </div>
@@ -814,24 +927,31 @@ function OrderDetails(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>ETA-200019802</td>
-                          <td>04-23-2023 13:54:41</td>
-                          <td>Aymen </td>
-                          <td><div className="btn btn-success show_and_hide_data show_hide_data_again-4444" rel="4444"> Show</div>
-                            <div className="btn btn-success hide_data-4444 hide_show_data" rel="4444" style={{ display: 'none' }}> Hide</div>
-                            <br />
-                            <div style={{ display: 'none' }} className="show_hide_data-4444 show_hide_data_again" id="4444">
-                              <textarea className="form-control">Confirmation of receipt of eTA application </textarea>
-                              <b>Whatsapp: N</b>
-                              <b>Telephone: N</b>
-                              <b>Refund: N</b>
-                              <b>Voided: N</b>
-                              <b>Chargeback: N</b>
-                            </div>
-                          </td>
-                        </tr>
+                        {OrderRemarks ? OrderRemarks.map(remarks => {
+                          return (
+                            <tr>
+                              <td>{remarks.id}</td>
+                              <td>{remarks.order_id}</td>
+                              <td>{remarks.us_date} {remarks.us_time}</td>
+                              <td>{remarks.remark_name}</td>
+                              <td><button className={`btn btn-success show_and_hide_data show_hide_data_again-${remarks.id}`} rel={remarks.id} onClick={() => RemarkShowHandler(remarks.id)}> Show</button>
+                                <button className={`btn btn-success hide_data-${remarks.id} hide_show_data`} rel={remarks.id} style={{ display: 'none' }} onClick={() => RemarkHideHandler(remarks.id)}> Hide</button>
+                                <br />
+                                <div style={{ display: 'none' }} className={`show_hide_data-${remarks.id} show_hide_data_again`} id={remarks.id}>
+                                  <textarea className="form-control" value={remarks.remark} ></textarea>
+                                  <b>Whatsapp: {remarks?.whatsapp ? "Y" : "N"}</b>
+                                  <b>Telephone: {remarks?.telephone ? "Y" : "N"}</b>
+                                  <b>Refund: {remarks?.status_refund ? "Y" : "N"}</b>
+                                  <b>Voided: {remarks?.voided ? "Y" : "N"}</b>
+                                  <b>Chargeback: {remarks?.chargeback ? "Y" : "N"}</b>
+                                </div>
+                              </td>
+                            </tr>
+
+                          )
+                        }) : "No comments found"
+                        }
+
                       </tbody>
                     </table>
                   </div>

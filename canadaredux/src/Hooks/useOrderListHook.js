@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getOrdersList,
-  deleteOrdersData,
+  updateOrdersData,
   getOrderSideBarCount,
   getOrderTiles,
   updateMultipleOrderData
@@ -42,7 +42,7 @@ const useOrderListHook = (orderList, tablecolumns, orderParam, param) => {
       let updateData = {
         process_status: "Deleted"
       }
-      dispatch(deleteOrdersData({ order_id: oid, data: updateData }))
+      dispatch(updateOrdersData({ order_id: oid, data: updateData }))
         .unwrap()
         .then((res) => {
           dispatch(getOrderTiles(param))

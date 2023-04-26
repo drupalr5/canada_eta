@@ -54,11 +54,11 @@ export const getOrderDetailsByOrderId = createAsyncThunk(
   }
 );
 
-export const deleteOrdersData = createAsyncThunk(
+export const updateOrdersData = createAsyncThunk(
   "/order/deleteOrdersData",
   async ({ order_id, data }) => {
     try {
-      const response = await OrderService.deleteOrdersData({ order_id, data });
+      const response = await OrderService.updateOrdersData({ order_id, data });
       return response;
     } catch (error) {
       return error.response.data;
@@ -149,13 +149,13 @@ const OrderSlice = createSlice({
       state.loading = false;
     });
 
-    builder.addCase(deleteOrdersData.pending, (state) => {
+    builder.addCase(updateOrdersData.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(deleteOrdersData.fulfilled, (state, action) => {
+    builder.addCase(updateOrdersData.fulfilled, (state, action) => {
       state.loading = false;
     });
-    builder.addCase(deleteOrdersData.rejected, (state, action) => {
+    builder.addCase(updateOrdersData.rejected, (state, action) => {
       state.loading = false;
     });
 

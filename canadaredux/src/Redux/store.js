@@ -3,13 +3,14 @@ import authSlice from './authSlice'
 import orderSlice from './orderSlice'
 import gatewaySlice from './gatewaySlice'
 import manageSlice from './manageSlice'
-
+import remarkSlice from './remarkSlice'
 const store = configureStore({
     reducer: {
         auth: authSlice,
         order: orderSlice,
         gateway: gatewaySlice,
         manage:manageSlice,
+        remarks:remarkSlice
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({ serializableCheck: false });

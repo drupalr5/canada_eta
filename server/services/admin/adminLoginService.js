@@ -352,6 +352,7 @@ const updateSettings = async (req, res) => {
 
 const userFileUpload = async (req, res) => {
   try {
+    console.log(req);
     await uploadFile(req, res);
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload a file!" });
