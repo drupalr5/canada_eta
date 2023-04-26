@@ -10,3 +10,11 @@ export const encryptVal = (value) => {
   }
 };
  
+export const decryptVal = (value) => {
+  try {
+    const val = atob(value)
+    return val
+  } catch (error) {
+    return 0; 
+  }
+}

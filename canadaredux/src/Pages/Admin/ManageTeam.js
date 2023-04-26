@@ -8,20 +8,36 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/Row";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, updateUser, getUsersList } from "../../Redux/manageSlice";
+import {
+  getUserData,
+  updateUser,
+  uploadUserImage,
+  getUsersList,
+  deleteUserData,
+  getUser,
+} from "../../Redux/manageSlice";
 import Image from "./Image";
 import DTable from "../Common/DTable";
 import { Link } from "react-router-dom";
+import PopupModal from "./PopupModal";
+// import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import axios from "axios";
+import config from "../../config";
+import useUserForm from "../../Hooks/useUserForm";
+import { encryptVal, decryptVal } from "../../utility/utility";
 
 function ManageTeam(props) {
-  const [msg, setMsg] = useState("");
+  // const [msg, setMsg] = useState("");
+  // const [err, setErr] = useState("");
   const [defaultOption, setDefaultOption] = useState({});
   const [pending, setPending] = useState(true);
+  const [isShow, invokeModal] = useState(false);
+  const [popupId, setPopupId] = useState(false);
   const { user } = useAuthParameter();
   const id = user?.id;
   const singleUser = useSelector((state) => state?.manage?.manage);
   const userList = useSelector((state) => state?.manage?.list);
-
+  const [modelData, setModelData] = useState({});
   const style = { height: "40px" };
   const dispatch = useDispatch();
   // const { register, handleSubmit, formState: { errors } } = useForm();
@@ -40,51 +56,26 @@ function ManageTeam(props) {
         }, 2000);
         return () => clearTimeout(timeout);
       });
-  }, [dispatch]);
-  const updateHandler = () => {
-    console.log(values);
-    dispatch(updateUser({ id: id, values: values }))
+  }, []);
+  
+  const initModal = (id) => {
+    setPopupId(id);
+    dispatch(getUser(id))
       .unwrap()
-      .then((res) => {});
-    //   console.log(data);
-    //   data.profile_path = values.fileUpload && values.fileUpload.name;
-    //   axios
-    //     .put(`${config.API_URL}/admin/update/${id}`, {params :data})
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       if (response.data.message === "Success...") {
-    //         setMsg("Updated user succusessfully");
-    //       } else {
-    //         setMsg(response.data.message);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setMsg(error);
-    //     });
+      .then((res) => {
+        setModelData(res);
+      });
+    return invokeModal(!false);
   };
-  const foundOrderSchema = yup.object({
-    // orderId: yup.string().required("Please enter your Order Id"),
-    email: yup
-      .string()
-      .required("Please enter your Email Id")
-      .matches(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        "Please enter correct Email Id"
-      ),
-    password: yup
-      .string()
-      .required("Please enter your password")
-      .matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
-        "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers"
-      ),
-  });
+  const closeModal = () => {
+    return invokeModal(!true);
+  };
   let initialValues = {};
   if (typeof singleUser !== "undefined") {
     initialValues = {
       name: singleUser?.name,
       email: singleUser?.email,
-      password: singleUser?.password,
+      password: decryptVal(singleUser?.password),
       type: singleUser?.type,
       profile_path: singleUser?.profile_path,
     };
@@ -92,24 +83,13 @@ function ManageTeam(props) {
     initialValues = {
       name: defaultOption?.name,
       email: defaultOption?.email,
-      password: defaultOption?.password,
+      password: decryptVal(defaultOption?.password),
       type: defaultOption?.type,
       profile_path: defaultOption?.profile_path,
     };
   }
-  const {
-    values,
-    errors,
-    handleBlur,
-    handleChange,
-    setFieldValue,
-    handleSubmit,
-  } = useFormik({
-    initialValues: initialValues,
-    enableReinitialize: true,
-    validationSchema: foundOrderSchema,
-    onSubmit: updateHandler,
-  });
+  const { values, errors, handleChange, setFieldValue, handleSubmit, msg, err } =
+    useUserForm(initialValues, id);
   let columns = [
     {
       name: "#",
@@ -136,7 +116,11 @@ function ManageTeam(props) {
       selector: (row) =>
         rows?.length ? (
           <span>
-            <Link to="#" className="blue-border">
+            <Link
+              to="#"
+              onClick={() => initModal(row.id)}
+              className="blue-border"
+            >
               Edit
             </Link>
             {" | "}
@@ -166,14 +150,12 @@ function ManageTeam(props) {
       `Are you sure you want to delete this user? ${id}`
     );
     if (deleteOrder) {
-      // dispatch(deleteOrdersData({ id: id}))
-      //   .unwrap()
-      //   .then((res) => {
-      //     dispatch(getOrderTiles(param));
-      //     dispatch(getOrderSideBarCount(param));
-      //     dispatch(getOrdersList(orderParam));
-      //   })
-      //   .catch();
+      dispatch(deleteUserData(id))
+        .unwrap()
+        .then((res) => {
+          dispatch(getUsersList({ type: "admin" }));
+        })
+        .catch();
     }
   };
   return (
@@ -186,7 +168,8 @@ function ManageTeam(props) {
             </div>
             <div className="body">
               <Form onSubmit={handleSubmit} encType="multipart/form-data">
-                {msg && msg}
+              <p style={{ color: "green" }}>{msg && msg}</p>
+              <p style={{ color: "red" }}>{err && err}</p>
                 <Row>
                   <Col>
                     <Form.Group className="mb-3" controlId="formText">
@@ -294,6 +277,13 @@ function ManageTeam(props) {
       >
         <PageHeading pagename="Manage Team List" />
       </DTable>
+      <PopupModal
+        isShow={isShow}
+        initModal={initModal}
+        closeModal={closeModal}
+        id={popupId}
+        modelData={modelData}
+      />
     </>
   );
 }

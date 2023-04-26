@@ -213,34 +213,30 @@ const updateData = async (req, res) => {
   try {
     let id = req.params.id;
     console.log(req);
-    // const main_tbl = await models.tbl_admin
-    //   .update(req.body, { where: { id: id } })
-    //   .then(async (result) => {
-    //     if (result[0] == 1) {
-    //       let response = await models.tbl_admin.findOne({
-    //         where: { id: id },
-    //         attributes: { exclude: ["password"] },
-    //       });
-    //       return res.send({
-    //         status: 1,
-    //         message: "Password Changed Successfully.",
-    //         data: response,
-    //       });
-    //     } else {
-    //       return res.send({
-    //         status: 0,
-    //         message: "Password does not change, please try again.",
-    //         data: result,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     return res.send({
-    //       status: 0,
-    //       message: "Something Went Wrong.",
-    //       error: error.message,
-    //     });
-    //   });
+    const main_tbl = await models.tbl_admin
+      .update(req.body, { where: { id: id } })
+      .then(async (result) => {
+        if (result[0] == 1) {
+          return res.send({
+            status: 1,
+            message: "Update profile Successfully.",
+            data: result,
+          });
+        } else {
+          return res.send({
+            status: 0,
+            message: "Profile does not updated, please try again.",
+            data: result,
+          });
+        }
+      })
+      .catch((error) => {
+        return res.send({
+          status: 0,
+          message: "Something Went Wrong.",
+          error: error.message,
+        });
+      });
   } catch (error) {
     let msg = {
       status: 0,
@@ -257,14 +253,15 @@ const deleteAdmin = async (req, res) => {
     const main_tbl = await models.tbl_admin
       .destroy({ where: { id: Id } })
       .then((result) => {
-        return result;
+        if (result === 1) {
+          res.sendStatus(200);
+        }
       })
       .catch((err) => {
-        return err;
+        res.sendStatus(err);
       });
-    res.end("admin deleted!");
   } catch (err) {
-    res.end(err);
+    res.send(err);
   }
 };
 
@@ -352,14 +349,26 @@ const updateSettings = async (req, res) => {
 
 const userFileUpload = async (req, res) => {
   try {
-    await uploadFile(req, res);
+    console.log(req.body);
+    await uploadFile(req, res)
+    .then((result) => {
+      return res.send({
+        status: 1,
+        message: "Uploaded the file successfully: ",
+        fileName: req.file.originalname,
+      });
+    })
     if (req.file == undefined) {
-      return res.status(400).send({ message: "Please upload a file!" });
+      return res
+        .status(400)
+        .send({ status: 1, message: "Please upload a file!" });
     }
 
-    res.status(200).send({
-      message: "Uploaded the file successfully: " + req.file.originalname,
-    });
+    // res.send({
+    //   status: 1,
+    //   message: "Uploaded the file successfully: ",
+    //   fileName: req.file.originalname,
+    // });
 
     // let id = req.params.id;
     // const main_tbl = await models.tbl_admin

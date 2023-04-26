@@ -7,7 +7,7 @@ adminRouter.post('/login', adminService.LoginAdmin);
 adminRouter.get('/all', adminService.getAllAdmin);
 adminRouter.put('/update/:id', adminService.updateAdmin);
 adminRouter.post('/updateuser/:id', adminService.updateData);
-adminRouter.delete('/delete/:id', adminService.deleteAdmin);
+adminRouter.delete('/deleteUser/:id', adminService.deleteAdmin);
 adminRouter.get('/gateway-setting', adminService.getSetting);
 adminRouter.post('/userfile-upload', adminService.userFileUpload);
 adminRouter.get('/user/:id', adminService.getAdminById);

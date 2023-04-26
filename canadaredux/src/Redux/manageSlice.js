@@ -14,11 +14,37 @@ export const getUserData = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "manage/getUser",
+  async (id) => {
+    try {
+      const response = await ManageService.getUserData(id);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
   "manage/updateUserData",
-  async ({id, values}) => {
+  async ({ id, values }) => {
     try {
       const response = await ManageService.updateUserData(id, values);
+      const data = response?.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const uploadUserImage = createAsyncThunk(
+  "manage/uploadUserImage",
+  async (formData) => {
+    try {
+      const response = await ManageService.uploadUserImage(formData);
       const data = response?.data;
       return data;
     } catch (error) {
@@ -32,6 +58,19 @@ export const getUsersList = createAsyncThunk(
   async (params) => {
     try {
       const response = await ManageService.getUsersList(params);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  }
+);
+export const deleteUserData = createAsyncThunk(
+  "manage/deleteUserData",
+  async (params) => {
+    try {
+      const response = await ManageService.deleteUserData(params);
+      console.log(response);
       const data = response.data;
       return data;
     } catch (error) {
@@ -71,7 +110,7 @@ const ManageSlice = createSlice({
     builder.addCase(getUsersList.rejected, (state, action) => {
       state.loading = false;
     });
-  }
-})
+  },
+});
 
 export default ManageSlice.reducer;

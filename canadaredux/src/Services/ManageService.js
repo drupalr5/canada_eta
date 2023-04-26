@@ -10,4 +10,10 @@ export default class ManageService {
 
   static getUsersList = (params) =>
     ApiService.get(`${config.API_URL}/admin/all`, params);
+
+  static deleteUserData = (id) =>
+    ApiService.delete(`${config.API_URL}/admin/deleteUser/${id}`);
+
+  static uploadUserImage = (formData) =>
+    ApiService.upload(`${config.API_URL}/admin/userfile-upload`, formData);
 }

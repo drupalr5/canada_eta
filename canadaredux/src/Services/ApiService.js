@@ -24,10 +24,9 @@ export default class ApiService {
 
   static get = async (url, params) => {
     return await axios.get(url, { params });
-  }
+  };
 
   static post = async function post(url, data) {
-
     return axios.post(url, data);
   };
 
@@ -39,8 +38,10 @@ export default class ApiService {
   static download = async (url) => axios.get(url);
 
   static upload = async (url, data) => {
-    const config = this.getConfigs();
-    config.headers["content-type"] = "multipart/form-data";
-    return axios.post(url, data, config);
+    return axios.post(url, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
 }
