@@ -15,7 +15,7 @@ import ChangePassword from "../../Pages/Admin/ChangePassword";
 import Settings from "../../Pages/Admin/Settings";
 import ManageTeam from "../../Pages/Admin/ManageTeam";
 import ManageCountry from "../../Pages/Admin/ManageCountry";
-import OrderDetails from "../../Pages/Common/OrderDetails";
+import OrderDetails from "../../Pages/Common/orderDetail/OrderDetails";
 
 function AdminLayout() {
   return (

@@ -24,9 +24,14 @@ export default class OrderServices {
   static permanentDeleteOrdersData = (orderId) =>
     ApiService.delete(`${api_url}/delete/${orderId}`);
 
-  // static uploadVisaDocument = (data) =>
-  //   ApiService.post("/admin/upload-visa-document", data);
+  static uploadOrderDocument = (data) =>
+    ApiService.post(`${api_url}/doc-upload/create`, data);
 
+  static getDocUploadByOrderId = (orderId) =>
+    ApiService.get(`${api_url}/doc-upload/get/${orderId}`);
+
+  static moveUploadedFile = (formData) =>
+    ApiService.upload(`${api_url}/doc-upload/pdf-upload`, formData);
   // static resendMail = (data) => ApiService.post("/admin/resend-mail", data);
 
   // static ChangeOrderStatus = (data) =>

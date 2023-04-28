@@ -11,7 +11,7 @@ import DeleteOrder from "../../Pages/Common/DeleteOrder";
 import RefundOrder from "../../Pages/Common/RefundOrder";
 import RejectedOrder from "../../Pages/Common/RejectedOrder";
 import WebsiteIssue from "../../Pages/Team/WebsiteIssue";
-import OrderDetails from "../../Pages/Common/OrderDetails";
+import OrderDetails from "../../Pages/Common/orderDetail/OrderDetails";
 
 function TeamLayout() {
   return (

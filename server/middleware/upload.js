@@ -7,7 +7,16 @@ let storage = multer.diskStorage({
     cb(null, "./uploads/member_profile/");
   },
   filename: (req, file, cb) => {
-    console.log(file.originalname);
+    cb(null, file.originalname);
+  },
+});
+
+let DocPdfStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/docs/");
+  },
+  filename: (req, file, cb) => {
+    console.log(file)
     cb(null, file.originalname);
   },
 });
@@ -15,7 +24,16 @@ let storage = multer.diskStorage({
 let uploadFile = multer({
   storage: storage,
   limits: { fileSize: maxSize },
-}).single("file");
+}).single("files");
 
-let uploadFileMiddleware = util.promisify(uploadFile);
-module.exports = uploadFileMiddleware;
+let OrderDocPdf = multer({
+  storage: DocPdfStorage,
+}).single("files");
+
+let uploadUserFile = util.promisify(uploadFile);
+let uploadDocPdfFile = util.promisify(OrderDocPdf);
+
+module.exports = {
+  uploadUserFile,
+  uploadDocPdfFile
+}

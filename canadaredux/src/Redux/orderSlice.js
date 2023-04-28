@@ -91,6 +91,46 @@ export const permanentDeleteOrdersData = createAsyncThunk(
   }
 );
 
+export const getDocUploadByOrderId = createAsyncThunk(
+  "/order/getDocUploadByOrderId",
+  async (orderId) => {
+    try {
+      const response = await OrderService.getDocUploadByOrderId(orderId);
+      const data = await response.data;
+
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const uploadOrderDocument = createAsyncThunk(
+  "/order/uploadOrderDocument",
+  async (params) => {
+    try {
+      const response = await OrderService.uploadOrderDocument(params);
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const moveUploadedFile = createAsyncThunk(
+  "manage/uploadDocPdf",
+  async (formData) => {
+    try {
+      const response = await OrderService.moveUploadedFile(formData);
+      const data = response?.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 const OrderSlice = createSlice({
   name: "order",
   initialState: {
@@ -176,6 +216,26 @@ const OrderSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(permanentDeleteOrdersData.rejected, (state, action) => {
+      state.loading = false;
+    });
+
+    builder.addCase(uploadOrderDocument.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(uploadOrderDocument.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(uploadOrderDocument.rejected, (state, action) => {
+      state.loading = false;
+    });
+
+    builder.addCase(getDocUploadByOrderId.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getDocUploadByOrderId.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(getDocUploadByOrderId.rejected, (state, action) => {
       state.loading = false;
     });
   }

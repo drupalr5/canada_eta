@@ -1,6 +1,5 @@
 const models = require("../../models");
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
 const getRemarkByOrderId = async (req, res) => {
   try {

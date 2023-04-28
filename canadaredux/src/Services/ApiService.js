@@ -41,6 +41,7 @@ export default class ApiService {
     return axios.post(url, data, {
       headers: {
         "Content-Type": "multipart/form-data",
+        "cache-control": "no-cache"
       },
     });
   };

@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const db = require('./models')
-const orderRouter = require('./routes/maintblroute')
-const adminRouter = require('./routes/adminRoute')
-const remarkRouter = require('./routes/remarkRoute')
+const db = require('./models');
+const orderRouter = require('./routes/maintblroute');
+const adminRouter = require('./routes/adminRoute');
+const remarkRouter = require('./routes/remarkRoute');
+const docUploadRouter = require('./routes/docUploadRoute');
 const cors = require('cors');
 const coreOptions = {
   origin: "*",
@@ -50,6 +51,8 @@ app.use('/api/admin/', adminRouter);
 
 // Remark route.
 app.use('/api/', remarkRouter);
+app.use('/api/order/', docUploadRouter);
+app.use('/docs/', docUploadRouter);
 db.sequelize.sync({force:false}).then(() => {
   app.listen(app.get('port'), () => {
     console.log("Node server running at port 3001")

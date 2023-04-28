@@ -74,7 +74,12 @@
 .blue-btn { background-color: #18F;color: #ffffff;border: currentColor;font-size: 16px;font-weight: 600;padding: 9px 10px;display: inline-block;margin: 5px 1px;}
 .blue-btn img { margin-left: 10px; vertical-align: middle; display: inline-block; }
 .blue-btn:hover, .blue-btn:focus { background-color: #0b3157; color: #fff; }
-
+button.blue-btn {
+    cursor: pointer;
+}
+.blue-btn:disabled {
+    cursor: not-allowed;background-color: #0b3157;
+}
 body .sidebar .menu .list a {
     display: flex;
     align-items: center;
