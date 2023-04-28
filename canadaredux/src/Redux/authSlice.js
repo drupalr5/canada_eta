@@ -11,9 +11,9 @@ export const authenticate = createAsyncThunk(
         "user",
         JSON.stringify({
           data: JSON.stringify(data.data),
-          token: data?.jwtToken,
         })
       );
+      localStorage.setItem("token", data?.jwtToken);
       return data;
     } catch (error) {
       console.log(error);
@@ -24,8 +24,11 @@ export const authenticate = createAsyncThunk(
 export const changePassword = createAsyncThunk(
   "admin/changePassword",
   async (user) => {
-    try {      
-      const response = await AuthService.changePassword(user.userId, user.passwordParams);
+    try {
+      const response = await AuthService.changePassword(
+        user.userId,
+        user.passwordParams
+      );
       console.log(response);
       const data = response?.data;
       return data;

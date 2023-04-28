@@ -89,7 +89,7 @@ function ManageTeam(props) {
     };
   }
   const { values, errors, handleChange, setFieldValue, handleSubmit, msg, err } =
-    useUserForm(initialValues, id);
+    useUserForm(initialValues, id, true);
   let columns = [
     {
       name: "#",

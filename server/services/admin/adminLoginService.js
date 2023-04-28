@@ -150,7 +150,27 @@ const getAllAdmin = async (req, res) => {
     res.send(msg);
   }
 };
-
+const getTeamMembers = async (req, res) => {
+  try {
+    let type = req.query?.type;
+    const main_tbl = await models.tbl_admin
+      .findAll({ where: { type: type } })
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        return err;
+      });
+    res.status(200).send(main_tbl);
+  } catch (error) {
+    let msg = {
+      status: 0,
+      message: "Something Went Wrong.",
+      error: error.message,
+    };
+    res.send(msg);
+  }
+};
 const getOneAdmin = async (req, res) => {
   let email = req.params.email;
   let password = req.params.password;
@@ -216,11 +236,14 @@ const updateData = async (req, res) => {
     const main_tbl = await models.tbl_admin
       .update(req.body, { where: { id: id } })
       .then(async (result) => {
+        let response = await models.tbl_admin
+        .findOne({ where: { id: id } })
+        // console.log(response);
         if (result[0] == 1) {
           return res.send({
             status: 1,
             message: "Update profile Successfully.",
-            data: result,
+            data: response,
           });
         } else {
           return res.send({
@@ -384,4 +407,5 @@ module.exports = {
   getSetting,
   updateSettings,
   userFileUpload,
+  getTeamMembers
 };

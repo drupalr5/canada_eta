@@ -12,7 +12,7 @@ import {
   } from "../Redux/manageSlice";
 import { useDispatch } from "react-redux";
 
-const useUserForm = (initialValues, id) => {
+const useUserForm = (initialValues, id, localstrorage =false) => {
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
   const dispatch = useDispatch();
@@ -61,6 +61,14 @@ const useUserForm = (initialValues, id) => {
         if (res.status === 1) {
           setMsg(res.message);
           setErr("");
+          if (localstrorage===true) {
+            localStorage.setItem(
+                "user",
+                JSON.stringify({
+                  data: JSON.stringify(res.data),
+                })
+              );
+          }
         } else {
           setMsg("");
           setErr(res.message);

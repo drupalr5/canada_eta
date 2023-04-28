@@ -10,7 +10,7 @@ const useAuthParameter = () => {
   let param = {
     assign_to: atype,
   };
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const token = localStorage.getItem("token");
 
   let usDate = new Date().toLocaleDateString("en-US", { timeZone: "US/Eastern", "month": "2-digit", day: "2-digit", year: "numeric" }).replaceAll("/", "-");
   let usTime = new Date().toLocaleTimeString("en-US", { timeZone: "US/Eastern", hour12: false });
