@@ -350,14 +350,14 @@ const updateSettings = async (req, res) => {
 const userFileUpload = async (req, res) => {
   try {
     console.log(req.body);
-    await uploadFile(req, res)
-    .then((result) => {
-      return res.send({
-        status: 1,
-        message: "Uploaded the file successfully: ",
-        fileName: req.file.originalname,
-      });
-    })
+    await uploadFile.uploadUserFile(req, res)
+      .then((result) => {
+        return res.send({
+          status: 1,
+          message: "Uploaded the file successfully: ",
+          fileName: req.file.originalname,
+        });
+      })
     console.log(req);
     await uploadFile(req, res);
     if (req.file == undefined) {
@@ -366,53 +366,9 @@ const userFileUpload = async (req, res) => {
         .send({ status: 1, message: "Please upload a file!" });
     }
 
-    // res.send({
-    //   status: 1,
-    //   message: "Uploaded the file successfully: ",
-    //   fileName: req.file.originalname,
-    // });
 
-    // let id = req.params.id;
-    // const main_tbl = await models.tbl_admin
-    //   .update(req.body, { where: { id: id } })
-    //   .then(async (result) => {
-    //     if (result[0] == 1) {
-    //       let response = await models.tbl_admin.findOne({
-    //         where: { id: id },
-    //         attributes: { exclude: ["password"] },
-    //       });
-    //       return res.send({
-    //         status: 1,
-    //         message: "Password Changed Successfully.",
-    //         data: response,
-    //       });
-    //     } else {
-    //       return res.send({
-    //         status: 0,
-    //         message: "Password does not change, please try again.",
-    //         data: result,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     return res.send({
-    //       status: 0,
-    //       message: "Something Went Wrong.",
-    //       error: error.message,
-    //     });
-    //   });
   } catch (error) {
     console.log(error);
-
-    // if (err.code == "LIMIT_FILE_SIZE") {
-    //   return res.status(500).send({
-    //     message: "File size cannot be larger than 2MB!",
-    //   });
-    // }
-
-    // res.status(500).send({
-    //   message: `Could not upload the file: ${req.file.originalname}. ${err}`,
-    // });
   }
 };
 module.exports = {
