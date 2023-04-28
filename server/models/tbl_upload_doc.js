@@ -29,5 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false,
     createdAt: false,
   });
+  tbl_upload_doc.associate = function (models) {
+    tbl_upload_doc.belongsTo(models.tblmain, {
+        foreignKey: 'order_id'
+    });
+  }
   return tbl_upload_doc;
 };

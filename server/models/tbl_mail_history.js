@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const tblDownloadedHistory = sequelize.define('tbl_mail_history', {
+  const tbl_mail_history = sequelize.define('tbl_mail_history', {
     order_id  : {
       type: DataTypes.STRING(200),
     },
@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false,
     createdAt: false,
   });
-
-  return tblDownloadedHistory;
+  tbl_mail_history.associate = function (models) {
+    tbl_mail_history.belongsTo(models.tblmain, {
+        foreignKey: 'order_id'
+    });
+  }
+  return tbl_mail_history;
 }

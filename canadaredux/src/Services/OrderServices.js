@@ -32,30 +32,16 @@ export default class OrderServices {
 
   static moveUploadedFile = (formData) =>
     ApiService.upload(`${api_url}/doc-upload/pdf-upload`, formData);
-  // static resendMail = (data) => ApiService.post("/admin/resend-mail", data);
 
-  // static ChangeOrderStatus = (data) =>
-  //   ApiService.put(`/admin/change-order-status`, data);
+  static createEmailHistoryByOrderId = (data) =>
+    ApiService.post(`${api_url}/email-history/create`, data);
 
-  // static defencePack = (orderId) =>
-  //   ApiService.post("/admin/defence-pack-details", orderId);
+  static getEmailHistoryByOrderId = (orderId) =>
+    ApiService.get(`${api_url}/email-history/get/${orderId}`);
 
-  // static GetDefencePackPdf = (data) =>
-  //   ApiService.post("/admin/get-defence-pack-pdf", data, {
-  //     responseType: "blob",
-  //   });
+  static createDownloadHistoryByOrderId = (data) =>
+    ApiService.post(`${api_url}/download-history/create`, data);
 
-  // static printOrderInfo = (orderId) =>
-  //   ApiService.post("/admin/print-order-info", orderId);
-
-  // static viewProcessOrder = (tmId) =>
-  //   ApiService.get(`/admin/view-process-order/${tmId}`);
-
-  // static trackCustomerOrder = (orderData) =>
-  //   ApiService.post(`/front/track-order`, orderData);
-
-  // static getDownloadHistory = (orderId) =>
-  //   ApiService.post(`/front/get-download-history`, orderId);
-
-  // static searchOrder = (data) => ApiService.post(`/admin/search-order`, data);
+  static getDownloadHistoryByOrderId = (orderId) =>
+    ApiService.get(`${api_url}/download-history/get/${orderId}`);
 }

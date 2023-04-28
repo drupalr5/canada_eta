@@ -118,6 +118,59 @@ export const uploadOrderDocument = createAsyncThunk(
   }
 );
 
+export const getEmailHistoryByOrderId = createAsyncThunk(
+  "/order/getEmailHistoryByOrderId",
+  async (orderId) => {
+    try {
+      const response = await OrderService.getEmailHistoryByOrderId(orderId);
+      const data = await response.data;
+
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const createEmailHistoryByOrderId = createAsyncThunk(
+  "/order/createEmailHistoryByOrderId",
+  async (params) => {
+    try {
+      const response = await OrderService.createEmailHistoryByOrderId(params);
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const getDownloadHistoryByOrderId = createAsyncThunk(
+  "/order/getDownloadHistoryByOrderId",
+  async (orderId) => {
+    try {
+      const response = await OrderService.getDownloadHistoryByOrderId(orderId);
+      const data = await response.data;
+
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const createDownloadHistoryByOrderId = createAsyncThunk(
+  "/order/createDownloadHistoryByOrderId",
+  async (params) => {
+    try {
+      const response = await OrderService.createDownloadHistoryByOrderId(params);
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
 export const moveUploadedFile = createAsyncThunk(
   "manage/uploadDocPdf",
   async (formData) => {

@@ -2,8 +2,48 @@ import { Modal, Button } from "react-bootstrap";
 import React, { useState } from "react";
 import Logo from "../../../Layout/CommonLayout/Logo";
 import { Link } from "react-router-dom";
+
+export function EmailMessage({ modelData }) {
+  return (
+    <>
+      <div style={{ paddingBottom: '10px', backgroundColor: '#6c8793', borderBottom: 'solid 1px #ccc', paddingTop: '10px', paddingLeft: '10px' }}>
+        <Logo width={120} />
+      </div>
+      <p style={{ fontSize: '16px;' }}>Dear Customer: {modelData?.[0]?.passport_first_name} {modelData?.[0]?.passport_surname}</p>
+      <p style={{ fontSize: '16px;' }}>We would like to inform you that your application has been successfully approved.</p>
+      <p style={{ fontSize: '16px;' }}>An eTA is automatically linked to your passport</p>
+      <p style={{ fontSize: '16px;' }}>To download your eTA confirmation</p>
+      <p style={{ fontSize: '16px;' }}>Please click on the link below</p>
+      <p style={{ fontSize: '16px;' }}>Username : <Link to={modelData?.[0]?.email} /></p>
+      <p style={{ fontSize: '16px;' }}>Order ID  : {modelData?.[0]?.order_id} </p> <br />
+      <p><Link to={`/track/${modelData?.[0]?.order_id}`} target='_blank' style={{ background: '#007bff', border: 'solid 2px #007bff', color: '#fff', padding: '10px 25px' }}>Click Here</Link></p><br />
+      <p style={{ fontSize: '16px;' }}>Your eTA has been registered and it is available electronically for review by your airline at check-in and by the Canada Immigration Authorities on your arrival in Canada. You do not need a label in your passport. Your eTA has been recorded with the data and conditions detailed in the PDF document which is available to download.</p>
+      <p style={{ fontSize: '16px;' }}><b>eTA Validity:</b></p>
+      <ul>
+        <li style={{ fontSize: '16px;' }}>The eTA is valid until the Expiration date noted in the document. This is the last day that you have the authority to enter Canada.</li>
+        <li style={{ fontSize: '16px;' }}>This expiry date will either be 5 years from the issue date or until the expiry of your passport.</li>
+        <li style={{ fontSize: '16px;' }}>The eTA is a multiple entry authorization allowing a maximum of 6 months per visit.</li>
+        <li style={{ fontSize: '16px;' }}>You are permitted to stay beyond your eTA's validity date, but not beyond the 6-month maximum per trip.</li>
+        <li style={{ fontSize: '16px;' }}>If you obtain a new passport for any reason, you will need to re-apply for a new Canadian Travel Authorization (eTA).</li>
+      </ul>
+      <br />
+      <p style={{ fontSize: '16px;' }}>It is recommended, but not required, that you take a printed or digital copy of your eTA with you to Canada.</p>
+      <p style={{ fontSize: '16px;' }}>Please make sure you check the official requirements and health regulations before traveling to your destination as travel restrictions may be applied in some cases.</p>
+      <p style={{ fontSize: '16px;' }}>Please contact us with any questions you may have regarding your Travel Authorization (eTA).</p>
+      <p style={{ fontSize: '16px;' }}>Should you have any inquiries, please contact us through our <Link to='https://canada-eta.online/contact.php'>contact form</Link> or via email at <a href='mailto:inquiries@canada-eta.online'>inquiries@canada-eta.online</a> indicating your order ID.</p>
+      <p style={{ fontSize: '16px;' }}><strong>Customer Service Number</strong> : +1 (407) 305 - 3310</p>
+      <p style={{ fontSize: '16px;' }}><strong>Important notice:</strong></p>
+      <p style={{ fontSize: '16px;' }}>If you are not satisfied with the service you have received or wish to file a complaint, please contact us at <a href='mailto:inquiries@canada-eta.online'>inquiries@canada-eta.online</a>, where we will be happy to assist you or alternatively click on one of the links below for more information.</p>
+      <p style={{ fontSize: '16px;' }}>You can access the terms and conditions you agreed to by clicking here <Link to='https://canada-eta.online/terms.php'>click here</Link></p>
+      <p style={{ fontSize: '16px;' }}>Thank you for using our services</p>
+      <p style={{ fontSize: '16px;' }}>Regards,</p>
+      <p style={{ fontSize: '16px;' }}>Processing Department</p>
+      <p style={{ fontSize: '16px;' }}><Link to='https://canada-eta.online/terms.php'>Terms</Link> | <Link to='https://canada-eta.online/privacy.php'>Privacy</Link> | <Link to='https://canada-eta.online/contact.php'>Contact</Link> | <Link to='https://canada-eta.online/refund.php'>Refund</Link></p>
+    </>
+  )
+}
+
 export function ExampleModal({ isShow, initModal, closeModal, modalId, modelData }) {
-  console.log(modalId)
   let phone = modelData?.[0]?.country_code.replace("-", "", modelData?.[0].telephone_number);
   return (
     <>
@@ -12,39 +52,7 @@ export function ExampleModal({ isShow, initModal, closeModal, modalId, modelData
           <Modal.Title>Email Content</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div style={{ paddingBottom: '10px', backgroundColor: '#6c8793', borderBottom: 'solid 1px #ccc', paddingTop: '10px', paddingLeft: '10px' }}>
-            <Logo width={120} />
-          </div>
-          <p style={{ fontSize: '16px;' }}>Dear Customer: {modelData?.[0]?.passport_first_name} {modelData?.[0]?.passport_surname}</p>
-          <p style={{ fontSize: '16px;' }}>We would like to inform you that your application has been successfully approved.</p>
-          <p style={{ fontSize: '16px;' }}>An eTA is automatically linked to your passport</p>
-          <p style={{ fontSize: '16px;' }}>To download your eTA confirmation</p>
-          <p style={{ fontSize: '16px;' }}>Please click on the link below</p>
-          <p style={{ fontSize: '16px;' }}>Username : <Link to={modelData?.[0]?.email} /></p>
-          <p style={{ fontSize: '16px;' }}>Order ID  : {modelData?.[0]?.order_id} </p> <br />
-          <p><Link to={`/track/${modelData?.[0]?.order_id}`} target='_blank' style={{ background: '#007bff', border: 'solid 2px #007bff', color: '#fff', padding: '10px 25px' }}>Click Here</Link></p><br />
-          <p style={{ fontSize: '16px;' }}>Your eTA has been registered and it is available electronically for review by your airline at check-in and by the Canada Immigration Authorities on your arrival in Canada. You do not need a label in your passport. Your eTA has been recorded with the data and conditions detailed in the PDF document which is available to download.</p>
-          <p style={{ fontSize: '16px;' }}><b>eTA Validity:</b></p>
-          <ul>
-            <li style={{ fontSize: '16px;' }}>The eTA is valid until the Expiration date noted in the document. This is the last day that you have the authority to enter Canada.</li>
-            <li style={{ fontSize: '16px;' }}>This expiry date will either be 5 years from the issue date or until the expiry of your passport.</li>
-            <li style={{ fontSize: '16px;' }}>The eTA is a multiple entry authorization allowing a maximum of 6 months per visit.</li>
-            <li style={{ fontSize: '16px;' }}>You are permitted to stay beyond your eTA's validity date, but not beyond the 6-month maximum per trip.</li>
-            <li style={{ fontSize: '16px;' }}>If you obtain a new passport for any reason, you will need to re-apply for a new Canadian Travel Authorization (eTA).</li>
-          </ul>
-          <br />
-          <p style={{ fontSize: '16px;' }}>It is recommended, but not required, that you take a printed or digital copy of your eTA with you to Canada.</p>
-          <p style={{ fontSize: '16px;' }}>Please make sure you check the official requirements and health regulations before traveling to your destination as travel restrictions may be applied in some cases.</p>
-          <p style={{ fontSize: '16px;' }}>Please contact us with any questions you may have regarding your Travel Authorization (eTA).</p>
-          <p style={{ fontSize: '16px;' }}>Should you have any inquiries, please contact us through our <Link to='https://canada-eta.online/contact.php'>contact form</Link> or via email at <a href='mailto:inquiries@canada-eta.online'>inquiries@canada-eta.online</a> indicating your order ID.</p>
-          <p style={{ fontSize: '16px;' }}><strong>Customer Service Number</strong> : +1 (407) 305 - 3310</p>
-          <p style={{ fontSize: '16px;' }}><strong>Important notice:</strong></p>
-          <p style={{ fontSize: '16px;' }}>If you are not satisfied with the service you have received or wish to file a complaint, please contact us at <a href='mailto:inquiries@canada-eta.online'>inquiries@canada-eta.online</a>, where we will be happy to assist you or alternatively click on one of the links below for more information.</p>
-          <p style={{ fontSize: '16px;' }}>You can access the terms and conditions you agreed to by clicking here <Link to='https://canada-eta.online/terms.php'>click here</Link></p>
-          <p style={{ fontSize: '16px;' }}>Thank you for using our services</p>
-          <p style={{ fontSize: '16px;' }}>Regards,</p>
-          <p style={{ fontSize: '16px;' }}>Processing Department</p>
-          <p style={{ fontSize: '16px;' }}><Link to='https://canada-eta.online/terms.php'>Terms</Link> | <Link to='https://canada-eta.online/privacy.php'>Privacy</Link> | <Link to='https://canada-eta.online/contact.php'>Contact</Link> | <Link to='https://canada-eta.online/refund.php'>Refund</Link></p>
+          <EmailMessage modelData={modelData} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={closeModal}>
@@ -99,7 +107,7 @@ export const DefencePackModal1 = ({ isShow, initModal, closeModal, modalId, mode
       <Modal id={modalId} size="lg" show={isShow}>
         <Modal.Header>
           <Modal.Title>Defence Pack Content
-            <button style={{background:"none", border: "0", color: "#FF3636", cursor: "pointer"}} onClick={closeModal}>
+            <button style={{ background: "none", border: "0", color: "#FF3636", cursor: "pointer" }} onClick={closeModal}>
               <span aria-hidden="true">×</span>
             </button>
           </Modal.Title>

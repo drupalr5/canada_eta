@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false,
     createdAt: false,
   });
-
+  tblDownloadedHistory.associate = function (models) {
+    tblDownloadedHistory.belongsTo(models.tblmain, {
+        foreignKey: 'order_id'
+    });
+  }
   return tblDownloadedHistory;
 }

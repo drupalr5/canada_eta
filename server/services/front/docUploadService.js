@@ -1,8 +1,6 @@
 const models = require("../../models");
 const uploadFile = require("../../middleware/upload");
-const fs = require('fs');
 const path = require('path');
-const download = require('download');
 const getUploadDocByOrderId = async (req, res) => {
   try {
     let orderId = req.params.order_id;
@@ -68,9 +66,6 @@ const downloadDocFile = async (req, res) => {
     const filepath = path.resolve(`./uploads/docs/${file_name}`);
     ;(async () => {
      await res.download(filepath, file_name)
-     .then(result => {
-        
-     })
     })()
   }
   catch (error) {
