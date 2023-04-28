@@ -7,16 +7,16 @@ import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function CompletedOrder(props) {
-  const { param, utype } = useAuthParameter();
+  const { param } = useAuthParameter();
   let orderParam = {
-    payment_status: 'Success',
-    process_status: 'Completed',
-    assign_to: utype
-  }
+    payment_status: "Success",
+    process_status: "Completed",
+    assign_to: param.assign_to,
+  };
   const dispatch = useDispatch();
   const [pending, setPending] = useState(true);
-  const orderList = useSelector(state => state.order.orderData);
-  useEffect(() => {    
+  const orderList = useSelector((state) => state.order.orderData);
+  useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
       .then((res) => {
@@ -25,12 +25,14 @@ function CompletedOrder(props) {
         }, 2000);
         return () => clearTimeout(timeout);
       });
-  }, [dispatch])
-  
-  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } = useOrderListHook(orderList, [], orderParam, param)
+  }, [dispatch]);
+
+  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } =
+    useOrderListHook(orderList, [], orderParam, param);
   return (
     <>
-      <DTable orders={rows}
+      <DTable
+        orders={rows}
         columns={columns}
         teamMemeber={false}
         handleChange={handleChange}

@@ -78,6 +78,18 @@ export const deleteUserData = createAsyncThunk(
     }
   }
 );
+export const getTeamMembers = createAsyncThunk(
+  "/order/getTeamMembers",
+  async (param) => {
+    try {
+      const response = await ManageService.getTeamMembers(param);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  }
+);
 const ManageSlice = createSlice({
   name: "manage",
   initialState: {
@@ -108,6 +120,17 @@ const ManageSlice = createSlice({
       state.list = action?.payload;
     });
     builder.addCase(getUsersList.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(getTeamMembers.pending, (state) => {
+      state.loading = true;
+      state.manage = [];
+    });
+    builder.addCase(getTeamMembers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.list = action?.payload;
+    });
+    builder.addCase(getTeamMembers.rejected, (state, action) => {
       state.loading = false;
     });
   },

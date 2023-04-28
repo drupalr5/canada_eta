@@ -5,6 +5,7 @@ const adminService = require("../services/admin/adminLoginService")
 adminRouter.post('/create', adminService.AddAdmin);
 adminRouter.post('/login', adminService.LoginAdmin);
 adminRouter.get('/all', adminService.getAllAdmin);
+adminRouter.get('/team-members', adminService.getTeamMembers);
 adminRouter.put('/update/:id', adminService.updateAdmin);
 adminRouter.post('/updateuser/:id', adminService.updateData);
 adminRouter.delete('/deleteUser/:id', adminService.deleteAdmin);

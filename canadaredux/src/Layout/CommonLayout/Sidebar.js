@@ -20,6 +20,7 @@ function Sidebar(props) {
   const { param, path, type, name } = useAuthParameter();
   const logoutHnadler = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     dispatch(logout());
     navigate("/");
   };

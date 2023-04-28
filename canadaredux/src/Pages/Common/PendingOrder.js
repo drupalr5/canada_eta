@@ -7,18 +7,17 @@ import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function PendingOrder(props) {
-  const useAuth = useAuthParameter();
-  const param = useAuth?.param;
-  const utype = useAuth?.utype;
-  let orderParam =  {
-    payment_status: 'Success',
-    process_status: 'Pending',
-    doc_uploaded: 1,
-    assign_to: utype
-  }
-  const dispatch = useDispatch();
+  const { param, token } = useAuthParameter();
   const [pending, setPending] = useState(true);
-  const orderList = useSelector(state => state.order.orderData);
+  const dispatch = useDispatch();
+  const orderList = useSelector((state) => state.order.orderData);
+  let orderParam = {
+    payment_status: "Success",
+    process_status: "Pending",
+    doc_uploaded: 1,
+    assign_to: param.assign_to,
+  };
+
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
@@ -28,13 +27,15 @@ function PendingOrder(props) {
         }, 2000);
         return () => clearTimeout(timeout);
       });
-  }, [dispatch])
+  }, [dispatch, token]);
 
-  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } = useOrderListHook(orderList, [], orderParam, param)
+  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } =
+    useOrderListHook(orderList, [], orderParam, param);
 
   return (
     <>
-      <DTable orders={rows}
+      <DTable
+        orders={rows}
         columns={columns}
         teamMemeber={false}
         handleChange={handleChange}

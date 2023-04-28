@@ -5,19 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrdersList } from "../../Redux/orderSlice";
 import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
+import { getTeamMembers } from "../../Redux/manageSlice";
 
 function Home(props) {
-  const { param, utype } = useAuthParameter();
+  const { param, token } = useAuthParameter();
+  const [pending, setPending] = useState(true);
+  const dispatch = useDispatch();
+  const orderList = useSelector((state) => state.order.orderData);
+  const teamUserList = useSelector((state) => state?.manage?.list);
   let orderParam = {
-    payment_status: 'Success',
+    payment_status: "Success",
     process_status: "New",
     processing_type: "Standard Processing",
     doc_uploaded: 0,
-    assign_to: utype
-  }
-  const dispatch = useDispatch();
-  const [pending, setPending] = useState(true);
-  const orderList = useSelector(state => state.order.orderData);
+    assign_to: param.assign_to,
+  };
+
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
@@ -27,19 +30,32 @@ function Home(props) {
         }, 2000);
         return () => clearTimeout(timeout);
       });
-  }, [dispatch])
+    dispatch(getTeamMembers({ type: "Team" }))
+      .unwrap()
+      .then((res) => {});
+  }, [dispatch, token]);
 
-  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } = useOrderListHook(orderList, [], orderParam, param)
+  const {
+    rows,
+    columns,
+    handleChange,
+    rowsDeleteOrder,
+    toggleCleared,
+    rowsAssignedOrder,
+  } = useOrderListHook(orderList, [], orderParam, param);
 
   return (
     <>
-      <DTable orders={rows}
+      <DTable
+        orders={rows}
         columns={columns}
-        teamMemeber={false}
+        teamMemeber={true}
         handleChange={handleChange}
         rowsDeleteOrder={rowsDeleteOrder}
         pending={pending}
         toggleCleared={toggleCleared}
+        teamMemeberList={teamUserList}
+        rowsAssignedOrder={rowsAssignedOrder}
       >
         <PageHeading pagename={props.heading} />
       </DTable>

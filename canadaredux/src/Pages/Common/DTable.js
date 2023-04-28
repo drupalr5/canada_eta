@@ -1,10 +1,23 @@
 import React, { useState, useMemo } from "react";
 import DataTable from "react-data-table-component";
-import FilterComponent from "./FilterComponent"
+import FilterComponent from "./FilterComponent";
 
-function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pending, toggleCleared, selectableRows= true, children }) {
-  const [filterText, setFilterText] = useState('');
+function Table({
+  orders,
+  teamMemeber,
+  columns,
+  handleChange,
+  rowsDeleteOrder,
+  pending,
+  toggleCleared,
+  selectableRows = true,
+  teamMemeberList,
+  rowsAssignedOrder,
+  children,
+}) {
+  const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [teamMember, setTeamMember] = useState("");
   // function differenceBy(array1, array2) {
   //   return array1.filter(object1 => {
   //     return !array2.some(object2 => {
@@ -12,46 +25,67 @@ function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pe
   //     });
   //   });
   // }
+  const selectTeamMember = (e) => {
+    setTeamMember(e.target.value);
+  };
   const subHeaderComponentMemo = useMemo(() => {
     if (filterText) {
       const filterResult = orders.filter(
-        item => (item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || 
-        item.order_id && item.order_id.toLowerCase().includes(filterText.toLowerCase())
-        )
-      )
+        (item) =>
+          (item.name &&
+            item.name.toLowerCase().includes(filterText.toLowerCase())) ||
+          (item.order_id &&
+            item.order_id.toLowerCase().includes(filterText.toLowerCase())) ||
+          (item.email &&
+            item.email.toLowerCase().includes(filterText.toLowerCase())) ||
+          (item.telephone &&
+            item.telephone.toLowerCase().includes(filterText.toLowerCase())) ||
+          (item.date &&
+            item.date.toLowerCase().includes(filterText.toLowerCase())) ||
+          (item.assign_to &&
+            item.assign_to.toLowerCase().includes(filterText.toLowerCase())) ||
+          (item.status &&
+            item.status.toLowerCase().includes(filterText.toLowerCase()))
+      );
       orders = filterResult;
     }
     const handleClear = (e) => {
       if (filterText) {
         setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText('');
+        setFilterText("");
       }
     };
     return (
-      <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+      <FilterComponent
+        onFilter={(e) => setFilterText(e.target.value)}
+        onClear={handleClear}
+        filterText={filterText}
+      />
     );
   }, [filterText, resetPaginationToggle]);
 
   const paginationOption = {
-    rowsPerPageText: 'Show', rangeSeparatorText: 'of', noRowsPerPage: false, selectAllRowsItem: true, selectAllRowsItemText: 'All'
-  }
+    rowsPerPageText: "Show",
+    rangeSeparatorText: "of",
+    noRowsPerPage: false,
+    selectAllRowsItem: true,
+    selectAllRowsItemText: "All",
+  };
   const customStyles = {
     headCells: {
-        style: {
-            fontWeight: 'bold',
-            fontSize: '15px'
-        },
+      style: {
+        fontWeight: "bold",
+        fontSize: "15px",
+      },
     },
-};
+  };
 
   return (
     <>
       <div className="row clearfix">
         <div className="col-lg-12">
           <div className="card">
-            <div className="header">
-              {children}
-            </div>
+            <div className="header">{children}</div>
             <div className="body">
               <div className="table-responsive">
                 <DataTable
@@ -77,17 +111,40 @@ function Table({ orders, teamMemeber, columns, handleChange, rowsDeleteOrder, pe
                   customStyles={customStyles}
                 />
               </div>
-              {teamMemeber &&
-                <div className="row clearfix">
-                  <div className="col-lg-6 col-md-6 col-sm-12 m-b-20">
-                    <b>Team Member</b>
-                    <select className="form-control show-tick" name="team">
-                      <option value="">Select Team Member</option>
-                      <option value="<"></option>
-                    </select>
+              {teamMemeber && (
+                <form>
+                  <div className="row clearfix">
+                    <div className="col-lg-6 col-md-6 col-sm-12 m-b-20">
+                      <b>Team Member</b>
+                      <select
+                        className="form-control show-tick"
+                        name="team"
+                        value={teamMember}
+                        onChange={selectTeamMember}
+                      >
+                        <option value="">Select Team Member</option>
+                        {teamMemeberList &&
+                          teamMemeberList.map((item, index) => (
+                            <option key={index} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
                   </div>
-                </div>
-              }
+                </form>
+              )}
+              {teamMemeber && (
+                <button
+                  type="submit"
+                  name="submit"
+                  value="Assign"
+                  className="btn btn-success"
+                  onClick={() => rowsAssignedOrder(teamMember)}
+                >
+                  Assign To
+                </button>
+              )}
               <button
                 type="submit"
                 name="submit"

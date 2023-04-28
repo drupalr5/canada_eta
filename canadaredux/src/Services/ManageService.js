@@ -16,4 +16,7 @@ export default class ManageService {
 
   static uploadUserImage = (formData) =>
     ApiService.upload(`${config.API_URL}/admin/userfile-upload`, formData);
+
+  static getTeamMembers = (param) =>
+    ApiService.get(`${config.API_URL}/admin/team-members`, param);
 }

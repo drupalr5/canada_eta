@@ -7,11 +7,11 @@ import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function AwaitingOrder(props) {
-  const { param, utype } = useAuthParameter();
+  const { param } = useAuthParameter();
   let orderParam = {
     payment_status: 'Success',
     process_status: 'Awiating',
-    assign_to: utype
+    assign_to: param.assign_to,
   }
   const dispatch = useDispatch();
   const [pending, setPending] = useState(true);
