@@ -43,10 +43,11 @@ export const getOrdersList = createAsyncThunk(
 export const getOrderDetailsByOrderId = createAsyncThunk(
   "/order/getOrderDetailsByOrderId",
   async (orderId) => {
+    console.log(orderId)
     try {
       const response = await OrderService.getOrderDetailsByOrderId(orderId);
       const data = await response.data;
-
+      console.log(response)
       return data;
     } catch (error) {
       return error.response.data;

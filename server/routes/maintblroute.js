@@ -9,11 +9,11 @@ router.post('/create', mainOrderService.AddOrder);
 router.get('/get', mainOrderService.getAllOrder);
 router.get('/ordertiles', mainOrderService.gettilesOrder);
 router.get('/ordercounts', mainOrderService.getCountsOrder);
-router.get('/:id', mainOrderService.getOneOrder);
+router.get('/orderdetails/:id', mainOrderService.getOrderDetails);
 router.put('/update/:id', mainOrderService.updateOrder);
 router.put('/update-multiple', mainOrderService.updateMultipleOrder);
 router.delete('/delete/:id', mainOrderService.deleteOrder);
-
+router.get('/:id', mainOrderService.getOneOrder);
 // Email History Route.
 router.post('/email-history/create', emailHistory.createEmailHistoryByOrderId);
 router.get('/email-history/get/:order_id', emailHistory.getEmailHistoryByOrderId);
