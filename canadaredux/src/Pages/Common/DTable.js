@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import DataTable from "react-data-table-component";
 import FilterComponent from "./FilterComponent";
+import { useLocation } from "react-router-dom";
 
 function Table({
   orders,
@@ -13,6 +14,7 @@ function Table({
   selectableRows = true,
   teamMemeberList,
   rowsAssignedOrder,
+  rowsRefunedOrder,
   children,
 }) {
   const [filterText, setFilterText] = useState("");
@@ -25,6 +27,8 @@ function Table({
   //     });
   //   });
   // }
+  const location = useLocation();
+  const pathname = location.pathname.split("/");
   const selectTeamMember = (e) => {
     setTeamMember(e.target.value);
   };
@@ -111,7 +115,7 @@ function Table({
                   customStyles={customStyles}
                 />
               </div>
-              {teamMemeber && (
+              {(pathname[2] === "" || pathname[2] === "priority-order") && (
                 <form>
                   <div className="row clearfix">
                     <div className="col-lg-6 col-md-6 col-sm-12 m-b-20">
@@ -134,7 +138,7 @@ function Table({
                   </div>
                 </form>
               )}
-              {teamMemeber && (
+              {(pathname[2] === "" || pathname[2] === "priority-order") && (
                 <button
                   type="submit"
                   name="submit"
@@ -154,6 +158,17 @@ function Table({
               >
                 Delete Order
               </button>
+              {pathname[2] === "refund-order" && (
+                <button
+                  type="submit"
+                  name="submit"
+                  value="Refund"
+                  className="btn btn-success"
+                  onClick={rowsRefunedOrder}
+                >
+                  Refunded it
+                </button>
+              )}
             </div>
           </div>
         </div>

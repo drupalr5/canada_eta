@@ -17,7 +17,6 @@ export default class OrderServices {
   static updateOrdersData = ({ order_id, data }) =>
     ApiService.put(`${api_url}/update/${order_id}`, data);
 
-
   static updateMultipleOrderData = (deleteData) =>
     ApiService.put(`${api_url}/update-multiple`, deleteData);
 
@@ -44,4 +43,6 @@ export default class OrderServices {
 
   static getDownloadHistoryByOrderId = (orderId) =>
     ApiService.get(`${api_url}/download-history/get/${orderId}`);
+
+  static sendMail = () => ApiService.get(`${config?.API_URL}/mailsend`);
 }

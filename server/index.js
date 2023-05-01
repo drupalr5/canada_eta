@@ -4,6 +4,7 @@ const db = require('./models');
 const orderRouter = require('./routes/maintblroute');
 const adminRouter = require('./routes/adminRoute');
 const remarkRouter = require('./routes/remarkRoute');
+const mailSendService = require('./services/front/mailSendService');
 
 const cors = require('cors');
 const coreOptions = {
@@ -53,6 +54,7 @@ app.use('/api/admin/', adminRouter);
 app.use('/api/', remarkRouter);
 // app.use('/api/order/', docUploadRouter);
 app.use('/docs/', orderRouter);
+app.get('/api/mailsend', mailSendService.mailSend)
 // app.use('/api/order/', docUploadRouter);
 db.sequelize.sync({force:false}).then(() => {
   app.listen(app.get('port'), () => {

@@ -6,17 +6,15 @@ import { getOrdersList } from "../../Redux/orderSlice";
 import useOrderListHook from "../../Hooks/useOrderListHook";
 import useAuthParameter from "../../Hooks/useAuthParameter";
 function RejectedOrder(props) {
-  const useAuth = useAuthParameter();
-  const param = useAuth?.param;
-  const utype = useAuth?.utype;
+  const { param } = useAuthParameter();
   let orderParam = {
-    payment_status: 'Success',
-    process_status: 'Rejected',
-    assign_to: utype
-  }
+    payment_status: "Success",
+    process_status: "Rejected",
+    assign_to: param.assign_to,
+  };
   const dispatch = useDispatch();
   const [pending, setPending] = useState(true);
-  const orderList = useSelector(state => state.order.orderData);
+  const orderList = useSelector((state) => state.order.orderData);
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
@@ -26,13 +24,15 @@ function RejectedOrder(props) {
         }, 2000);
         return () => clearTimeout(timeout);
       });
-  }, [dispatch])
+  }, [dispatch]);
 
-  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } = useOrderListHook(orderList, [], orderParam, param)
+  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } =
+    useOrderListHook(orderList, [], orderParam, param, true);
 
   return (
     <>
-      <DTable orders={rows}
+      <DTable
+        orders={rows}
         columns={columns}
         teamMemeber={false}
         handleChange={handleChange}

@@ -207,7 +207,7 @@ const updateAdmin = async (req, res) => {
         } else {
           return res.send({
             status: 0,
-            message: "Password does not change, please try again.",
+            message: "Already updated same password, try again with diffrent one",
             data: result,
           });
         }

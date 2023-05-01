@@ -8,9 +8,11 @@ import {
   getOrderTiles,
   updateMultipleOrderData,
   permanentDeleteOrdersData,
+  sendMail,
 } from "../Redux/orderSlice";
 import useAuthParameter from "./useAuthParameter";
 import { toast } from "react-toastify";
+import emailjs from '@emailjs/browser';
 
 const useOrderListHook = (
   orderList,
@@ -29,6 +31,11 @@ const useOrderListHook = (
       let id = row.id;
       let oid = row.order_id;
       let process_status = row.process_status;
+      if (row.process_status === 'Refund') {
+        process_status = 'Refund Incomplete'
+      } else if (row.process_status === 'Complete Refunds') {
+        process_status = 'Refund Complete'
+      }
       let pre_no = index + 1;
       let view = `${path}/order-details/${oid}?oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
       return rows.push({
@@ -137,7 +144,70 @@ const useOrderListHook = (
       });
     }
   };
-  const rowsDeleteOrder = () => {
+  const rowsRefunedOrder = () => {
+    if (selectedRows.length > 0) {
+      const oids = [];
+      if (selectedRows.length > 0) {
+        selectedRows.map((r) => oids.push(r.order_id));
+      }
+      // setPending(true)
+      if (
+        window.confirm(
+          `Are you sure you want to refund this order:\r ${
+            oids.length ? oids.map((r) => r) : ""
+          } ?`
+        )
+      ) {
+        setToggleCleared(!toggleCleared);
+        let updateData = {
+          process_status: 'Complete Refunds',
+          refund_date: `${usDate} ${usTime}`,
+        };
+        dispatch(
+          updateMultipleOrderData({
+            data: updateData,
+            params: {
+              oids: oids,
+            },
+          })
+        )
+          .unwrap()
+          .then((res) => {
+            if (res.status === 200) {
+              dispatch(getOrdersList(orderParam));
+              dispatch(sendMail())
+              // emailjs.send("service_lt38kox","template_9ddeddf",{
+              //   to_name: 'James',
+              //   from_name: 'Yogita',
+              //   message: '<html><head><meta charset="utf-8" /> <title>Refund Canada eTA</title><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" / ></head>Testing body html<body></body></html>',
+              //   }, 'HRJcyDiemAwLH9sFh')
+              //   .then(function(response) {
+              //     console.log('SUCCESS!', response.status, response.text);
+              //  }, function(error) {
+              //     console.log('FAILED...', error);
+              //  });
+              toast.success(
+                `Selected orders has been refund successfully`,
+                {
+                  className: "toast-message",
+                }
+              );
+              setSelectedRows(false);
+            } else {
+              toast.error(`${res.message}`, {
+                className: "toast-message",
+              });
+            }
+          })
+          .catch();
+      }
+    } else {
+      toast.error(`Select minimum 1 rows`, {
+        className: "toast-message",
+      });
+    }
+  };
+  const rowsDeleteOrder = (docupload = false) => {
     if (selectedRows.length > 0) {
       const oids = [];
       if (selectedRows.length > 0) {
@@ -155,6 +225,9 @@ const useOrderListHook = (
         let updateData = {
           process_status: "Deleted",
         };
+        if (docupload===true) {
+          updateData.doc_uploaded=0
+        }
         let callback;
         if (perDel === true) {
           callback = permanentDeleteOrdersData(oids);
@@ -255,6 +328,7 @@ const useOrderListHook = (
     rowsDeleteOrder,
     toggleCleared,
     rowsAssignedOrder,
+    rowsRefunedOrder, 
   };
 };
 export default useOrderListHook;

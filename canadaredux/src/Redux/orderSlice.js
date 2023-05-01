@@ -184,6 +184,19 @@ export const moveUploadedFile = createAsyncThunk(
   }
 );
 
+export const sendMail = createAsyncThunk(
+  "manage/sendMail",
+  async () => {
+    try {
+      const response = await OrderService.sendMail();
+      const data = response?.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 const OrderSlice = createSlice({
   name: "order",
   initialState: {

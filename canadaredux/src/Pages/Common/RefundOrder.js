@@ -27,7 +27,7 @@ function RefundOrder(props) {
       });
   }, [dispatch]);
 
-  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } =
+  const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared, rowsRefunedOrder } =
     useOrderListHook(orderList, [], orderParam, param);
 
   return (
@@ -37,9 +37,10 @@ function RefundOrder(props) {
         columns={columns}
         teamMemeber={false}
         handleChange={handleChange}
-        rowsDeleteOrder={rowsDeleteOrder}
+        rowsDeleteOrder={() => rowsDeleteOrder(true)}
         pending={pending}
         toggleCleared={toggleCleared}
+        rowsRefunedOrder={rowsRefunedOrder}
       >
         <PageHeading pagename={props.heading} />
       </DTable>

@@ -320,7 +320,7 @@ const getCountsOrder = async (req, res) => {
     // Refund order
     const refund = {
       'payment_status': "Success",
-      'process_status': "Refund",
+      'process_status': ["Complete Refunds","Refund"]
     }
     if (qassign_to) {
       refund.assign_to = qassign_to;
