@@ -12,7 +12,7 @@ export default class OrderServices {
   static getOrdersList = (order) => ApiService.get(`${api_url}/get`, order);
 
   static getOrderDetailsByOrderId = (orderId) =>
-    ApiService.get(`${api_url}/${orderId}`);
+    ApiService.get(`${api_url}/orderdetails/${orderId}`);
 
   static updateOrdersData = ({ order_id, data }) =>
     ApiService.put(`${api_url}/update/${order_id}`, data);

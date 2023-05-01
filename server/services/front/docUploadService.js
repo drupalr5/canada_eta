@@ -31,7 +31,6 @@ const getUploadDocByOrderId = async (req, res) => {
 const createUploadDocByOrderId = async (req, res) => {
   try {
     let info = req.body;
-    console.log(info)
     const lastId = await models.tbl_upload_doc.findOne({ order: [['id', 'DESC']] })
       .then(async (result) => {
         if (result.id) {
@@ -81,7 +80,6 @@ const movePdfDocFile = async (req, res) => {
   try {
     await uploadFile.uploadDocPdfFile(req, res)
       .then((result) => {
-        console.log(result)
         return res.send({
           status: 1,
           message: "Uploaded the file successfully: ",

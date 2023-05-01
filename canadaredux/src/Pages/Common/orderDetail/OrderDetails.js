@@ -5,17 +5,15 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { getOrderDetailsByOrderId } from "../../../Redux/orderSlice";
 import useAuthParameter from "../../../Hooks/useAuthParameter";
-import { getOrderRemarksByOrderId, createOrderRemarksByOrderId } from "../../../Redux/remarkSlice";
+import { createOrderRemarksByOrderId } from "../../../Redux/remarkSlice";
+import { format } from 'date-fns'
 import {
   updateOrdersData,
   getOrderSideBarCount,
   getOrderTiles,
-  getDocUploadByOrderId,
   uploadOrderDocument,
   moveUploadedFile,
   createEmailHistoryByOrderId,
-  getEmailHistoryByOrderId,
-  getDownloadHistoryByOrderId
 } from "../../../Redux/orderSlice";
 import EmailContentModal from "./EmailModal";
 import config from "../../../config.json";
@@ -28,8 +26,6 @@ function OrderDetails(props) {
   const { param, type, usDate, usTime, currentTime } = useAuthParameter();
   const [isShow, invokeModal] = useState(false);
   const [popupId, setPopupId] = useState(false);
-  const [uploadDoc, setUploadDoc] = useState([]);
-  const [emailHistory, setEmailHistory] = useState([]);
   const initModal = (id) => {
     setPopupId(id);
     return invokeModal(!false);
@@ -57,7 +53,7 @@ function OrderDetails(props) {
   const ot = queryParams.get("ot");
   const pre_no = queryParams.get("pre_no");
   const dispatch = useDispatch();
-  const OrderRemarks = useSelector(state => state.remarks.OrderRemarks);
+  // const OrderRemarks = useSelector(state => state.remarks.OrderRemarks);
   const docUploadIntitial = {
     order_id: orderId,
     file1: '',
@@ -67,7 +63,7 @@ function OrderDetails(props) {
     create_ts: currentTime
   }
   const [docUploadValue, setDocUploadValue] = useState(docUploadIntitial);
-  const [downloadHistory, setDownloadHistory] = useState([]);
+  // const [downloadHistory, setDownloadHistory] = useState([]);
   const emailHistoryIntitial = {
     order_id: orderId,
     create_ts: currentTime,
@@ -128,6 +124,7 @@ function OrderDetails(props) {
         toast.success(`Remark has been added successfully`, {
           className: "toast-message",
         });
+        dispatch(getOrderDetailsByOrderId(orderId))
       }
     })
       .catch(err => {
@@ -173,42 +170,9 @@ function OrderDetails(props) {
   }
   let awaitingButton,
     awaitingGovtButton, refundButton, rejectButton, completedButton, chargebackButton = false;
+
   useEffect(() => {
     dispatch(getOrderDetailsByOrderId(orderId))
-    dispatch(getOrderRemarksByOrderId(orderId))
-
-    // Get Email records.
-    dispatch(getEmailHistoryByOrderId(orderId))
-      .then(result => {
-        if (result.payload.data) {
-          setEmailHistory(result.payload.data)
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-
-    // get doc upload
-    dispatch(getDocUploadByOrderId(orderId))
-      .then(result => {
-        if (result.payload.data) {
-          setUploadDoc(result.payload.data)
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-
-    // Get Download history.
-    dispatch(getDownloadHistoryByOrderId(orderId))
-      .then(result => {
-        if (result.payload.data) {
-          setDownloadHistory(result.payload.data)
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
   }, [orderId, dispatch])
 
   const handleFileUploadChange = (e) => {
@@ -253,16 +217,7 @@ function OrderDetails(props) {
               toast.success(`Your Doc has been updated successfully`, {
                 className: "toast-message",
               });
-              // get doc upload
-              dispatch(getDocUploadByOrderId(orderId))
-                .then(result => {
-                  if (result.payload.data) {
-                    setUploadDoc(result.payload.data)
-                  }
-                })
-                .catch(err => {
-                  console.log(err)
-                })
+              dispatch(getOrderDetailsByOrderId(orderId))
             }
           })
       }
@@ -288,20 +243,10 @@ function OrderDetails(props) {
           toast.success(`Email has beend sent susscesfully`, {
             className: "toast-message",
           });
-          // Get Email records.
-          dispatch(getEmailHistoryByOrderId(orderId))
-            .then(result => {
-              if (result.payload.data) {
-                setEmailHistory(result.payload.data)
-              }
-            })
-            .catch(err => {
-              console.log(err)
-            })
+          dispatch(getOrderDetailsByOrderId(orderId))
         }
       })
   }
-  console.log(emailHistory)
   return (
     <div className="row clearfix">
       <div className="col-lg-12 col-md-12 col-sm-12">
@@ -342,31 +287,32 @@ function OrderDetails(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {(emailHistory.length > 0) ? emailHistory.map((emails, index) => {
-                          return (
-                            <tr>
-                              <td>{emails.id}</td>
-                              <td>{emails.order_id}</td>
-                              {
-                                uploadDoc[index]?.file1 ?
+                        {
+                          (orderDetails[0]?.mailHistory) ? orderDetails[0]?.mailHistory.map((emails, index) => {
+                            return (
+                              <tr>
+                                <td>{emails.id}</td>
+                                <td>{emails.order_id}</td>
+                                {
+                                  orderDetails[0].uploadDoc[index]?.file1 ?
 
-                                  <td>
-                                    <Link to={`${DOC_DOWNLOAD_PATH}${uploadDoc[index]?.file1}`} download="" className="btn btn-success">Download File</Link>
-                                  </td>
+                                    <td>
+                                      <Link to={`${DOC_DOWNLOAD_PATH}${orderDetails[0].uploadDoc[index]?.file1}`} download="" className="btn btn-success">Download File</Link>
+                                    </td>
 
 
-                                  : <td></td>
-                              }
+                                    : <td></td>
+                                }
 
-                              <td>{emails.create_ts}</td>
-                            </tr>
-                          )
-                        }) : <tr><td colSpan={4} style={{ textAlign: "center" }}>No Records found</td></tr>
+                                <td>{emails.create_ts}</td>
+                              </tr>
+                            )
+                          }) : <tr><td colSpan={4} style={{ textAlign: "center" }}>No Records found</td></tr>
                         }
                       </tbody>
                     </table>
                     {orderDetails ? orderDetails.map((item) => {
-                      currentOrderStatus = item.process_status;
+                      currentOrderStatus = item?.process_status;
                       if (currentOrderStatus === "Awiating") {
                         awaitingButton = "disabled";
                       }
@@ -388,9 +334,9 @@ function OrderDetails(props) {
 
                       return (
                         <form className="form-inline" method="POST" id="form1">
-                          <input type="hidden" name="order_id" value={item.order_id} />
+                          <input type="hidden" name="order_id" value={item?.order_id} />
                           <div className="form-group">
-                            <input type="text" name="email" className="form-control" style={{ width: '800px !important' }} value={item.email} />
+                            <input type="text" name="email" className="form-control" style={{ width: '800px !important' }} value={item?.email} />
                           </div>
                           <div className="form-group">
                             <br /><br /><br />
@@ -422,13 +368,13 @@ function OrderDetails(props) {
                               <td>
                                 <div className="form-group">
                                   <label>Order ID</label>
-                                  <input type="text" name="order_id" className="form-control" placeholder="Order ID" value={item.order_id} readonly="" required="" />
+                                  <input type="text" name="order_id" className="form-control" placeholder="Order ID" value={item?.order_id} readonly="" required="" />
                                 </div>
                               </td>
                               <td>
                                 <div className="form-group">
                                   <label>Email ID</label>
-                                  <input type="email" name="email" className="form-control" value={docUploadValue.email ? docUploadValue.email : item.email} placeholder="Email" required="" onChange={handleFileEmailChange} />
+                                  <input type="email" name="email" className="form-control" value={docUploadValue.email ? docUploadValue.email : item?.email} placeholder="Email" required="" onChange={handleFileEmailChange} />
                                 </div>
                               </td>
                             </tr>
@@ -440,7 +386,7 @@ function OrderDetails(props) {
                                   </div>
                                 </td>
                               </tr>
-                              {uploadDoc && uploadDoc.map((docs) => {
+                              {orderDetails[0]?.uploadDoc && orderDetails[0].uploadDoc.map((docs) => {
                                 return (
                                   <tr>
                                     <td>
@@ -473,17 +419,17 @@ function OrderDetails(props) {
                         <tbody>
                           <tr>
                             <th width="250px;">Order ID</th>
-                            <td>{item.order_id}</td>
+                            <td>{item?.order_id}</td>
                           </tr>
                           <tr>
                             <th width="250px;">Are you applying on behalf of someone?</th>
-                            <td>{item.applying_for_someone}</td>
+                            <td>{item?.applying_for_someone}</td>
                           </tr>
                           {
                             item.applying_for_minor &&
                             <tr>
                               <th width="250px;">Are you applying on behalf of a minor child? </th>
-                              <td>{item.applying_for_minor}</td>
+                              <td>{item?.applying_for_minor}</td>
                             </tr>
                           }
 
@@ -496,7 +442,7 @@ function OrderDetails(props) {
                               </tr>
                               <tr>
                                 <th width="250px;">I am </th>
-                                <td>{item.representative_is}</td>
+                                <td>{item?.representative_is}</td>
                               </tr>
                             </>
                           }
@@ -1021,7 +967,7 @@ function OrderDetails(props) {
                             item.customer_date &&
                             <tr>
                               <th width="250px;">US Date</th>
-                              <td>{item.customer_date}</td>
+                              <td>{format(new Date(item.customer_date), "d-m-Y")}</td>
                             </tr>
                           }
                           {
@@ -1070,24 +1016,24 @@ function OrderDetails(props) {
                       </thead>
                       <tbody>
                         {
-                          downloadHistory ? downloadHistory.map((downloads, index) => {
+                          orderDetails[0]?.downloadHistory ? orderDetails[0].downloadHistory.map((downloads, index) => {
                             return (
                               <tr>
                                 <td>{downloads.id}</td>
                                 <td>{downloads.order_id}</td>
                                 <td>{downloads.create_ts}</td>
                                 {
-                                uploadDoc[index]?.file1 ?
+                                  orderDetails[0].uploadDoc[index]?.file1 ?
 
-                                  <td>
-                                    <Link to={`${DOC_DOWNLOAD_PATH}${uploadDoc[index]?.file1}`} download="" className="btn btn-success">Download File</Link>
-                                  </td>
+                                    <td>
+                                      <Link to={`${DOC_DOWNLOAD_PATH}${orderDetails[0].uploadDoc[index]?.file1}`} download="" className="btn btn-success">Download File</Link>
+                                    </td>
 
 
-                                  : <td></td>
-                              }
+                                    : <td></td>
+                                }
                                 <td>{downloads.ip}</td>
-                                <td>{downloads.	timezone}</td>
+                                <td>{downloads.timezone}</td>
 
                               </tr>
                             )
@@ -1171,7 +1117,7 @@ function OrderDetails(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {OrderRemarks ? OrderRemarks.map(remarks => {
+                        {orderDetails[0]?.remark ? orderDetails[0].remark.map(remarks => {
                           return (
                             <tr>
                               <td>{remarks.id}</td>

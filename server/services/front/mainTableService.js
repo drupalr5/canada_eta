@@ -59,16 +59,15 @@ const getAllOrder = async (req, res) => {
 const getOneOrder = async (req, res) => {
   try {
     let orderId = req.params.id;
-    console.log(orderId)
     const main_tbl = await models.tblmain.findOne({ where: { order_id: orderId } })
       .then(result => {
-        res.send( {
+        res.send({
           status: 1,
           data: result
         })
       })
       .catch(err => {
-        res.send( err)
+        res.send(err)
       })
 
   }
@@ -87,10 +86,10 @@ const updateOrder = async (req, res) => {
     let orderId = req.params.id;
     const main_tbl = await models.tblmain.update(req.body, { where: { order_id: orderId } })
       .then(result => {
-        return res.send({status: 200, data:result})
+        return res.send({ status: 200, data: result })
       })
       .catch(err => {
-        return res.send({status: 0, message: err.message, data:err});
+        return res.send({ status: 0, message: err.message, data: err });
       })
   }
   catch (error) {
@@ -108,10 +107,10 @@ const updateMultipleOrder = async (req, res) => {
     let orderIds = req.body?.params?.oids;
     const main_tbl = await models.tblmain.update(req?.body?.data, { where: { order_id: orderIds } })
       .then(result => {
-        return res.send({status: 200, data:result})
+        return res.send({ status: 200, data: result })
       })
       .catch(err => {
-        return res.send({status: 0, message: err.message, data:err});
+        return res.send({ status: 0, message: err.message, data: err });
       })
   }
   catch (error) {
@@ -129,10 +128,10 @@ const deleteOrder = async (req, res) => {
     let orderId = req.params.id;
     const main_tbl = await models.tblmain.destroy({ where: { order_id: orderId } })
       .then(result => {
-        return res.send({status: 200, data:result})
+        return res.send({ status: 200, data: result })
       })
       .catch(err => {
-        return res.send({status: 0, message: err.message, data:err});
+        return res.send({ status: 0, message: err.message, data: err });
       })
   }
   catch (error) {
@@ -367,7 +366,57 @@ const getCountsOrder = async (req, res) => {
   }
 }
 
+const getOrderDetails = async (req, res) => {
+  try {
+    let orderId = req.params.id;
+    console.log(orderId)
+    const main_tbl = await models.tblmain.findOne({
+      include: [
+        {
+          model: models.tbl_upload_doc,
+          as: 'uploadDoc',
+          attributes: {
+            exclude: ['file2', 'table_id', 'reference_no']
+          }
+        },
+        {
+          model: models.tbl_downloaded_history,
+          as: 'downloadHistory'
+        },
+        {
+          model: models.tbl_remark,
+          as: 'remark',
+          attributes: {
+            exclude: ['create_ts']
+          }
+        },
+        {
+          model: models.tbl_mail_history,
+          as: 'mailHistory',
+        }
+      ],
+      where: { order_id: orderId }
+    })
+      .then(result => {
+        res.send({
+          status: 1,
+          data: result
+        })
+      })
+      .catch(err => {
+        res.send(err)
+      })
 
+  }
+  catch (error) {
+    let msg = {
+      status: 0,
+      message: 'Something Went Wrong.',
+      error: error.message
+    }
+    res.send(msg)
+  }
+}
 module.exports = {
   AddOrder,
   getAllOrder,
@@ -376,5 +425,6 @@ module.exports = {
   deleteOrder,
   gettilesOrder,
   getCountsOrder,
-  updateMultipleOrder
+  updateMultipleOrder,
+  getOrderDetails
 }

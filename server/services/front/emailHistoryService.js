@@ -1,7 +1,6 @@
 const models = require("../../models");
 const uploadFile = require("../../middleware/upload");
 const getEmailHistoryByOrderId = async (req, res) => {
-  console.log(models)
   try {
     let orderId = req.params.order_id;
     

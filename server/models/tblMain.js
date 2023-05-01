@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const tblmain = sequelize.define('tblmain', {
     // Model attributes are defined here
-    order_id  : {
+    order_id: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    applying_for_minor  : {
+    applying_for_minor: {
       type: DataTypes.STRING(10),
       allowNull: false
     },
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    being_paid  : {
+    being_paid: {
       type: DataTypes.STRING(10),
       allowNull: false
     },
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    province_or_territory  : {
+    province_or_territory: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    first_name  : {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    mailing_address  : {
+    mailing_address: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    telephone_number  : {
+    telephone_number: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    fax_number  : {
+    fax_number: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    travel_document  : {
+    travel_document: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
       // allowNull defaults to true
     },
-    will_use_national_israeli_passport  : {
+    will_use_national_israeli_passport: {
       type: DataTypes.STRING(10),
       allowNull: false
     },
@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    will_use_passport_by_Ministry_Foreign_Affairs  : {
+    will_use_passport_by_Ministry_Foreign_Affairs: {
       type: DataTypes.STRING(11),
       allowNull: false
     },
@@ -99,11 +99,11 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    confirm_taiwan_personal_identification_number  : {
+    confirm_taiwan_personal_identification_number: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    lawful_permanent_resident_of_us  : {
+    lawful_permanent_resident_of_us: {
       type: DataTypes.STRING(11),
       allowNull: false
     },
@@ -112,7 +112,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    uscis_number  : {
+    uscis_number: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -120,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50)
       // allowNull defaults to true
     },
-    uscis_exp_year  : {
+    uscis_exp_year: {
       type: DataTypes.STRING(10),
       allowNull: false
     },
@@ -129,7 +129,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    uscis_exp_day  : {
+    uscis_exp_day: {
       type: DataTypes.STRING(5),
       allowNull: false
     },
@@ -138,7 +138,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    passport_number  : {
+    passport_number: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -147,7 +147,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    passport_surname  : {
+    passport_surname: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -156,7 +156,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    birth_year  : {
+    birth_year: {
       type: DataTypes.STRING(10),
       allowNull: false
     },
@@ -165,7 +165,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    birth_date  : {
+    birth_date: {
       type: DataTypes.STRING(5),
       allowNull: false
     },
@@ -174,7 +174,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    country_of_birth  : {
+    country_of_birth: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -183,7 +183,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    passport_issue_month  : {
+    passport_issue_month: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -192,7 +192,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    passport_exp_year  : {
+    passport_exp_year: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -201,7 +201,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    passport_exp_date  : {
+    passport_exp_date: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -209,7 +209,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
       // allowNull defaults to true
     },
-    marital_status  : {
+    marital_status: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -218,7 +218,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    uci_number  : {
+    uci_number: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -227,7 +227,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    occupation  : {
+    occupation: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -236,7 +236,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    job_title  : {
+    job_title: {
       type: DataTypes.STRING(200),
       allowNull: false
     },
@@ -245,7 +245,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    job_country  : {
+    job_country: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -254,7 +254,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    job_state  : {
+    job_state: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -263,7 +263,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    preferred_language  : {
+    preferred_language: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -272,7 +272,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    confirm_email  : {
+    confirm_email: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -281,7 +281,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    house_name  : {
+    house_name: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -290,7 +290,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    street_name_2  : {
+    street_name_2: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -299,7 +299,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    city  : {
+    city: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
@@ -308,7 +308,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    res_state  : {
+    res_state: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -317,7 +317,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    do_you_know_when_travel_to_canada  : {
+    do_you_know_when_travel_to_canada: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -326,7 +326,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    travel_to_canada_month  : {
+    travel_to_canada_month: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -334,7 +334,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
       // allowNull defaults to true
     },
-    travel_to_canada_hour  : {
+    travel_to_canada_hour: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -343,7 +343,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    travel_to_canada_time_zone  : {
+    travel_to_canada_time_zone: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -352,7 +352,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    country_that_refused_you_a_visa_or_permit  : {
+    country_that_refused_you_a_visa_or_permit: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -361,7 +361,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    please_indicate_where_committed_been_arrested  : {
+    please_indicate_where_committed_been_arrested: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -370,7 +370,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    is_your_contact_with_tuberculosis  : {
+    is_your_contact_with_tuberculosis: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -379,7 +379,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    have_one_of_these_conditions  : {
+    have_one_of_these_conditions: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -388,7 +388,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    accept_terms_condition  : {
+    accept_terms_condition: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -397,7 +397,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    payment_status  : {
+    payment_status: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -406,7 +406,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    amount  : {
+    amount: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -415,7 +415,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    myuser_charge_id  : {
+    myuser_charge_id: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -424,7 +424,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    transaction_id  : {
+    transaction_id: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -433,7 +433,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    gov_order_id  : {
+    gov_order_id: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -441,7 +441,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
       // allowNull defaults to true
     },
-    doc_uploaded  : {
+    doc_uploaded: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -450,7 +450,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    assign_date  : {
+    assign_date: {
       type: DataTypes.DATE,
       allowNull: false
     },
@@ -458,7 +458,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
       // allowNull defaults to true
     },
-    processing_date  : {
+    processing_date: {
       type: DataTypes.DATE,
       allowNull: false
     },
@@ -467,7 +467,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    processing_type  : {
+    processing_type: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -476,7 +476,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    future_order_status  : {
+    future_order_status: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -485,7 +485,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    create_ts  : {
+    create_ts: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -494,7 +494,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    customer_device_detail  : {
+    customer_device_detail: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -502,7 +502,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
       // allowNull defaults to true
     },
-    customer_apply_country  : {
+    customer_apply_country: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -511,7 +511,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    customer_timezone  : {
+    customer_timezone: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -520,7 +520,7 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
 
-    date  : {
+    date: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -528,7 +528,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
       // allowNull defaults to true
     },
-    transaction_number  : {
+    transaction_number: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -537,14 +537,39 @@ module.exports = (sequelize, DataTypes) => {
       // allowNull defaults to true
     },
   },
-  {
-    freezeTableName: true,
-    tableName: 'tbl_main',
-    updatedAt: false,
-    createdAt: false,
-  }
+    {
+      freezeTableName: true,
+      tableName: 'tbl_main',
+      updatedAt: false,
+      createdAt: false,
+    }
   );
-
+  tblmain.associate = function (models) {
+    tblmain.hasMany(models.tbl_upload_doc, {
+      foreignKey: "order_id",
+      sourceKey: "order_id",
+      as: 'uploadDoc',
+      onDelete: 'CASCADE'
+    });
+    tblmain.hasMany(models.tbl_downloaded_history, {
+      foreignKey: "order_id",
+      sourceKey: "order_id",
+      as: 'downloadHistory',
+      onDelete: 'CASCADE'
+    })
+    tblmain.hasMany(models.tbl_remark, {
+      foreignKey: "order_id",
+      sourceKey: "order_id",
+      as: 'remark',
+      onDelete: 'CASCADE'
+    })
+    tblmain.hasMany(models.tbl_mail_history, {
+      foreignKey: "order_id",
+      sourceKey: "order_id",
+      as: 'mailHistory',
+      onDelete: 'CASCADE'
+    })
+  }
   return tblmain;
 }
 
