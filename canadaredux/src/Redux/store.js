@@ -15,9 +15,9 @@ const store = configureStore({
         country: countrySlice,
         // remarks: remarkSlice,
     },
-    middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware({ serializableCheck: false });
-    },
+    // middleware: (getDefaultMiddleware) => {
+    //     return getDefaultMiddleware({ serializableCheck: false });
+    // },
 })
 
 export default store

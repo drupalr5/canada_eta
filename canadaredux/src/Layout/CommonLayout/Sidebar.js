@@ -39,7 +39,7 @@ function Sidebar(props) {
       <aside id="minileftbar" className="minileftbar">
         <ul className="menu_list">
           <li>
-            <Link to="javascript:void(0);" className="bars"></Link>
+            <Link to="#" className="bars"></Link>
           </li>
         </ul>
       </aside>
@@ -50,7 +50,9 @@ function Sidebar(props) {
               <li>
                 <div className="user-info m-b-20">
                   <div className="image">
-                    <Logo />
+                    <Link to={`${path}`}>
+                      <Logo style={{ margin: "auto"}}/>
+                    </Link>
                   </div>
                   <div className="detail">
                     <h6>{name}</h6>
@@ -158,7 +160,7 @@ function Sidebar(props) {
             </ul>
           </div>
         </div>
-      </aside>
+      </aside >
     </>
   );
 }
