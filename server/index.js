@@ -5,7 +5,7 @@ const orderRouter = require('./routes/maintblroute');
 const adminRouter = require('./routes/adminRoute');
 const remarkRouter = require('./routes/remarkRoute');
 const mailSendService = require('./services/front/mailSendService');
-
+const countryRouter = require('./routes/countryRoute');
 const cors = require('cors');
 const coreOptions = {
   origin: "*",
@@ -54,8 +54,9 @@ app.use('/api/admin/', adminRouter);
 app.use('/api/', remarkRouter);
 // app.use('/api/order/', docUploadRouter);
 app.use('/docs/', orderRouter);
-app.get('/api/mailsend', mailSendService.mailSend)
-// app.use('/api/order/', docUploadRouter);
+app.get('/api/mailsend', mailSendService.mailSend);
+app.use('/api/country/', countryRouter);
+
 db.sequelize.sync({force:false}).then(() => {
   app.listen(app.get('port'), () => {
     console.log("Node server running at port 3001")
