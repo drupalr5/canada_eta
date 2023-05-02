@@ -12,8 +12,7 @@ import {
 } from "../Redux/orderSlice";
 import useAuthParameter from "./useAuthParameter";
 import { toast } from "react-toastify";
-import emailjs from "@emailjs/browser";
-
+import moment from "moment-timezone";
 const useOrderListHook = (
   orderList,
   tablecolumns,
@@ -44,7 +43,7 @@ const useOrderListHook = (
         name: row.passport_first_name + " " + row.passport_surname,
         email: row.email,
         telephone: row.telephone_number,
-        date: row.customer_date,
+        date: moment(row.customer_date).utc().format("MM-DD-YYYY HH:mm:ss"),
         assign_to: row.assign_to,
         status: process_status,
         action: view,

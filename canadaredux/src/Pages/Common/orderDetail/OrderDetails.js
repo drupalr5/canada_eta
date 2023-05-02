@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOrderDetailsByOrderId } from "../../../Redux/orderSlice";
 import useAuthParameter from "../../../Hooks/useAuthParameter";
 import { createOrderRemarksByOrderId } from "../../../Redux/remarkSlice";
-import { format } from 'date-fns'
+import moment from 'moment-timezone';
 import {
   updateOrdersData,
   getOrderSideBarCount,
@@ -47,6 +47,8 @@ function OrderDetails(props) {
     us_time: usTime,
     create_ts: currentTime
   }
+  console.log("2023-02-28 16:01:37");
+  console.log(moment(currentTime));
   const orderDetails = useSelector(state => state.order.OrderDetails);
   const queryParams = new URLSearchParams(window.location.search)
   const oid = queryParams.get("oid");
@@ -304,7 +306,7 @@ function OrderDetails(props) {
                                     : <td></td>
                                 }
 
-                                <td>{emails.create_ts}</td>
+                                <td>{moment(emails?.create_ts).tz("est").format("MM-DD-YYYY z")}</td>
                               </tr>
                             )
                           }) : <tr><td colSpan={4} style={{ textAlign: "center" }}>No Records found</td></tr>
@@ -964,17 +966,18 @@ function OrderDetails(props) {
                             </tr>
                           }
                           {
-                            item.customer_date &&
-                            <tr>
-                              <th width="250px;">US Date</th>
-                              <td>{format(new Date(item.customer_date), "d-m-Y")}</td>
-                            </tr>
+                            item.customer_date && (
+                              <tr>
+                                <th width="250px;">US Date</th>
+                                <td>{moment(item.customer_date).utc().format("MM-DD-YYYY")}</td>
+                              </tr>
+                            )
                           }
                           {
                             item.customer_date &&
                             <tr>
                               <th width="250px;">US EST</th>
-                              <td>{item.customer_date}</td>
+                              <td>{moment(item.customer_date).utc().format("HH:mm:ss")}</td>
                             </tr>
                           }
                           {
