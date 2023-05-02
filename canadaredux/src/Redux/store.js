@@ -3,7 +3,7 @@ import authSlice from './authSlice'
 import orderSlice from './orderSlice'
 import gatewaySlice from './gatewaySlice'
 import manageSlice from './manageSlice'
-import remarkSlice from './remarkSlice'
+// import remarkSlice from './remarkSlice'
 import countrySlice from './countrySlice'
 
 const store = configureStore({
@@ -12,8 +12,8 @@ const store = configureStore({
         order: orderSlice,
         gateway: gatewaySlice,
         manage: manageSlice,
-        remarks: remarkSlice,
         country: countrySlice,
+        // remarks: remarkSlice,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({ serializableCheck: false });

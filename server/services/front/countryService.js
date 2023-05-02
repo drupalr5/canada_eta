@@ -1,11 +1,10 @@
 const models = require("../../models");
-const Sequelize = require('sequelize');
 
 const getAllCountries = async (req, res) => {
   try {
     const main_tbl = await models.tbl_country.findAll()
       .then(result => {
-        res.send({
+        return res.send({
           status: 1,
           data: result
         })
