@@ -55,7 +55,7 @@ const getCountryById = async (req, res) => {
 
 const updateCountryById = async (req, res) => {
   try {
-    let cid = req.body.cid;
+    let cid = req.params.cid;
     const settingtbl = await models.tbl_country
       .update(req.body, { where: { id: cid } })
       .then(async (result) => {
