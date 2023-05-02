@@ -67,7 +67,6 @@ const useOrderListHook = (
       } else {
         callback = updateOrdersData({ order_id: oid, data: updateData });
       }
-      console.log(perDel);
       dispatch(callback)
         .unwrap()
         .then((res) => {

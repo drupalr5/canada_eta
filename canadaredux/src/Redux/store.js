@@ -13,7 +13,7 @@ const store = configureStore({
         gateway: gatewaySlice,
         manage: manageSlice,
         remarks: remarkSlice,
-        coutry: countrySlice,
+        country: countrySlice,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({ serializableCheck: false });

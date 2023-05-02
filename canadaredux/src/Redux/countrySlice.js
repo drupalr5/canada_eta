@@ -4,9 +4,9 @@ import CountryService from "../Services/CountryService";
 
 export const getCountryList = createAsyncThunk(
   "manage/getCountryList",
-  async (params) => {
+  async () => {
     try {
-      const response = await CountryService.getCountryList(params);
+      const response = await CountryService.getCountryList();
       const data = response.data;
       return data;
     } catch (error) {
@@ -16,10 +16,9 @@ export const getCountryList = createAsyncThunk(
 );
 export const updateCountry = createAsyncThunk(
   "manage/updateCountry",
-  async (params) => {
+  async ({id, values}) => {
     try {
-      const response = await CountryService.updateCountry(params);
-      console.log(response);
+      const response = await CountryService.updateCountry(id, values);
       const data = response.data;
       return data;
     } catch (error) {
@@ -42,22 +41,11 @@ const CountrySlice = createSlice({
     });
     builder.addCase(getCountryList.fulfilled, (state, action) => {
       state.loading = false;
-      state.countryList = action?.payload;
+      state.countryList = action?.payload?.data;
     });
     builder.addCase(getCountryList.rejected, (state, action) => {
       state.loading = false;
     });
-    // builder.addCase(getTeamMembers.pending, (state) => {
-    //   state.loading = true;
-    //   state.manage = [];
-    // });
-    // builder.addCase(getTeamMembers.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.list = action?.payload;
-    // });
-    // builder.addCase(getTeamMembers.rejected, (state, action) => {
-    //   state.loading = false;
-    // });
   },
 });
 
