@@ -75,6 +75,10 @@ function AdminLayout() {
           element={<ManageTeam heading="Manage Team" />}
         ></Route>
         <Route
+          path="manage-team/:id"
+          element={<ManageTeam heading="Manage Team" />}
+        ></Route>
+        <Route
           path="manage-country"
           element={<ManageCountry heading="Country Listing" />}
         ></Route>

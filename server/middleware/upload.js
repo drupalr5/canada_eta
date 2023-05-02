@@ -24,7 +24,7 @@ let DocPdfStorage = multer.diskStorage({
 let uploadFile = multer({
   storage: storage,
   limits: { fileSize: maxSize },
-}).single("files");
+}).single("file");
 
 let OrderDocPdf = multer({
   storage: DocPdfStorage,

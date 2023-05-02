@@ -117,7 +117,10 @@ function PopupModal({ isShow, initModal, closeModal, id, modelData }) {
                       setFieldValue("file", e.currentTarget.files[0])
                     }
                   />
-                  <Image file={values.file} />
+                  <Image
+                        file={values.file}
+                        defaultFiles={values.profile_path ? `http://localhost:3001/member_profile/${values.profile_path}` : ''}
+                      />
                 </Form.Group>
                 <p style={{ color: "red" }}>{errors.file}</p>
               </Col>
@@ -125,7 +128,7 @@ function PopupModal({ isShow, initModal, closeModal, id, modelData }) {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">
-              Submit
+              Save
             </Button>
             <Button variant="danger" onClick={closeModal}>
               Close

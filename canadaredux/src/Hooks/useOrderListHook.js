@@ -12,7 +12,7 @@ import {
 } from "../Redux/orderSlice";
 import useAuthParameter from "./useAuthParameter";
 import { toast } from "react-toastify";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 const useOrderListHook = (
   orderList,
@@ -21,7 +21,7 @@ const useOrderListHook = (
   param,
   perDel = false
 ) => {
-  const { path, usDate, usTime } = useAuthParameter();
+  const { type, path, usDate, usTime } = useAuthParameter();
   const dispatch = useDispatch();
   const [selectedRows, setSelectedRows] = useState(false);
   const [toggleCleared, setToggleCleared] = useState(false);
@@ -31,10 +31,10 @@ const useOrderListHook = (
       let id = row.id;
       let oid = row.order_id;
       let process_status = row.process_status;
-      if (row.process_status === 'Refund') {
-        process_status = 'Refund Incomplete'
-      } else if (row.process_status === 'Complete Refunds') {
-        process_status = 'Refund Complete'
+      if (row.process_status === "Refund") {
+        process_status = "Refund Incomplete";
+      } else if (row.process_status === "Complete Refunds") {
+        process_status = "Refund Complete";
       }
       let pre_no = index + 1;
       let view = `${path}/order-details/${oid}?oid=${id}&ot=${process_status}&pre_no=${pre_no}`;
@@ -160,7 +160,7 @@ const useOrderListHook = (
       ) {
         setToggleCleared(!toggleCleared);
         let updateData = {
-          process_status: 'Complete Refunds',
+          process_status: "Complete Refunds",
           refund_date: `${usDate} ${usTime}`,
         };
         dispatch(
@@ -175,7 +175,7 @@ const useOrderListHook = (
           .then((res) => {
             if (res.status === 200) {
               dispatch(getOrdersList(orderParam));
-              dispatch(sendMail())
+              dispatch(sendMail());
               // emailjs.send("service_lt38kox","template_9ddeddf",{
               //   to_name: 'James',
               //   from_name: 'Yogita',
@@ -186,12 +186,9 @@ const useOrderListHook = (
               //  }, function(error) {
               //     console.log('FAILED...', error);
               //  });
-              toast.success(
-                `Selected orders has been refund successfully`,
-                {
-                  className: "toast-message",
-                }
-              );
+              toast.success(`Selected orders has been refund successfully`, {
+                className: "toast-message",
+              });
               setSelectedRows(false);
             } else {
               toast.error(`${res.message}`, {
@@ -225,8 +222,8 @@ const useOrderListHook = (
         let updateData = {
           process_status: "Deleted",
         };
-        if (docupload===true) {
-          updateData.doc_uploaded=0
+        if (docupload === true) {
+          updateData.doc_uploaded = 0;
         }
         let callback;
         if (perDel === true) {
@@ -311,9 +308,11 @@ const useOrderListHook = (
                 View
               </Link>
               {" | "}
-              <Link to="#" onClick={deleteOrderHandler} oid={row.order_id}>
-                Delete
-              </Link>
+              {type === "Admin" && (
+                <Link to="#" onClick={deleteOrderHandler} oid={row.order_id}>
+                  Delete
+                </Link>
+              )}
             </span>
           ) : (
             " "
@@ -328,7 +327,7 @@ const useOrderListHook = (
     rowsDeleteOrder,
     toggleCleared,
     rowsAssignedOrder,
-    rowsRefunedOrder, 
+    rowsRefunedOrder,
   };
 };
 export default useOrderListHook;

@@ -9,12 +9,12 @@ import {
     getUsersList,
     deleteUserData,
     getUser,
+    addUser
   } from "../Redux/manageSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-const useUserForm = (initialValues, id, localstrorage =false) => {
-  const [msg, setMsg] = useState("");
-  const [err, setErr] = useState("");
+const useUserForm = (initialValues, id, localstrorage =false) => {  
   const dispatch = useDispatch();
   const foundOrderSchema = yup.object({
     // orderId: yup.string().required("Please enter your Order Id"),
@@ -34,33 +34,22 @@ const useUserForm = (initialValues, id, localstrorage =false) => {
       ),
   });
   const updateHandler = () => {
-    // let formData = new FormData();
-    // for (const key in values) {
-    //   if (key == "password") {
-    //     formData.append(key, encryptVal(values[key]));
-    //   } else {
-    //     formData.append(key, values[key]);
-    //   }
-    // }
-    // // console.log(formData);
-    // dispatch(uploadUserImage(formData))
-    //   .unwrap()
-    //   .then((response) => {})
-    //   .catch((error) => {});
-    const data = {
-      name: values.name,
-      email: values.email,
-      password: encryptVal(values.password),
-      type: values.type,
-      profile_path: values.profile_path,
-    };
-    dispatch(updateUser({ id: id, values: data }))
+    let formData = new FormData();
+    for (const key in values) {
+      if (key == "password") {
+        formData.append(key, encryptVal(values[key]));
+      } else {
+        formData.append(key, values[key]);
+      }
+    }
+    id ?
+    dispatch(updateUser({ id: id, values: formData }))
       .unwrap()
       .then((res) => {
-        console.log(res);
         if (res.status === 1) {
-          setMsg(res.message);
-          setErr("");
+          toast.success(res.message, {
+            className: "toast-message",
+          });
           if (localstrorage===true) {
             localStorage.setItem(
                 "user",
@@ -70,12 +59,38 @@ const useUserForm = (initialValues, id, localstrorage =false) => {
               );
           }
         } else {
-          setMsg("");
-          setErr(res.message);
+          toast.error(res.message, {
+            className: "toast-message",
+          });
         }
-      });
+      })
+      .catch((err) => {
+        toast.error(`${err.message}`, {
+          className: "toast-message",
+        });
+      })
+      : dispatch(addUser({ values: formData }))
+      .unwrap()
+      .then((res) => {
+        resetForm();
+        if (res.status === 1) {
+          dispatch(getUsersList({ type: "admin" }))
+          toast.success(res.message, {
+            className: "toast-message",
+          });
+        } else {
+          toast.error(res.message, {
+            className: "toast-message",
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(`${err.message}`, {
+          className: "toast-message",
+        });
+      })
   };
-  const { values, errors, handleChange, setFieldValue, handleSubmit } =
+  const { values, errors, handleChange, setFieldValue, handleSubmit, resetForm } =
     useFormik({
       initialValues: initialValues,
       enableReinitialize: true,
@@ -88,8 +103,6 @@ const useUserForm = (initialValues, id, localstrorage =false) => {
     handleChange,
     setFieldValue,
     handleSubmit,
-    msg,
-    err,
   };
 };
 

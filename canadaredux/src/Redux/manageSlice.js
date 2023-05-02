@@ -40,6 +40,19 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const addUser = createAsyncThunk(
+  "manage/addUserData",
+  async ({ values }) => {
+    try {
+      const response = await ManageService.addUserData(values);
+      const data = response?.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 export const uploadUserImage = createAsyncThunk(
   "manage/uploadUserImage",
   async (formData) => {

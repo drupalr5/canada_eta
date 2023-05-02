@@ -8,6 +8,7 @@ adminRouter.get('/all', adminService.getAllAdmin);
 adminRouter.get('/team-members', adminService.getTeamMembers);
 adminRouter.put('/update/:id', adminService.updateAdmin);
 adminRouter.post('/updateuser/:id', adminService.updateData);
+adminRouter.post('/adduser', adminService.addData);
 adminRouter.delete('/deleteUser/:id', adminService.deleteAdmin);
 adminRouter.get('/gateway-setting', adminService.getSetting);
 adminRouter.post('/userfile-upload', adminService.userFileUpload);

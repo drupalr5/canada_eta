@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getGatewayList, updateGatewayData } from "../../Redux/gatewaySlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { toast } from "react-toastify";
 
 function Settings(props) {
   const [msg, setMsg] = useState("");
@@ -33,11 +34,13 @@ function Settings(props) {
     .unwrap()
     .then((res) => {
       if (res.status === 1) {
-        setMsg(res.message)
-        setErr('')
+        toast.success(res.message, {
+          className: "toast-message",
+        });
       } else {
-        setMsg('')
-        setErr(res.message)
+        toast.error(res.message, {
+          className: "toast-message",
+        });
       }
     });
   };
@@ -67,8 +70,6 @@ function Settings(props) {
             </div>
             <div className="body">
               <form onSubmit={handleSubmit}>
-              <p style={{color: 'red'}}>{err && err}</p>
-              <p style={{color: 'green'}}>{msg && msg}</p>
                 <label htmlFor="gateway_name">
                   <strong>Gateway</strong>
                 </label>

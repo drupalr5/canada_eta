@@ -5,6 +5,9 @@ export default class ManageService {
   static updateUserData = (id, data) =>
     ApiService.post(`${config.API_URL}/admin/updateuser/${id}`, data);
 
+  static addUserData = (data) =>
+    ApiService.post(`${config.API_URL}/admin/adduser`, data);
+
   static getUserData = (id) =>
     ApiService.get(`${config.API_URL}/admin/user/${id}`);
 

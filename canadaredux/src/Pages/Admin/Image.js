@@ -18,11 +18,11 @@ function Image(props) {
   return (
     <>
       <img
-        src={thuumb}
+        src={thuumb? thuumb : props?.defaultFiles}
         alt={props?.fileUpload?.name}
         className="img-thumbnail mt-2"
-        height={height}
-        width={width}
+        height={props?.defaultFiles ? 200 : height}
+        width={props?.defaultFiles? 200 : width}
       />
     </>
   );

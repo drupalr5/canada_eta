@@ -54,7 +54,9 @@ app.use('/api/admin/', adminRouter);
 app.use('/api/', remarkRouter);
 // app.use('/api/order/', docUploadRouter);
 app.use('/docs/', orderRouter);
-app.get('/api/mailsend', mailSendService.mailSend)
+app.get('/api/mailsend', mailSendService.mailSend);
+console.log(__dirname);
+app.use('/member_profile', express.static(__dirname+'/uploads/member_profile/'));
 // app.use('/api/order/', docUploadRouter);
 db.sequelize.sync({force:false}).then(() => {
   app.listen(app.get('port'), () => {

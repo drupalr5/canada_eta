@@ -18,36 +18,31 @@ import {
 } from "../../Redux/manageSlice";
 import Image from "./Image";
 import DTable from "../Common/DTable";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PopupModal from "./PopupModal";
 // import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import axios from "axios";
-import config from "../../config";
 import useUserForm from "../../Hooks/useUserForm";
-import { encryptVal, decryptVal } from "../../utility/utility";
+import { decryptVal } from "../../utility/utility";
 
 function ManageTeam(props) {
-  // const [msg, setMsg] = useState("");
-  // const [err, setErr] = useState("");
-  const [defaultOption, setDefaultOption] = useState({});
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const singleUser = useSelector((state) => state?.manage?.manage);
+  const userList = useSelector((state) => state?.manage?.list);
+
   const [pending, setPending] = useState(true);
   const [isShow, invokeModal] = useState(false);
   const [popupId, setPopupId] = useState(false);
-  const { user } = useAuthParameter();
-  const id = user?.id;
-  const singleUser = useSelector((state) => state?.manage?.manage);
-  const userList = useSelector((state) => state?.manage?.list);
   const [modelData, setModelData] = useState({});
   const style = { height: "40px" };
-  const dispatch = useDispatch();
+
   // const { register, handleSubmit, formState: { errors } } = useForm();
 
   useEffect(() => {
-    dispatch(getUserData(id))
-      .unwrap()
-      .then((res) => {
-        setDefaultOption(res);
-      });
+    if (id) {
+      dispatch(getUserData(id));
+    }
     dispatch(getUsersList({ type: "admin" }))
       .unwrap()
       .then((res) => {
@@ -56,8 +51,8 @@ function ManageTeam(props) {
         }, 2000);
         return () => clearTimeout(timeout);
       });
-  }, []);
-  
+  }, [dispatch, id]);
+
   const initModal = (id) => {
     setPopupId(id);
     dispatch(getUser(id))
@@ -70,26 +65,41 @@ function ManageTeam(props) {
   const closeModal = () => {
     return invokeModal(!true);
   };
-  let initialValues = {};
-  if (typeof singleUser !== "undefined") {
-    initialValues = {
+  let defaultInitialValues = {
+    name: "",
+    email: "",
+    password: "",
+    type: "",
+    profile_path: "",
+  };
+  if (Object.keys(singleUser).length > 0 && id !== undefined && id !== null) {
+    defaultInitialValues = {
       name: singleUser?.name,
       email: singleUser?.email,
       password: decryptVal(singleUser?.password),
       type: singleUser?.type,
       profile_path: singleUser?.profile_path,
     };
-  } else {
-    initialValues = {
-      name: defaultOption?.name,
-      email: defaultOption?.email,
-      password: decryptVal(defaultOption?.password),
-      type: defaultOption?.type,
-      profile_path: defaultOption?.profile_path,
-    };
   }
-  const { values, errors, handleChange, setFieldValue, handleSubmit, msg, err } =
-    useUserForm(initialValues, id, true);
+  const [initialValues, setInitialValues] = useState(defaultInitialValues);
+  const {
+    values,
+    errors,
+    handleChange,
+    setFieldValue,
+    handleSubmit
+  } = useUserForm(id ? defaultInitialValues : initialValues, id, true);
+  
+  let rows = [];
+  Array.isArray(userList) &&
+    userList.map((row, index) => {
+      return rows.push({
+        id: row.id,
+        name: row.name,
+        email: row.email,
+        type: row.type,
+      });
+    });
   let columns = [
     {
       name: "#",
@@ -133,16 +143,6 @@ function ManageTeam(props) {
         ),
     },
   ];
-  let rows = [];
-  Array.isArray(userList) &&
-    userList.map((row, index) => {
-      return rows.push({
-        id: row.id,
-        name: row.name,
-        email: row.email,
-        type: row.type,
-      });
-    });
   const deleteUserHandler = (e) => {
     e.preventDefault();
     const id = e.target.attributes.id.nodeValue;
@@ -168,8 +168,7 @@ function ManageTeam(props) {
             </div>
             <div className="body">
               <Form onSubmit={handleSubmit} encType="multipart/form-data">
-              <p style={{ color: "green" }}>{msg && msg}</p>
-              <p style={{ color: "red" }}>{err && err}</p>
+                
                 <Row>
                   <Col>
                     <Form.Group className="mb-3" controlId="formText">
@@ -251,7 +250,10 @@ function ManageTeam(props) {
                           setFieldValue("file", e.currentTarget.files[0])
                         }
                       />
-                      <Image file={values.file} />
+                      <Image
+                        file={values.file}
+                        defaultFiles={values.profile_path ? `http://localhost:3001/member_profile/${values.profile_path}` : ''}
+                      />
                     </Form.Group>
                     <p style={{ color: "red" }}>{errors.file}</p>
                   </Col>

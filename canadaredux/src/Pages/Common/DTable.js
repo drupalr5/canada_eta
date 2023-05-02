@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import DataTable from "react-data-table-component";
 import FilterComponent from "./FilterComponent";
 import { useLocation } from "react-router-dom";
+import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function Table({
   orders,
@@ -27,6 +28,7 @@ function Table({
   //     });
   //   });
   // }
+  const { type } = useAuthParameter();
   const location = useLocation();
   const pathname = location.pathname.split("/");
   const selectTeamMember = (e) => {
@@ -115,7 +117,7 @@ function Table({
                   customStyles={customStyles}
                 />
               </div>
-              {(pathname[2] === "" || pathname[2] === "priority-order") && (
+              {((pathname[2] === "" || pathname[2] === "priority-order") && type==='Admin') && (
                 <form>
                   <div className="row clearfix">
                     <div className="col-lg-6 col-md-6 col-sm-12 m-b-20">
@@ -138,7 +140,7 @@ function Table({
                   </div>
                 </form>
               )}
-              {(pathname[2] === "" || pathname[2] === "priority-order") && (
+              {((pathname[2] === "" || pathname[2] === "priority-order") && type==='Admin') && (
                 <button
                   type="submit"
                   name="submit"
@@ -149,16 +151,19 @@ function Table({
                   Assign To
                 </button>
               )}
-              <button
-                type="submit"
-                name="submit"
-                value="Delete"
-                className="btn btn-success"
-                onClick={rowsDeleteOrder}
-              >
-                Delete Order
-              </button>
-              {pathname[2] === "refund-order" && (
+              {(pathname[2] !== "manage-team" &&
+                pathname[2] !== "manage-country" && type==='Admin') && (
+                  <button
+                    type="submit"
+                    name="submit"
+                    value="Delete"
+                    className="btn btn-success"
+                    onClick={rowsDeleteOrder}
+                  >
+                    Delete Order
+                  </button>
+                )}
+              {(pathname[2] === "refund-order" && type==='Admin') && (
                 <button
                   type="submit"
                   name="submit"

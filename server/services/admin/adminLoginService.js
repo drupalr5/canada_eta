@@ -207,7 +207,8 @@ const updateAdmin = async (req, res) => {
         } else {
           return res.send({
             status: 0,
-            message: "Already updated same password, try again with diffrent one",
+            message:
+              "Already updated same password, try again with diffrent one",
             data: result,
           });
         }
@@ -232,34 +233,75 @@ const updateAdmin = async (req, res) => {
 const updateData = async (req, res) => {
   try {
     let id = req.params.id;
-    console.log(req);
-    const main_tbl = await models.tbl_admin
-      .update(req.body, { where: { id: id } })
-      .then(async (result) => {
-        let response = await models.tbl_admin
-        .findOne({ where: { id: id } })
-        // console.log(response);
-        if (result[0] == 1) {
-          return res.send({
-            status: 1,
-            message: "Update profile Successfully.",
-            data: response,
-          });
-        } else {
+    await uploadFile.uploadUserFile(req, res).then(async (result) => {
+      // console.log(req.file.originalname);
+      let fileName = req?.file?.originalname;
+      if (fileName!= undefined) {
+        req.body.profile_path = fileName;
+      }
+      const main_tbl = await models.tbl_admin
+        .update(req.body, { where: { id: id } })
+        .then(async (result) => {
+          let response = await models.tbl_admin.findOne({ where: { id: id } });
+          // console.log(response);
+          if (result[0] == 1) {
+            return res.send({
+              status: 1,
+              message: "Update profile Successfully.",
+              data: response,
+            });
+          } else {
+            return res.send({
+              status: 0,
+              message: "Profile already updated, please try again.",
+              data: result,
+            });
+          }
+        })
+        .catch((error) => {
           return res.send({
             status: 0,
-            message: "Profile does not updated, please try again.",
+            message: "Something Went Wrong.",
+            error: error.message,
+          });
+        });
+    });
+  } catch (error) {
+    let msg = {
+      status: 0,
+      message: "Something Went Wrong.",
+      error: error.message,
+    };
+    res.send(msg);
+  }
+};
+
+const addData = async (req, res) => {
+  try {
+    await uploadFile.uploadUserFile(req, res).then(async (result) => {
+      // console.log(req.file.originalname);
+      let fileName = req?.file?.originalname;
+      if (fileName!= undefined) {
+        req.body.profile_path = fileName;
+      }
+      console.log(req);
+      const main_tbl = await models.tbl_admin
+        .create(req.body)
+        .then(async (result) => {
+          return res.send({
+            status: 1,
+            message: "Add profile Successfully.",
             data: result,
           });
-        }
-      })
-      .catch((error) => {
-        return res.send({
-          status: 0,
-          message: "Something Went Wrong.",
-          error: error.message,
+        })
+        .catch((error) => {
+          return res.send({
+            status: 0,
+            message: "Something Went Wrong.",
+            error: error.message,
+          });
         });
-      });
+    });
   } catch (error) {
     let msg = {
       status: 0,
@@ -373,23 +415,19 @@ const updateSettings = async (req, res) => {
 const userFileUpload = async (req, res) => {
   try {
     console.log(req.body);
-    await uploadFile.uploadUserFile(req, res)
-      .then((result) => {
-        return res.send({
-          status: 1,
-          message: "Uploaded the file successfully: ",
-          fileName: req.file.originalname,
-        });
-      })
+    await uploadFile.uploadUserFile(req, res).then((result) => {
+      return res.send({
+        status: 1,
+        message: "Uploaded the file successfully: ",
+        fileName: req.file.originalname,
+      });
+    });
     console.log(req);
-    await uploadFile(req, res);
     if (req.file == undefined) {
       return res
         .status(400)
         .send({ status: 1, message: "Please upload a file!" });
     }
-
-
   } catch (error) {
     console.log(error);
   }
@@ -400,6 +438,7 @@ module.exports = {
   getOneAdmin,
   updateAdmin,
   updateData,
+  addData,
   deleteAdmin,
   getAdminById,
   LoginAdmin,
@@ -407,5 +446,5 @@ module.exports = {
   getSetting,
   updateSettings,
   userFileUpload,
-  getTeamMembers
+  getTeamMembers,
 };

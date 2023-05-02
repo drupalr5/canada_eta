@@ -7,10 +7,9 @@ import useAuthParameter from "../../Hooks/useAuthParameter";
 import { changePassword } from "../../Redux/authSlice";
 import { useDispatch } from "react-redux";
 import { encryptVal } from "../../utility/utility";
+import { toast } from "react-toastify";
 
 function ChangePassword(props) {
-  const [msg, setMsg] = useState("");
-  const [err, setErr] = useState("");
   const { user } = useAuthParameter();
   const dispatch = useDispatch();
   let id = user?.id;
@@ -25,11 +24,13 @@ function ChangePassword(props) {
       .unwrap()
       .then((res) => {
         if (res.status === 1) {
-          setMsg(res.message);
-          setErr('')
+          toast.success(res.message, {
+            className: "toast-message",
+          });
         } else {
-          setErr(res.message);
-          setMsg('')
+          toast.error(res.message, {
+            className: "toast-message",
+          });
         }
       });
   };
@@ -45,8 +46,6 @@ function ChangePassword(props) {
             </div>
             <div className="body">
               <Form onSubmit={handleSubmit}>
-              <p style={{color: 'red'}}>{err && err}</p>
-              <p style={{color: 'green'}}>{msg && msg}</p>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>
                     <strong>Enter New Password</strong>
