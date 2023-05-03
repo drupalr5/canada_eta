@@ -3,11 +3,12 @@ import config from "../config.json";
 
 export default class AuthService {
   // static login = (user) => ApiService.post("/admin/admin-login", user);
-  static login = (user) => ApiService.post(`${config.API_URL}/admin/login`,user);
+  static login = (user) =>
+    ApiService.post(`${config.API_URL}/admin/login`, user);
 
   static userInfo = () => ApiService.get("/user_info");
 
-  static changePassword = (userId, newPassword) => 
+  static changePassword = (userId, newPassword) =>
     ApiService.put(`${config.API_URL}/admin/update/${userId}`, newPassword);
 
   /**

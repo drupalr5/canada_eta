@@ -25,7 +25,7 @@ function TopBar() {
       <div className="row clearfix main-folder-section">
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${path}/`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/`} >
               <div className="body">
                 <p className="m-b-20">
                   <img src={NewOrderImage} alt="Order Logo" />
@@ -46,7 +46,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${path}/priority-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/priority-order`} >
               <div className="body">
                 <p className="m-b-20">
                   <img src={PendingOrderImage} alt="Priority Orders" />
@@ -68,7 +68,7 @@ function TopBar() {
 
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${path}/pending-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/pending-order`} >
               <div className="body">
                 <p className="m-b-20">
                   <img src={PendingOrderImage} alt="Pending Orders" />
@@ -89,7 +89,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${path}/completed-order`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/completed-order`}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={CompletedOrderImage} alt="Completed Order" />
@@ -110,7 +110,7 @@ function TopBar() {
         </div>
         <div className="col-lg-2 col-md-6 top-folder">
           <div className="card text-center">
-            <Link to={`${path}/contact-customer`} className={({ isActive }) => (isActive ? 'active open' : '')}>
+            <Link to={`${path}/contact-customer`}>
               <div className="body">
                 <p className="m-b-20">
                   <img src={ContactOrderImage} alt="Contact Order" />

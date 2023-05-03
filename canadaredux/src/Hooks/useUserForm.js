@@ -14,7 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const useUserForm = (initialValues, id, localstrorage =false) => {  
+const useUserForm = (initialValues, id, localstrorage =false, inputRef) => {  
   const dispatch = useDispatch();
   const foundOrderSchema = yup.object({
     // orderId: yup.string().required("Please enter your Order Id"),
@@ -74,6 +74,7 @@ const useUserForm = (initialValues, id, localstrorage =false) => {
       .then((res) => {
         resetForm();
         if (res.status === 1) {
+          inputRef.current.value = null;
           dispatch(getUsersList({ type: "admin" }))
           toast.success(res.message, {
             className: "toast-message",

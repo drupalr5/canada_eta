@@ -148,7 +148,7 @@ function Sidebar(props) {
               <li className="header">Reporting</li>
               <li>
                 <NavLink
-                  to="javascript:void(0);"
+                  to="#"
                   className="menu-toggle waves-effect waves-block"
                 >
                   <img src={Zoho} alt="" />

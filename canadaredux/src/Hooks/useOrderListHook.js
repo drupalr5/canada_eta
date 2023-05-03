@@ -174,16 +174,6 @@ const useOrderListHook = (
             if (res.status === 200) {
               dispatch(getOrdersList(orderParam));
               dispatch(sendMail());
-              // emailjs.send("service_lt38kox","template_9ddeddf",{
-              //   to_name: 'James',
-              //   from_name: 'Yogita',
-              //   message: '<html><head><meta charset="utf-8" /> <title>Refund Canada eTA</title><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" / ></head>Testing body html<body></body></html>',
-              //   }, 'HRJcyDiemAwLH9sFh')
-              //   .then(function(response) {
-              //     console.log('SUCCESS!', response.status, response.text);
-              //  }, function(error) {
-              //     console.log('FAILED...', error);
-              //  });
               toast.success(`Selected orders has been refund successfully`, {
                 className: "toast-message",
               });

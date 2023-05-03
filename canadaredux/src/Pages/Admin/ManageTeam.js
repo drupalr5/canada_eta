@@ -35,6 +35,7 @@ function ManageTeam(props) {
   const [isShow, invokeModal] = useState(false);
   const [popupId, setPopupId] = useState(false);
   const [modelData, setModelData] = useState({});
+  const inputRef = useRef(null);
   const style = { height: "40px" };
 
   // const { register, handleSubmit, formState: { errors } } = useForm();
@@ -88,7 +89,7 @@ function ManageTeam(props) {
     handleChange,
     setFieldValue,
     handleSubmit
-  } = useUserForm(id ? defaultInitialValues : initialValues, id, true);
+  } = useUserForm(id ? defaultInitialValues : initialValues, id, true, inputRef);
   
   let rows = [];
   Array.isArray(userList) &&
@@ -245,13 +246,14 @@ function ManageTeam(props) {
                       <Form.Control
                         type="file"
                         name="file"
+                        ref={inputRef}
                         accept="image/*"
                         onChange={(e) =>
                           setFieldValue("file", e.currentTarget.files[0])
                         }
                       />
                       <Image
-                        file={values.file}
+                        file={values?.file}
                         defaultFiles={values.profile_path ? `http://localhost:3001/member_profile/${values.profile_path}` : ''}
                       />
                     </Form.Group>
