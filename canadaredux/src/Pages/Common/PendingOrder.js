@@ -8,9 +8,7 @@ import useAuthParameter from "../../Hooks/useAuthParameter";
 
 function PendingOrder(props) {
   const { param, token } = useAuthParameter();
-  const [pending, setPending] = useState(true);
   const dispatch = useDispatch();
-  const orderList = useSelector((state) => state.order.orderData);
   let orderParam = {
     payment_status: "Success",
     process_status: "Pending",
@@ -18,16 +16,16 @@ function PendingOrder(props) {
     assign_to: param.assign_to,
   };
 
+  const loading = useSelector((state) => state.order.loading)
+  const [pending, setPending] = useState(!loading);
+  const orderList = useSelector((state) => state.order.orderData);
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
       .then((res) => {
-        const timeout = setTimeout(() => {
-          setPending(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
+        setPending(false);
       });
-  }, [dispatch, token]);
+  }, [dispatch]);
 
   const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } =
     useOrderListHook(orderList, [], orderParam, param);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import PageHeading from "../PageHeading";
 import { toast } from "react-toastify";
@@ -22,6 +22,8 @@ const DOC_DOWNLOAD_PATH = config?.DOC_DOWNLOAD_PATH;
 // import query from 'react-query';
 
 function OrderDetails(props) {
+  const docRef = useRef(null);
+  const [resendEmail, setResendEmail] = useState(null)
   const { orderId } = useParams();
   const { param, type, usDate, usTime, currentTime } = useAuthParameter();
   const [isShow, invokeModal] = useState(false);
@@ -47,15 +49,13 @@ function OrderDetails(props) {
     us_time: usTime,
     create_ts: currentTime
   }
-  console.log("2023-02-28 16:01:37");
-  console.log(moment(currentTime));
   const orderDetails = useSelector(state => state.order.OrderDetails);
   const queryParams = new URLSearchParams(window.location.search)
   const oid = queryParams.get("oid");
   const ot = queryParams.get("ot");
   const pre_no = queryParams.get("pre_no");
   const dispatch = useDispatch();
-  // const OrderRemarks = useSelector(state => state.remarks.OrderRemarks);
+
   const docUploadIntitial = {
     order_id: orderId,
     file1: '',
@@ -64,8 +64,8 @@ function OrderDetails(props) {
     mail_sent: 1,
     create_ts: currentTime
   }
+
   const [docUploadValue, setDocUploadValue] = useState(docUploadIntitial);
-  // const [downloadHistory, setDownloadHistory] = useState([]);
   const emailHistoryIntitial = {
     order_id: orderId,
     create_ts: currentTime,
@@ -202,14 +202,12 @@ function OrderDetails(props) {
     );
     dispatch(moveUploadedFile(formData)).then(result => {
       if (result.payload) {
-        console.log(result.payload)
         setDocUploadValue({
           ...docUploadValue,
           file1: result?.payload?.fileName
         })
         dispatch(uploadOrderDocument(docUploadValue))
           .then(docuploaded => {
-            console.log(docuploaded)
             if (docuploaded.payload.errors) {
               toast.error(`${result.payload.errors[0].message}`, {
                 className: "toast-message",
@@ -219,7 +217,8 @@ function OrderDetails(props) {
               toast.success(`Your Doc has been updated successfully`, {
                 className: "toast-message",
               });
-              dispatch(getOrderDetailsByOrderId(orderId))
+              dispatch(getOrderDetailsByOrderId(orderId));
+              docRef.current.value = null
             }
           })
       }
@@ -248,6 +247,11 @@ function OrderDetails(props) {
           dispatch(getOrderDetailsByOrderId(orderId))
         }
       })
+  }
+
+  const resendEmailahandlerChange = (e) => {
+    e.preventDefault();
+    setResendEmail(e.target.value)
   }
   return (
     <div className="row clearfix">
@@ -338,7 +342,7 @@ function OrderDetails(props) {
                         <form className="form-inline" method="POST" id="form1">
                           <input type="hidden" name="order_id" value={item?.order_id} />
                           <div className="form-group">
-                            <input type="text" name="email" className="form-control" style={{ width: '800px !important' }} value={item?.email} />
+                            <input type="text" name="email" className="form-control" style={{ width: '800px !important' }} value={(resendEmail == null) ? item?.email : resendEmail} onChange={resendEmailahandlerChange}/>
                           </div>
                           <div className="form-group">
                             <br /><br /><br />
@@ -376,7 +380,7 @@ function OrderDetails(props) {
                               <td>
                                 <div className="form-group">
                                   <label>Email ID</label>
-                                  <input type="email" name="email" className="form-control" value={docUploadValue.email ? docUploadValue.email : item?.email} placeholder="Email" required="" onChange={handleFileEmailChange} />
+                                  <input type="email" name="email" className="form-control" value={docUploadValue?.email == undefined ? item?.email : docUploadValue?.email} placeholder="Email" required="" onChange={handleFileEmailChange} />
                                 </div>
                               </td>
                             </tr>
@@ -384,7 +388,7 @@ function OrderDetails(props) {
                                 <td>
                                   <div className="form-group">
                                     <label>PDF</label>
-                                    <input onChange={handleFileUploadChange} type="file" className="form-control required" id="validationDefault02" required="" name="file1" accept=".pdf" />
+                                    <input ref={docRef} onChange={handleFileUploadChange} type="file" className="form-control required" id="validationDefault02" required="" name="file1" accept=".pdf"/>
                                   </div>
                                 </td>
                               </tr>
@@ -1041,7 +1045,7 @@ function OrderDetails(props) {
                               </tr>
                             )
                           })
-                            : <tr><td colspan="6" align="center">No record found</td></tr>
+                            : <tr><td colSpan="6" align="center">No record found</td></tr>
                         }
 
                       </tbody>
@@ -1091,7 +1095,7 @@ function OrderDetails(props) {
                           : <button className="blue-btn" value="Rejected" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Rejected") }}>Move to Rejected</button>
                       }
                       {type == "Admin" &&
-                        <button completedButton className="blue-btn" value="Completed" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Completed") }}>Move to Completeded Orders</button>
+                        <button className="blue-btn" value="Completed" name="submit" onClick={(e) => { e.preventDefault(); updateOrderState("Completed") }}>Move to Completeded Orders</button>
                       }
                     </form>
                   </div>

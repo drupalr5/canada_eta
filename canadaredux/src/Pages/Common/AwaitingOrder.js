@@ -14,18 +14,16 @@ function AwaitingOrder(props) {
     assign_to: param.assign_to,
   }
   const dispatch = useDispatch();
-  const [pending, setPending] = useState(true);
-  const orderList = useSelector(state => state.order.orderData);
+  const loading = useSelector((state) => state.order.loading)
+  const [pending, setPending] = useState(!loading);
+  const orderList = useSelector((state) => state.order.orderData);
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
       .then((res) => {
-        const timeout = setTimeout(() => {
-          setPending(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
+        setPending(false);
       });
-  }, [dispatch])
+  }, [dispatch]);
 
   const { rows, columns, handleChange, rowsDeleteOrder, toggleCleared } = useOrderListHook(orderList, [], orderParam, param)
 
