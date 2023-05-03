@@ -1,19 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
 import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
 import "../../Allassets/assets/css/sb-css/sb-admin.css";
 import backgroundImage from "../../Allassets/assets/images/canada-bg-logo.png";
-import useForm from "../../Hooks/useForm";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../Redux/authSlice";
 import { encryptVal } from "../../utility/utility";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
 function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [msg, setMsg] = useState("");
-  const [err, setErr] = useState("");
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const loginSchema = yup.object({
+    email: yup
+      .string()
+      .required("Please enter your Email Id")
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Please enter correct Email Id"
+      ),
+    password: yup
+      .string()
+      .required("Please enter your password")
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
+        "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers"
+      ),
+  });
   useEffect(() => {
     document.body.classList.remove("theme-black");
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -24,10 +44,18 @@ function Login(props) {
     document.title = "Admin Section";
   }, []);
   const loginHnadler = () => {
-    dispatch(authenticate({email: (values.email), password: encryptVal(values.password)}))
+    dispatch(
+      authenticate({
+        email: values.email,
+        password: encryptVal(values.password),
+      })
+    )
       .unwrap()
       .then((res) => {
-        if (res.status === 1) {
+        if (res.status === 200) {
+          toast.success(`${res.message}`, {
+            className: "toast-message",
+          });
           if (res.data.type === "Admin") {
             navigate("/admin");
           } else if (res.data.type === "Team") {
@@ -35,16 +63,23 @@ function Login(props) {
           } else if (res.data.type === "Night Staff") {
             navigate("/night_staff");
           }
-          setErr('')
         } else {
-          setErr(res.message)
+          toast.error(`${res.message}`, {
+            className: "toast-message",
+          });
         }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(`${error.message}`, {
+          className: "toast-message",
+        });
       });
   };
-  const { handleChange, values, errors, handleSubmit } = useForm(loginHnadler);
+  const { values, errors, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: loginSchema,
+    onSubmit: loginHnadler,
+  });
   return (
     <>
       <div className="container">
@@ -52,10 +87,8 @@ function Login(props) {
           <div className="card-header">Login</div>
           <div className="card-body">
             <form onSubmit={handleSubmit} method="post">
-            <p style={{color: 'red'}}>{err && err}</p>
               <div className="form-group">
                 <div className="form-label-group">
-                
                   <input
                     type="email"
                     id="inputEmail"
@@ -68,7 +101,7 @@ function Login(props) {
                   />
                   <label htmlFor="inputEmail">Email address</label>
                 </div>
-                <p style={{color: 'red'}}>{errors.email && errors.email}</p>
+                <p style={{ color: "red" }}>{errors.email && errors.email}</p>
               </div>
               <div className="form-group">
                 <div className="form-label-group">
@@ -83,7 +116,9 @@ function Login(props) {
                   />
                   <label htmlFor="inputPassword">Password</label>
                 </div>
-                <p style={{color: 'red'}}>{errors.password && errors.password}</p>
+                <p style={{ color: "red" }}>
+                  {errors.password && errors.password}
+                </p>
               </div>
               <button type="submit" className="btn btn-primary btn-block">
                 Login

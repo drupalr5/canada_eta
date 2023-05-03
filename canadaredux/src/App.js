@@ -6,10 +6,12 @@ import AnonymousLayout from "./Layout/AnonymousLayout";
 import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 import TeamLayout from "./Layout/TeamLayout/TeamLayout";
 import StaffLayout from "./Layout/StaffLayout/StaffLayout";
+import ToastifyComponent from "./Pages/Common/ToastifyComponent";
 
 function App() {
   return (
     <>
+      <ToastifyComponent />
       <Routes>
         <Route path="/" element={<AnonymousLayout />} />
         <Route path="/admin/*" element={<AdminLayout />}></Route>

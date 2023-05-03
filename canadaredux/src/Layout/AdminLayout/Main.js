@@ -11,7 +11,7 @@ import OrderHistory from "../../Pages/Common/OrderHistory";
 import DeleteOrder from "../../Pages/Common/DeleteOrder";
 import RefundOrder from "../../Pages/Common/RefundOrder";
 import RejectedOrder from "../../Pages/Common/RejectedOrder";
-import ChangePassword from "../../Pages/Admin/ChangePassword";
+import ChangePassword from "../../Pages/Admin/ChangePassword/ChangePassword";
 import Settings from "../../Pages/Admin/Settings";
 import ManageTeam from "../../Pages/Admin/ManageTeam";
 import ManageCountry from "../../Pages/Admin/ManageCountry";

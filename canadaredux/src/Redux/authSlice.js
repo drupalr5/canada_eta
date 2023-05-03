@@ -7,16 +7,17 @@ export const authenticate = createAsyncThunk(
     try {
       const response = await AuthService.login(user);
       const data = response?.data;
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          data: JSON.stringify(data.data),
-        })
-      );
-      localStorage.setItem("token", data?.jwtToken);
+      if (data.status === 200) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            data: JSON.stringify(data.data),
+          })
+        );
+        localStorage.setItem("token", data?.jwtToken);
+      }
       return data;
     } catch (error) {
-      console.log(error);
       return error.response.data;
     }
   }
@@ -29,7 +30,6 @@ export const changePassword = createAsyncThunk(
         user.userId,
         user.passwordParams
       );
-      console.log(response);
       const data = response?.data;
       return data;
     } catch (error) {
@@ -62,7 +62,7 @@ const authSlice = createSlice({
     },
     [authenticate.fulfilled]: (state, action) => {
       state.loading = false;
-      state.data = action.payload;
+      state.data = action?.payload?.data;
     },
     [authenticate.rejected]: (state, action) => {
       state.loading = false;

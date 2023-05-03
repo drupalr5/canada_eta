@@ -5,8 +5,6 @@ import Sidebar from "../CommonLayout/Sidebar";
 import Footer from "../CommonLayout/Footer";
 import Main from "./Main";
 import { useEffect } from "react";
-import ToastifyComponent from "../../Pages/Common/ToastifyComponent";
-
 function AdminLayout(props) {
   useEffect(() => {
     document.body.classList.add("theme-black");
@@ -17,8 +15,7 @@ function AdminLayout(props) {
       <section className="content home">
         <div className="container-fluid">
           <Header breadcrumb={<Breadcrumb />} />
-          <TopBar />
-          <ToastifyComponent/>
+          <TopBar />          
           <Sidebar/>
           <Main />
           <Footer />

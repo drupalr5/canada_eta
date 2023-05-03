@@ -31,10 +31,10 @@ const LoginAdmin = async (req, res) => {
     let data = req.body;
     let { error, value } = validateAdminUserLogin(data);
     if (error) {
-      return {
+      return res.send({
         status: 0,
         message: error.message,
-      };
+      });
     }
     const main_tbl = await models.tbl_admin
       .findOne({
@@ -46,31 +46,30 @@ const LoginAdmin = async (req, res) => {
       })
       .then((userInfo) => {
         if (userInfo != null) {
-          return {
-            status: 1,
+          return res.send({
+            status: 200,
             message: "Welcome To The Canada Admin Portal",
             jwtToken: authService.generateJwtToken(userInfo),
             data: userInfo,
-          };
+          });
         } else {
-          return {
-            status: 0,
+          return res.send({
+            status: 204,
             message: "Please Check Your Email And Password.",
             data: [],
-          };
+          });
         }
       })
       .catch((error) => {
-        return {
-          status: 0,
+        return res.send({
+          status: 400,
           message: "Something Went Wrong",
           error: error.message,
-        };
+        });
       });
-    res.send(main_tbl);
   } catch (error) {
     let msg = {
-      status: 0,
+      status: 400,
       message: "Something Went Wrong.",
       error: error.message,
     };
@@ -117,7 +116,7 @@ const validateAdminUserLogin = (data) => {
     .keys({
       ["email"]: Joi.string().email().required().messages({
         "string.empty": `Email cannot be an empty`,
-        "string.email": `Please enter a valid email address.`,
+        // "string.email": `Please enter a valid email address.`,
         "any.required": `Email field is required`,
       }),
       ["password"]: Joi.string().required().messages({
@@ -200,33 +199,32 @@ const updateAdmin = async (req, res) => {
             attributes: { exclude: ["password"] },
           });
           return res.send({
-            status: 1,
+            status: 200,
             message: "Password Changed Successfully.",
             data: response,
           });
         } else {
           return res.send({
-            status: 0,
+            status: 204,
             message:
-              "Already updated same password, try again with diffrent one",
+              "Already updated same password, try with diffrent one",
             data: result,
           });
         }
       })
       .catch((error) => {
         return res.send({
-          status: 0,
+          status: 400,
           message: "Something Went Wrong.",
           error: error.message,
         });
       });
   } catch (error) {
-    let msg = {
-      status: 0,
+    res.send({
+      status: 400,
       message: "Something Went Wrong.",
       error: error.message,
-    };
-    res.send(msg);
+    });
   }
 };
 
@@ -236,7 +234,7 @@ const updateData = async (req, res) => {
     await uploadFile.uploadUserFile(req, res).then(async (result) => {
       // console.log(req.file.originalname);
       let fileName = req?.file?.originalname;
-      if (fileName!= undefined) {
+      if (fileName != undefined) {
         req.body.profile_path = fileName;
       }
       const main_tbl = await models.tbl_admin
@@ -281,7 +279,7 @@ const addData = async (req, res) => {
     await uploadFile.uploadUserFile(req, res).then(async (result) => {
       // console.log(req.file.originalname);
       let fileName = req?.file?.originalname;
-      if (fileName!= undefined) {
+      if (fileName != undefined) {
         req.body.profile_path = fileName;
       }
       console.log(req);

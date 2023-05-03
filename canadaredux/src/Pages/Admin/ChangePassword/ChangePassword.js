@@ -1,19 +1,32 @@
-import React, { useState } from "react";
-import PageHeading from "../Common/PageHeading";
+import React from "react";
+import PageHeading from "../../Common/PageHeading";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import useForm from "../../Hooks/useForm";
-import useAuthParameter from "../../Hooks/useAuthParameter";
-import { changePassword } from "../../Redux/authSlice";
+import useAuthParameter from "../../../Hooks/useAuthParameter";
+import { changePassword } from "../../../Redux/authSlice";
 import { useDispatch } from "react-redux";
-import { encryptVal } from "../../utility/utility";
+import { encryptVal } from "../../../utility/utility";
 import { toast } from "react-toastify";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
 function ChangePassword(props) {
   const { user } = useAuthParameter();
   const dispatch = useDispatch();
   let id = user?.id;
   const style = { height: "40px" };
+  const initialValues = {
+    password: "",
+  };
+  const chnagePasswordSchema = yup.object({
+    password: yup
+      .string()
+      .required("Please enter your password")
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
+        "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers"
+      ),
+  });
   const updatePassword = (event) => {
     dispatch(
       changePassword({
@@ -23,7 +36,7 @@ function ChangePassword(props) {
     )
       .unwrap()
       .then((res) => {
-        if (res.status === 1) {
+        if (res.status === 200) {
           toast.success(res.message, {
             className: "toast-message",
           });
@@ -32,10 +45,18 @@ function ChangePassword(props) {
             className: "toast-message",
           });
         }
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          className: "toast-message",
+        });
       });
   };
-  const { handleChange, values, errors, handleSubmit } =
-    useForm(updatePassword);
+  const { values, errors, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: chnagePasswordSchema,
+    onSubmit: updatePassword,
+  });
   return (
     <>
       <div className="row clearfix">
@@ -60,7 +81,7 @@ function ChangePassword(props) {
                     required="required"
                   />
                 </Form.Group>
-                <p style={{color: 'red'}}>{errors && errors.password}</p>
+                <p style={{ color: "red" }}>{errors && errors.password}</p>
                 <Button variant="primary" type="submit">
                   Update Password
                 </Button>
