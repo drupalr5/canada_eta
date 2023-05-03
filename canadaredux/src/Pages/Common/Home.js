@@ -9,9 +9,7 @@ import { getTeamMembers } from "../../Redux/manageSlice";
 
 function Home(props) {
   const { param, token } = useAuthParameter();
-  const [pending, setPending] = useState(true);
   const dispatch = useDispatch();
-  const orderList = useSelector((state) => state.order.orderData);
   const teamUserList = useSelector((state) => state?.manage?.list);
   let orderParam = {
     payment_status: "Success",
@@ -21,18 +19,18 @@ function Home(props) {
     assign_to: param.assign_to,
   };
 
+  const loading = useSelector((state) => state.order.loading)
+  const [pending, setPending] = useState(!loading);
+  const orderList = useSelector((state) => state.order.orderData);
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
       .then((res) => {
-        const timeout = setTimeout(() => {
-          setPending(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
+        setPending(false);
       });
     dispatch(getTeamMembers({ type: "Team" }))
       .unwrap()
-      .then((res) => {});
+      .then((res) => { });
   }, [dispatch, token]);
 
   const {

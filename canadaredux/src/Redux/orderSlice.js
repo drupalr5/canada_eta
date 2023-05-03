@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import OrderService from "../Services/OrderServices";
+
 export const getOrderSideBarCount = createAsyncThunk(
   "/order/getOrderSideBarCount",
   async (param) => {
@@ -95,7 +96,6 @@ export const getDocUploadByOrderId = createAsyncThunk(
     try {
       const response = await OrderService.getDocUploadByOrderId(orderId);
       const data = await response.data;
-
       return data;
     } catch (error) {
       return error.response.data;
@@ -122,7 +122,6 @@ export const getEmailHistoryByOrderId = createAsyncThunk(
     try {
       const response = await OrderService.getEmailHistoryByOrderId(orderId);
       const data = await response.data;
-
       return data;
     } catch (error) {
       return error.response.data;
@@ -149,7 +148,6 @@ export const getDownloadHistoryByOrderId = createAsyncThunk(
     try {
       const response = await OrderService.getDownloadHistoryByOrderId(orderId);
       const data = await response.data;
-
       return data;
     } catch (error) {
       return error.response.data;
@@ -212,7 +210,7 @@ const OrderSlice = createSlice({
     });
     builder.addCase(getOrderSideBarCount.fulfilled, (state, action) => {
       state.loading = false;
-      state.sideBarCount = action?.payload;
+      state.sideBarCount = action?.payload.data;
     });
     builder.addCase(getOrderSideBarCount.rejected, (state, action) => {
       state.loading = false;
@@ -224,7 +222,7 @@ const OrderSlice = createSlice({
     });
     builder.addCase(getOrderTiles.fulfilled, (state, action) => {
       state.loading = false;
-      state.tilesCount = action?.payload;
+      state.tilesCount = action?.payload.data;
     });
     builder.addCase(getOrderTiles.rejected, (state, action) => {
       state.loading = false;
@@ -250,56 +248,6 @@ const OrderSlice = createSlice({
       state.OrderDetails = [action?.payload?.data];
     });
     builder.addCase(getOrderDetailsByOrderId.rejected, (state, action) => {
-      state.loading = false;
-    });
-
-    builder.addCase(updateOrdersData.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(updateOrdersData.fulfilled, (state, action) => {
-      state.loading = false;
-    });
-    builder.addCase(updateOrdersData.rejected, (state, action) => {
-      state.loading = false;
-    });
-
-    builder.addCase(updateMultipleOrderData.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(updateMultipleOrderData.fulfilled, (state, action) => {
-      state.loading = false;
-    });
-    builder.addCase(updateMultipleOrderData.rejected, (state, action) => {
-      state.loading = false;
-    });
-
-    builder.addCase(permanentDeleteOrdersData.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(permanentDeleteOrdersData.fulfilled, (state, action) => {
-      state.loading = false;
-    });
-    builder.addCase(permanentDeleteOrdersData.rejected, (state, action) => {
-      state.loading = false;
-    });
-
-    builder.addCase(uploadOrderDocument.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(uploadOrderDocument.fulfilled, (state, action) => {
-      state.loading = false;
-    });
-    builder.addCase(uploadOrderDocument.rejected, (state, action) => {
-      state.loading = false;
-    });
-
-    builder.addCase(getDocUploadByOrderId.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getDocUploadByOrderId.fulfilled, (state, action) => {
-      state.loading = false;
-    });
-    builder.addCase(getDocUploadByOrderId.rejected, (state, action) => {
       state.loading = false;
     });
   }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PageHeading from "./PageHeading";
-import DTable from "./DTable";
+import PageHeading from "../../Common/PageHeading";
+import DTable from "../DTable";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrdersList } from "../../Redux/orderSlice";
-import useOrderListHook from "../../Hooks/useOrderListHook";
-import useAuthParameter from "../../Hooks/useAuthParameter";
+import { getOrdersList } from "../../../Redux/orderSlice";
+import useOrderListHook from "../../../Hooks/useOrderListHook";
+import useAuthParameter from "../../../Hooks/useAuthParameter";
 
 function AwaitingGovtOrder(props) {
   const { param } = useAuthParameter();

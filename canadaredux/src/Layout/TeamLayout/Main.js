@@ -5,7 +5,7 @@ import PendingOrder from "../../Pages/Common/PendingOrder";
 import CompletedOrder from "../../Pages/Common/CompletedOrder";
 import ContactCustomer from "../../Pages/Common/ContactCustomer";
 import AwaitingOrder from "../../Pages/Common/AwaitingOrder";
-import AwaitingGovtOrder from "../../Pages/Common/AwaitingGovtOrder";
+import AwaitingGovtOrder from "../../Pages/Common/awaitingGovtOrder/AwaitingGovtOrder";
 import OrderHistory from "../../Pages/Common/OrderHistory";
 import DeleteOrder from "../../Pages/Common/DeleteOrder";
 import RefundOrder from "../../Pages/Common/RefundOrder";
