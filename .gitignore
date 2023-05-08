@@ -1,3 +1,5 @@
 server/node_modules
 client/node_modules
+canadaredux/node_modules
 server/uploads
+canadaredux/public/uploads
