@@ -11,10 +11,10 @@ import {
   deleteUserData,
   getUser,
 } from "../../../Redux/manageSlice";
-import Image from "../Image";
+import Image from "../../../Components/Image/Image";
 import DTable from "../../../Components/ReactDataTable/DTable";
 import { Link, useParams } from "react-router-dom";
-import PopupModal from "../PopupModal";
+import PopupModal from "../../../Components/PopupModel/PopupModal";
 import useUserForm from "../../../Hooks/useUserForm";
 import { decryptVal } from "../../../utility/utility";
 import { MainContainer, Card, CardHeader, CardBody } from '../../Common/style'

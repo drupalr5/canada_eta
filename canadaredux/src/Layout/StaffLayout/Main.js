@@ -12,6 +12,7 @@ import RefundOrder from "../../Pages/Common/RefundOrder/RefundOrder";
 import RejectedOrder from "../../Pages/Common/RejectedOrder/RejectedOrder";
 import StaffWebsiteIssue from "../../Pages/Staff/StaffWebsiteIssue";
 import OrderDetails from "../../Pages/Common/OrderDetail/OrderDetails";
+import NoMatch from "../../Pages/Common/NoMatch";
 
 function StaffLayout() {
   return (
@@ -29,6 +30,7 @@ function StaffLayout() {
       <Route path="rejected-order" element={<RejectedOrder heading="Rejected Orders" />}></Route>
       <Route path="website-issue" element={<StaffWebsiteIssue heading="User Accounts" />}></Route>
       <Route path="order-details" element={<OrderDetails heading="Order Details" />}></Route>
+      <Route path="*" element={<NoMatch heading="Page Not Found" />}></Route>
     </Routes>
   );
 }

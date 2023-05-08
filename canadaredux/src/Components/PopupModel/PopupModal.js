@@ -7,7 +7,7 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/Row";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../Redux/manageSlice";
-import Image from "./Image";
+import Image from "../Image/Image";
 import useUserForm from "../../Hooks/useUserForm";
 import { encryptVal, decryptVal } from "../../utility/utility";
 const profileFolder = '/assests/uploads/member_profile/';

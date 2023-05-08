@@ -16,6 +16,8 @@ import Settings from "../../Pages/Admin/GatewaySettings/GatewaySettings";
 import ManageTeam from "../../Pages/Admin/ManageTeam/ManageTeam";
 import ManageCountry from "../../Pages/Admin/ManageCountry/ManageCountry";
 import OrderDetails from "../../Pages/Common/OrderDetail/OrderDetails";
+import NoMatch from "../../Pages/Common/NoMatch";
+
 function AdminLayout() {
   return (
       <Routes>
@@ -36,6 +38,7 @@ function AdminLayout() {
         <Route path="manage-team/:id" element={<ManageTeam heading="Manage Team" />} ></Route>
         <Route path="manage-country" element={<ManageCountry heading="Country Listing" />}></Route>
         <Route path="order-details/:orderId" element={<OrderDetails heading="Order Details" />}></Route>
+        <Route path="*" element={<NoMatch heading="Page Not Found" />}></Route>
       </Routes>
   );
 }

@@ -7,6 +7,7 @@ import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 import TeamLayout from "./Layout/TeamLayout/TeamLayout";
 import StaffLayout from "./Layout/StaffLayout/StaffLayout";
 import ToastifyComponent from "./Components/ToastifyComponent/ToastifyComponent";
+import NoMatch from "./Pages/Common/NoMatch";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/admin/*" element={<AdminLayout />}></Route>
         <Route path="/team/*" element={<TeamLayout />}></Route>
         <Route path="/night_staff/*" element={<StaffLayout />}></Route>
+        <Route path="*" element={<NoMatch heading="Page Not Found" />}></Route>
       </Routes>
     </>
   );

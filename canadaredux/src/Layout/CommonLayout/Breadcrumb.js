@@ -7,6 +7,7 @@ function Breadcrumb() {
   const pathname = location.pathname;
   useEffect(() => {
     const path = location.pathname.split("/");
+    console.log(path);
     if (path.length > 0) {
       let text = "";
       switch (path[2]) {
@@ -64,8 +65,11 @@ function Breadcrumb() {
         case "site_report_analytics":
           text = "Profit & Loss";
           break;
-        default:
+        case '':
           text = "Dashboard";
+          break;
+        default:
+          text = "Page Not Found";
           break;
       }
       setBreadcrumb(text);
