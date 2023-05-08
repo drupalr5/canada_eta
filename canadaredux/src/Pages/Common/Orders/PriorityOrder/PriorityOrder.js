@@ -7,7 +7,9 @@ import useOrderListHook from "../../../../Hooks/useOrderListHook";
 import useAuthParameter from "../../../../Hooks/useAuthParameter";
 
 function PriorityOrder(props) {
-  const { param, token } = useAuthParameter();
+  const { param } = useAuthParameter();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const dispatch = useDispatch();
   const teamUserList = useSelector((state) => state?.manage?.list);
   let orderParam = {
@@ -16,18 +18,22 @@ function PriorityOrder(props) {
     doc_uploaded: 0,
     processing_type: "Priority Processing",
     assign_to: param.assign_to,
+    page: page,
+    limit: limit
   };
 
   const loading = useSelector((state) => state.order.loading)
   const [pending, setPending] = useState(!loading);
   const orderList = useSelector((state) => state.order.orderData);
+  const tilesCount = useSelector((state) => state.order?.tilesCount);
+  const [totalRows, setTotalRows] = useState(tilesCount?.priority_order);
   useEffect(() => {
     dispatch(getOrdersList(orderParam))
       .unwrap()
       .then((res) => {
         setPending(false);
       });
-  }, [dispatch]);
+  }, [dispatch, limit, page]);
 
   const {
     rows,
@@ -40,6 +46,7 @@ function PriorityOrder(props) {
   return (
     <>
       <DTable
+        orderParam={orderParam}
         orders={rows}
         columns={columns}
         teamMemeber={true}
@@ -49,6 +56,9 @@ function PriorityOrder(props) {
         toggleCleared={toggleCleared}
         teamMemeberList={teamUserList}
         rowsAssignedOrder={rowsAssignedOrder}
+        setLimit={setLimit}
+        setPage={setPage}
+        rowsCount={totalRows}
       >
         <PageHeader pagename={props.heading} />
       </DTable>
