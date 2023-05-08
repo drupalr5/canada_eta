@@ -1,7 +1,7 @@
 import Header from "../CommonLayout/Header/Header";
 import Breadcrumb from "../CommonLayout/Breadcrumb";
-import AdminNavBar from "../AdminLayout/AdminNavBar/AdminNavBar";
-import Sidebar from "./AdminSidebar/Sidebar";
+import AdminNavBar from "../CommonLayout/NavBar/NavBar";
+import Sidebar from "../CommonLayout/Sidebar/Sidebar";
 import Footer from "../CommonLayout/Footer";
 import Main from "./Main";
 import { useEffect } from "react";

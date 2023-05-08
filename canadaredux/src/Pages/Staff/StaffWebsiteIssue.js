@@ -1,6 +1,6 @@
 import React from "react";
-import Table from "../Common/CustomTable/Table";
-import PageHeader from "../Common/PageHeader/PageHeader";
+import Table from "../../Components/CustomTable/Table";
+import PageHeader from "../../Components/PageHeader/PageHeader";
 import { Card, MainContainer, CardBody } from "../Common/style";
 function WebsiteIssue(props) {
   return (

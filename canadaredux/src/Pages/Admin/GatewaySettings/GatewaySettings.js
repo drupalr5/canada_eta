@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PageHeading from "../../Common/PageHeader/PageHeader";
+import PageHeading from "../../../Components/PageHeader/PageHeader";
 import { getGatewayList, updateGatewayData } from "../../../Redux/gatewaySlice";
 import { useFormik } from "formik";
 import * as yup from "yup";

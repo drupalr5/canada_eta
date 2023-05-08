@@ -6,7 +6,7 @@ import AnonymousLayout from "./Layout/AnonymousLayout";
 import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 import TeamLayout from "./Layout/TeamLayout/TeamLayout";
 import StaffLayout from "./Layout/StaffLayout/StaffLayout";
-import ToastifyComponent from "./Pages/Common/ToastifyComponent/ToastifyComponent";
+import ToastifyComponent from "./Components/ToastifyComponent/ToastifyComponent";
 
 function App() {
   return (

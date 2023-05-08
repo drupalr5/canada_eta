@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import DTable from "../../Common/ReactDataTable/DTable";
-import PageHeader from "../../Common/PageHeader/PageHeader";
+import DTable from "../../../Components/ReactDataTable/DTable";
+import PageHeader from "../../../Components/PageHeader/PageHeader";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountryList, updateCountry } from "../../../Redux/countrySlice";

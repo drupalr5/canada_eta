@@ -1,21 +1,21 @@
 import { Routes, Route } from "react-router-dom";
 // import Main from "../Pages/Common/Main";
 import Home from "../../Pages/Common/Home/Home";
-import PriorityOrder from "../../Pages/Common/Orders/PriorityOrder/PriorityOrder";
-import PendingOrder from "../../Pages/Common/Orders/PendingOrder/PendingOrder";
-import CompletedOrder from "../../Pages/Common/Orders/CompletedOrder/CompletedOrder";
-import ContactCustomer from "../../Pages/Common/Orders/ContactCustomer/ContactCustomer";
-import AwaitingOrder from "../../Pages/Common/Orders/AwaitingOrder/AwaitingOrder";
-import AwaitingGovtOrder from "../../Pages/Common/Orders/AwaitingGovtOrder/AwaitingGovtOrder";
-import OrderHistory from "../../Pages/Common/Orders/OrderHistory/OrderHistory";
-import DeleteOrder from "../../Pages/Common/Orders/DeleteOrder/DeleteOrder";
-import RefundOrder from "../../Pages/Common/Orders/RefundOrder/RefundOrder";
-import RejectedOrder from "../../Pages/Common/Orders/RejectedOrder/RejectedOrder";
+import PriorityOrder from "../../Pages/Common/PriorityOrder/PriorityOrder";
+import PendingOrder from "../../Pages/Common/PendingOrder/PendingOrder";
+import CompletedOrder from "../../Pages/Common/CompletedOrder/CompletedOrder";
+import ContactCustomer from "../../Pages/Common/ContactCustomer/ContactCustomer";
+import AwaitingOrder from "../../Pages/Common/AwaitingOrder/AwaitingOrder";
+import AwaitingGovtOrder from "../../Pages/Common/AwaitingGovtOrder/AwaitingGovtOrder";
+import OrderHistory from "../../Pages/Common/OrderHistory/OrderHistory";
+import DeleteOrder from "../../Pages/Common/DeleteOrder/DeleteOrder";
+import RefundOrder from "../../Pages/Common/RefundOrder/RefundOrder";
+import RejectedOrder from "../../Pages/Common/RejectedOrder/RejectedOrder";
 import ChangePassword from "../../Pages/Admin/ChangePassword/ChangePassword";
 import Settings from "../../Pages/Admin/GatewaySettings/GatewaySettings";
 import ManageTeam from "../../Pages/Admin/ManageTeam/ManageTeam";
 import ManageCountry from "../../Pages/Admin/ManageCountry/ManageCountry";
-import OrderDetails from "../../Pages/Common/Orders/OrderDetail/OrderDetails";
+import OrderDetails from "../../Pages/Common/OrderDetail/OrderDetails";
 function AdminLayout() {
   return (
       <Routes>

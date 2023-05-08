@@ -1,5 +1,5 @@
 import React from "react";
-import PageHeader from "../../Common/PageHeader/PageHeader";
+import PageHeader from "../../../Components/PageHeader/PageHeader";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import useAuthParameter from "../../../Hooks/useAuthParameter";

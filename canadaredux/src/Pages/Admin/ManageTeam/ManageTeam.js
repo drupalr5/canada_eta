@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import PageHeader from "../../Common/PageHeader/PageHeader";
+import PageHeader from "../../../Components/PageHeader/PageHeader";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/esm/Col";
@@ -12,7 +12,7 @@ import {
   getUser,
 } from "../../../Redux/manageSlice";
 import Image from "../Image";
-import DTable from "../../Common/ReactDataTable/DTable";
+import DTable from "../../../Components/ReactDataTable/DTable";
 import { Link, useParams } from "react-router-dom";
 import PopupModal from "../PopupModal";
 import useUserForm from "../../../Hooks/useUserForm";
