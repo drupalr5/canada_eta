@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
-import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
-import "../../Allassets/assets/css/sb-css/sb-admin.css";
+// import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
+// import "../../Allassets/assets/css/sb-css/sb-admin.css";
 import backgroundImage from "../../Allassets/assets/images/canada-bg-logo.png";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../Redux/authSlice";
@@ -10,7 +10,7 @@ import { encryptVal } from "../../utility/utility";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
-
+import { CardLogin, CardBody, CardHeader, MainContainer } from "./style";
 function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,10 +82,10 @@ function Login(props) {
   });
   return (
     <>
-      <div className="container">
-        <div className="card card-login mx-auto mt-5">
-          <div className="card-header">Login</div>
-          <div className="card-body">
+      <MainContainer className="container">
+        <CardLogin className="card card-login mx-auto mt-5">
+          <CardHeader className="card-header">Login</CardHeader>
+          <CardBody className="card-body">
             <form onSubmit={handleSubmit} method="post">
               <div className="form-group">
                 <div className="form-label-group">
@@ -124,9 +124,9 @@ function Login(props) {
                 Login
               </button>
             </form>
-          </div>
-        </div>
-      </div>
+          </CardBody>
+        </CardLogin>
+      </MainContainer>
     </>
   );
 }

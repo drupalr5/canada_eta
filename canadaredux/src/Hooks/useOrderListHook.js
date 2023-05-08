@@ -297,7 +297,7 @@ const useOrderListHook = (
               </Link>
               {" | "}
               {type === "Admin" && (
-                <Link to="#" onClick={deleteOrderHandler} oid={row.order_id}>
+                <Link className="blue-border" to="#" onClick={deleteOrderHandler} oid={row.order_id}>
                   Delete
                 </Link>
               )}

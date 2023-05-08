@@ -8,7 +8,4 @@ export default class uploadDocService {
   static getUploadDocByOrderId = (order_id) =>
     ApiService.get(`${config.API_URL}/doc-upload/get/${order_id}`);
 
-  // static downloadFile = (order_id) =>
-  //   ApiService.get(`${config.API_URL}/doc-upload/get/${order_id}`);
-
 }

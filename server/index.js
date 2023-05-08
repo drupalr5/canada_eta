@@ -7,6 +7,7 @@ const remarkRouter = require('./routes/remarkRoute');
 const mailSendService = require('./services/front/mailSendService');
 const countryRouter = require('./routes/countryRoute');
 const cors = require('cors');
+const path = require("path")
 const coreOptions = {
   origin: "*",
 }
@@ -62,8 +63,8 @@ app.use('/member_profile', express.static(__dirname+'/uploads/member_profile/'))
 
 app.use('/api/country/', countryRouter);
 
-db.sequelize.sync({force:false}).then(() => {
+//db.sequelize.sync({force:false}).then(() => {
   app.listen(app.get('port'), () => {
     console.log("Node server running at port 3001")
   })
-})
+//})

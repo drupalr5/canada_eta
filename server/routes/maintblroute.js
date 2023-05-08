@@ -7,6 +7,7 @@ const downloadHistoryService = require("../services/front/downloadedHistoryServi
 
 router.post('/create', mainOrderService.AddOrder);
 router.get('/get', mainOrderService.getAllOrder);
+router.get('/search-order', mainOrderService.orderSearchResults);
 router.get('/ordertiles', mainOrderService.gettilesOrder);
 router.get('/ordercounts', mainOrderService.getCountsOrder);
 router.get('/orderdetails/:id', mainOrderService.getOrderDetails);

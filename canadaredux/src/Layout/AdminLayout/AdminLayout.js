@@ -1,10 +1,11 @@
-import Header from "../CommonLayout/Header";
+import Header from "../CommonLayout/Header/Header";
 import Breadcrumb from "../CommonLayout/Breadcrumb";
-import TopBar from "../CommonLayout/TopBar";
-import Sidebar from "../CommonLayout/Sidebar";
+import AdminNavBar from "../AdminLayout/AdminNavBar/AdminNavBar";
+import Sidebar from "./AdminSidebar/Sidebar";
 import Footer from "../CommonLayout/Footer";
 import Main from "./Main";
 import { useEffect } from "react";
+import { SectionStyled, ContainerFluid, MainWrapper } from "./style";
 function AdminLayout(props) {
   useEffect(() => {
     document.body.classList.add("theme-black");
@@ -12,15 +13,19 @@ function AdminLayout(props) {
   }, []);
   return (
     <>
-      <section className="content home">
-        <div className="container-fluid">
+      <SectionStyled>
+        <ContainerFluid>
           <Header breadcrumb={<Breadcrumb />} />
-          <TopBar />          
-          <Sidebar/>
-          <Main />
+          <AdminNavBar />
+          <Sidebar />
+          <main>
+            <MainWrapper>
+              <Main />
+            </MainWrapper>
+          </main>
           <Footer />
-        </div>
-      </section>
+        </ContainerFluid>
+      </SectionStyled>
     </>
   );
 }

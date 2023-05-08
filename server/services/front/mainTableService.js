@@ -1,4 +1,4 @@
-const { INTEGER } = require("sequelize");
+const { INTEGER, Op } = require("sequelize");
 const models = require("../../models")
 const columns = ['id', 'order_id', 'passport_first_name', 'passport_surname', 'email', 'telephone_number', 'customer_date', 'create_ts', 'assign_to', 'process_status'];
 const AddOrder = async (req, res) => {
@@ -27,17 +27,41 @@ const AddOrder = async (req, res) => {
     })
   }
 }
-
-const getAllOrder = async (req, res) => {
+const orderSearchResults = async (req, res) => {
   try {
     let whereClause = req.body ? req.body : req.params
     if (Object.keys(whereClause).length === 0) {
       whereClause = req.query
     }
     let resultLimit = whereClause.limit ? +whereClause.limit : null;
+    let offset = whereClause.page ? +whereClause.page : null;
+    if (offset) {
+      offset = resultLimit ? (offset - 1) * resultLimit : offset - 1;
+    }
     delete whereClause["limit"];
+    delete whereClause["page"];
+    let searchText = whereClause.search ? whereClause.search : null
     let conditionalClause = whereClause ? whereClause : {}
-    await models.tblmain.findAll({ attributes: columns, where: conditionalClause, limit: resultLimit })
+    console.log(searchText)
+    delete whereClause["search"];
+    console.log(conditionalClause)
+    await models.tblmain.findAll({
+      attributes: columns,
+      where: {
+        [Op.or]: [
+          {'order_id': { [Op.like]: `%${searchText}%` }},
+          {'passport_first_name': { [Op.like]: `%${searchText}%` }},
+          {'passport_surname': { [Op.like]: `%${searchText}%` }},
+          {'email': { [Op.like]: `%${searchText}%` }},
+          {'telephone_number': { [Op.like]: `%${searchText}%` }},
+          //'customer_date': { [Op.like]: `%${searchText}%` },
+          {'assign_to': { [Op.like]: `%${searchText}%` }},
+          {'process_status': { [Op.like]: `%${searchText}%` }},
+        ],
+        [Op.and]: [conditionalClause]
+      },
+      limit: 10
+    })
       .then(result => {
         res.send({
           status: 200,
@@ -48,7 +72,45 @@ const getAllOrder = async (req, res) => {
         res.send({
           status: 400,
           message: 'Something Went Wrong.',
-          error: error.message
+          error: err.message
+        });
+      })
+  }
+  catch (error) {
+    res.send({
+      status: 400,
+      message: 'Something Went Wrong.',
+      error: error.message
+    });
+  }
+}
+const getAllOrder = async (req, res) => {
+  try {
+    let whereClause = req.body ? req.body : req.params
+    if (Object.keys(whereClause).length === 0) {
+      whereClause = req.query
+    }
+    let resultLimit = whereClause.limit ? +whereClause.limit : null;
+    let offset = whereClause.page ? +whereClause.page : null;
+    if (offset) {
+      offset = resultLimit ? (offset - 1) * resultLimit : offset - 1;
+    }
+
+    delete whereClause["limit"];
+    delete whereClause["page"];
+    let conditionalClause = whereClause ? whereClause : {}
+    await models.tblmain.findAll({ attributes: columns, where: conditionalClause, limit: resultLimit, offset: offset })
+      .then(result => {
+        res.send({
+          status: 200,
+          data: result
+        })
+      })
+      .catch(err => {
+        res.send({
+          status: 400,
+          message: 'Something Went Wrong.',
+          error: err.message
         });
       })
   }
@@ -315,7 +377,6 @@ const getCountsOrder = async (req, res) => {
 const getOrderDetails = async (req, res) => {
   try {
     let orderId = req.params.id;
-    console.log(orderId)
     const main_tbl = await models.tblmain.findOne({
       include: [
         {
@@ -375,5 +436,6 @@ module.exports = {
   gettilesOrder,
   getCountsOrder,
   updateMultipleOrder,
-  getOrderDetails
+  getOrderDetails,
+  orderSearchResults
 }

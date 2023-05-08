@@ -80,6 +80,7 @@ const movePdfDocFile = async (req, res) => {
   try {
     await uploadFile.uploadDocPdfFile(req, res)
       .then((result) => {
+        console.log(req.file)
         return res.send({
           status: 1,
           message: "Uploaded the file successfully: ",

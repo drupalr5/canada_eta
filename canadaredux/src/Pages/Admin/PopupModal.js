@@ -10,7 +10,7 @@ import { updateUser } from "../../Redux/manageSlice";
 import Image from "./Image";
 import useUserForm from "../../Hooks/useUserForm";
 import { encryptVal, decryptVal } from "../../utility/utility";
-
+const profileFolder = '/assests/uploads/member_profile/';
 function PopupModal({ isShow, initModal, closeModal, id, modelData }) {
   // const [msg, setMsg] = useState("");
   const [defaultOption, setDefaultOption] = useState({});
@@ -117,10 +117,12 @@ function PopupModal({ isShow, initModal, closeModal, id, modelData }) {
                       setFieldValue("file", e.currentTarget.files[0])
                     }
                   />
-                  <Image
-                        file={values.file}
-                        defaultFiles={values.profile_path ? `http://localhost:3001/member_profile/${values.profile_path}` : ''}
-                      />
+                  {values.profile_path &&
+                    <Image
+                      file={values.file}
+                      defaultFiles={values.profile_path ? `${profileFolder}${values.profile_path}` : ''}
+                    />
+                  }
                 </Form.Group>
                 <p style={{ color: "red" }}>{errors.file}</p>
               </Col>

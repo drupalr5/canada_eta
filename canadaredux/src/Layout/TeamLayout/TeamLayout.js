@@ -1,11 +1,11 @@
-import Header from "../CommonLayout/Header";
+import Header from "../CommonLayout/Header/Header";
 import Breadcrumb from "../CommonLayout/Breadcrumb";
-import TopBar from "../CommonLayout/TopBar";
-import Sidebar from "../CommonLayout/Sidebar";
+import AdminNavBar from "../AdminLayout/AdminNavBar/AdminNavBar";
+import Sidebar from "../AdminLayout/AdminSidebar/Sidebar";
 import Footer from "../CommonLayout/Footer";
 import Main from "./Main";
 import { useEffect } from "react";
-
+import { SectionStyled, ContainerFluid } from "../AdminLayout/style";
 
 function TeamLayout(props) {
   useEffect(() => {
@@ -13,17 +13,15 @@ function TeamLayout(props) {
     document.body.removeAttribute("style");
   }, []);
   return (
-    <>
-      <section className="content home">
-        <div className="container-fluid">
-          <Header breadcrumb={<Breadcrumb />} />
-          <TopBar />
-          <Sidebar onLogout="" />
-          <Main />
-          <Footer />
-        </div>
-      </section>
-    </>
+    <SectionStyled>
+      <ContainerFluid>
+        <Header breadcrumb={<Breadcrumb />} />
+        <AdminNavBar />
+        <Sidebar onLogout="" />
+        <Main />
+        <Footer />
+      </ContainerFluid>
+    </SectionStyled>
   );
 }
 

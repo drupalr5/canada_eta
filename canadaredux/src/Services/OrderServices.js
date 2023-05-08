@@ -11,6 +11,8 @@ export default class OrderServices {
 
   static getOrdersList = (order) => ApiService.get(`${api_url}/get`, order);
 
+  static orderSearchResults = (order) => ApiService.get(`${api_url}/search-order`, order);
+
   static getOrderDetailsByOrderId = (orderId) =>
     ApiService.get(`${api_url}/orderdetails/${orderId}`);
 
@@ -31,6 +33,9 @@ export default class OrderServices {
 
   static moveUploadedFile = (formData) =>
     ApiService.upload(`${api_url}/doc-upload/pdf-upload`, formData);
+
+  static downloadDocFile = (file) =>
+    ApiService.get(`${api_url}/docs/${file}`, {responseType: 'arraybuffer'});
 
   static createEmailHistoryByOrderId = (data) =>
     ApiService.post(`${api_url}/email-history/create`, data);

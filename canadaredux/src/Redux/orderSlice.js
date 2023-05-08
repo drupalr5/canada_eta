@@ -40,6 +40,19 @@ export const getOrdersList = createAsyncThunk(
   }
 );
 
+export const orderSearchResults = createAsyncThunk(
+  "/order/orderSearchResults",
+  async (order) => {
+    try {
+      const response = await OrderService.orderSearchResults(order);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  }
+);
+
 export const getOrderDetailsByOrderId = createAsyncThunk(
   "/order/getOrderDetailsByOrderId",
   async (orderId) => {
@@ -95,6 +108,19 @@ export const getDocUploadByOrderId = createAsyncThunk(
   async (orderId) => {
     try {
       const response = await OrderService.getDocUploadByOrderId(orderId);
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const downloadDocFile = createAsyncThunk(
+  "/order/downloadDocFile",
+  async (file) => {
+    try {
+      const response = await OrderService.downloadDocFile(file);
       const data = await response.data;
       return data;
     } catch (error) {
@@ -200,9 +226,15 @@ const OrderSlice = createSlice({
     orderData: [],
     OrderDetails: [],
     tilesCount: {},
-    sideBarCount: {}
+    sideBarCount: {},
+    showSideBar: true
   },
-  reducers: {},
+  reducers: {
+    toggleSidebar: (state) => ({
+      ...state,
+      showSideBar: !state.showSideBar,
+    }),
+  },
   extraReducers: (builder) => {
     builder.addCase(getOrderSideBarCount.pending, (state) => {
       state.loading = true;
@@ -240,6 +272,18 @@ const OrderSlice = createSlice({
       state.loading = false;
     });
 
+    builder.addCase(orderSearchResults.pending, (state) => {
+      state.loading = true;
+      // state.orderData = [];
+    });
+    builder.addCase(orderSearchResults.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orderData = action?.payload?.data;
+    });
+    builder.addCase(orderSearchResults.rejected, (state, action) => {
+      state.loading = false;
+    });
+    
     builder.addCase(getOrderDetailsByOrderId.pending, (state) => {
       state.loading = true;
     });
@@ -252,5 +296,5 @@ const OrderSlice = createSlice({
     });
   }
 })
-
+export const { toggleSidebar } = OrderSlice.actions
 export default OrderSlice.reducer;
