@@ -2,7 +2,7 @@ import RecentOrders from "../RecentOrders/RecentOrders";
 
 function Home(props) {
   return (
-    <RecentOrders />
+    <RecentOrders heading={props.heading}/>
   );
 }
 

@@ -25,7 +25,13 @@ export const MainContainer = styled.div.attrs({ className: '' })
     height: auto;
   }
   .btn {
-    font-size: .93rem;
+    border-width: 2px;
+    font-weight: 400;
+    font-size: .93em;
+    line-height: 1.35em;
+    margin: 5px 1px;
+    border: none;
+    border-radius: 0.1875rem;
     padding: 11px 22px;
     @media screen and (max-width: 460px) {
       font-size: 12px;
@@ -148,5 +154,8 @@ export const CardBody = styled.div.attrs()
   &:hover {
     box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1);
     transition: all 0.2s ease-in-out;
+  }
+  .m-b-20 {
+    margin-bottom: 20px;
   }
 `;

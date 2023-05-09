@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
-export const MiniAsideLeftBar = styled.aside.attrs({className: "minileftbar", id: "minileftbar"})
-`
+export const MiniAsideLeftBar = styled.aside.attrs({
+  className: "minileftbar",
+  id: "minileftbar",
+})`
   background: #22252b;
   text-align: center;
   width: 50px;
@@ -60,12 +62,13 @@ export const MiniAsideLeftBar = styled.aside.attrs({className: "minileftbar", id
   }
 `;
 
-export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
-` 
+export const MiniAsideRightMenu = styled.aside.attrs({
+  className: "right-menu",
+})`
   .sidebar {
     display: inline-block;
     transition: all 0.5s;
-    font-family: "Muli",sans-serif;
+    font-family: "Muli", sans-serif;
     border-radius: 0.1875rem;
     width: 250px !important;
     height: calc(100vh - 20px);
@@ -74,8 +77,9 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
     top: 0px;
     left: 50px;
     z-index: 10;
-    padding: 12px;
     overflow-y: scroll;
+    width: 230px !important;
+    margin: 10px;
     -ms-overflow-style: none;
     scrollbar-width: none;
     &::-webkit-scrollbar {
@@ -92,11 +96,11 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
     .menu {
       position: relative;
       .list {
-        padding: 0 10px;       
+        padding: 0 10px;
         list-style: none;
         .user-info {
           text-align: center;
-          margin-bottom: 10px;
+          margin-bottom: 10px !important;
           position: relative;
           border-bottom: 1px solid #eee;
           color: #424242;
@@ -109,10 +113,10 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
               border-radius: 50%;
               vertical-align: bottom !important;
               border: 3px solid #fff;
-              box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+              box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
             }
             a {
-              padding: 5px;
+              padding: 0px;
             }
           }
           .detail {
@@ -120,6 +124,7 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
             h6 {
               font-weight: 700;
               text-transform: uppercase;
+              font-size: 1em;
             }
             a {
               display: inline-block !important;
@@ -142,9 +147,9 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
             &.badge {
               padding: 2px 8px;
               text-transform: uppercase;
-              font-size: .7142em;
+              font-size: 0.7142em;
               line-height: 12px;
-              background-color: rgba(0,0,0,0);
+              background-color: rgba(0, 0, 0, 0);
               border: 1px solid;
               border-radius: 2px;
             }
@@ -153,10 +158,10 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
               color: #888 !important;
             }
             &.float-right {
-              float: right!important;
+              float: right !important;
             }
           }
-          
+
           &.waves-effect {
             position: relative;
             cursor: pointer;
@@ -167,7 +172,9 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
             user-select: none;
             -webkit-tap-highlight-color: transparent;
           }
-          &:hover, &:focus, &:active {
+          &:hover,
+          &:focus,
+          &:active {
             text-decoration: none !important;
             color: #525a65;
           }
@@ -199,8 +206,7 @@ export const MiniAsideRightMenu = styled.aside.attrs({className: "right-menu"})
   }
 `;
 
-
-export const OverlayWrapper = styled.div.attrs({className: 'overlay'})`
+export const OverlayWrapper = styled.div.attrs({ className: "overlay" })`
   @media (max-width: 1150px) {
     position: fixed;
     cursor: pointer;
@@ -210,6 +216,6 @@ export const OverlayWrapper = styled.div.attrs({className: 'overlay'})`
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
-    display: ${props => (props.overlay ? `block` : `none`)};
+    display: ${(props) => (props.overlay ? `block` : `none`)};
   }
 `;

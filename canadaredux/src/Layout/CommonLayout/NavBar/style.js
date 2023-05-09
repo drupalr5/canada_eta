@@ -1,7 +1,8 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const MainFolder = styled.div.attrs({ className: "row clearfix main-folder-section" })
-  `
+export const MainFolder = styled.div.attrs({
+  className: "row clearfix main-folder-section",
+})`
   .m-b-20 {
     margin-bottom: 20px;
   }
@@ -9,8 +10,9 @@ export const MainFolder = styled.div.attrs({ className: "row clearfix main-folde
     margin-bottom: 10px;
   }
 `;
-export const StyledCard = styled.div.attrs({ className: "col-lg-2 col-md-6 top-folder" })
-  `
+export const StyledCard = styled.div.attrs({
+  className: "col-lg-2 col-md-6 top-folder",
+})`
   width: 20%;
   flex: 0 0 20%;
   max-width: 20%;
@@ -38,13 +40,16 @@ export const StyledCard = styled.div.attrs({ className: "col-lg-2 col-md-6 top-f
   & .card {
     margin: 0;
     .body {
+      font-size: 14px;
+      padding: 10px;
+      text-align: left;
       padding-left: 80px;
       padding-right: 5px;
       @media only screen and (max-width: 1500px) {
         padding-left: 60px;
       }
       @media only screen and (max-width: 1299px) {
-        padding-left: 45px
+        padding-left: 45px;
       }
     }
     p {
@@ -57,7 +62,7 @@ export const StyledCard = styled.div.attrs({ className: "col-lg-2 col-md-6 top-f
       top: 50%;
       margin-top: -25px;
       margin-bottom: 0;
-      box-shadow: 0 0 18px rgba(0,0,0,0.08);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.08);
       text-align: center;
       @media only screen and (max-width: 1500px) {
         width: 40px;

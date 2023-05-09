@@ -3,8 +3,13 @@ import DataTable from "react-data-table-component";
 import FilterComponent from "./FilterComponent";
 import { useLocation } from "react-router-dom";
 import useAuthParameter from "../../Hooks/useAuthParameter";
-import { MainContainer, Card, CardHeader, CardBody } from '../../Pages/Common/style'
-import { DataTableCustomStyle } from './style'
+import {
+  MainContainer,
+  Card,
+  CardHeader,
+  CardBody,
+} from "../../Pages/Common/style";
+import { DataTableCustomStyle } from "./style";
 import { orderSearchResults, getOrdersList } from "../../Redux/orderSlice";
 import { useDispatch } from "react-redux";
 function DTable({
@@ -45,14 +50,13 @@ function DTable({
   const subHeaderComponentMemo = useMemo(() => {
     if (filterText) {
       if (orderParam) {
-        orderParam.search = filterText.toLowerCase()
+        orderParam.search = filterText.toLowerCase();
         dispatch(orderSearchResults(orderParam))
           .unwrap()
           .then((res) => {
             //setPending(false);
           });
-      }
-      else {
+      } else {
         const filterResult = orders.filter(
           (item) =>
             (item.name &&
@@ -62,18 +66,21 @@ function DTable({
             (item.email &&
               item.email.toLowerCase().includes(filterText.toLowerCase())) ||
             (item.telephone &&
-              item.telephone.toLowerCase().includes(filterText.toLowerCase())) ||
+              item.telephone
+                .toLowerCase()
+                .includes(filterText.toLowerCase())) ||
             (item.date &&
               item.date.toLowerCase().includes(filterText.toLowerCase())) ||
             (item.assign_to &&
-              item.assign_to.toLowerCase().includes(filterText.toLowerCase())) ||
+              item.assign_to
+                .toLowerCase()
+                .includes(filterText.toLowerCase())) ||
             (item.status &&
               item.status.toLowerCase().includes(filterText.toLowerCase()))
         );
         orders = filterResult;
       }
-    }
-    else {
+    } else {
       if (orderParam) {
         delete orderParam.search;
         dispatch(getOrdersList(orderParam))
@@ -123,10 +130,10 @@ function DTable({
   };
   const handlePageChange = (page) => {
     setPage(page);
-  }
+  };
   const handleRowsChange = (limit) => {
     setLimit(limit);
-  }
+  };
 
   return (
     <MainContainer className="col-lg-12">
@@ -158,42 +165,45 @@ function DTable({
               onChangeRowsPerPage={handleRowsChange}
             />
           </DataTableCustomStyle>
-          {((pathname[2] === "" || pathname[2] === "priority-order") && type === 'Admin') && (
-            <form>
+          {(pathname[2] === "" || pathname[2] === "priority-order") &&
+            type === "Admin" && (
               <div className="row clearfix">
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-20">
-                  <b>Team Member</b>
-                  <select
-                    className="form-control show-tick"
-                    name="team"
-                    value={teamMember}
-                    onChange={selectTeamMember}
-                  >
-                    <option value="">Select Team Member</option>
-                    {teamMemeberList &&
-                      teamMemeberList.map((item, index) => (
-                        <option key={index} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                  </select>
+                  <form>
+                    <b>Team Member</b>
+                    <select
+                      className="form-control show-tick"
+                      name="team"
+                      value={teamMember}
+                      onChange={selectTeamMember}
+                    >
+                      <option value="">Select Team Member</option>
+                      {teamMemeberList &&
+                        teamMemeberList.map((item, index) => (
+                          <option key={index} value={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
+                    </select>
+                  </form>
                 </div>
               </div>
-            </form>
-          )}
-          {((pathname[2] === "" || pathname[2] === "priority-order") && type === 'Admin') && (
-            <button
-              type="submit"
-              name="submit"
-              value="Assign"
-              className="btn btn-success"
-              onClick={() => rowsAssignedOrder(teamMember)}
-            >
-              Assign To
-            </button>
-          )}
-          {(pathname[2] !== "manage-team" &&
-            pathname[2] !== "manage-country" && type === 'Admin') && (
+            )}
+          {(pathname[2] === "" || pathname[2] === "priority-order") &&
+            type === "Admin" && (
+              <button
+                type="submit"
+                name="submit"
+                value="Assign"
+                className="btn btn-success"
+                onClick={() => rowsAssignedOrder(teamMember)}
+              >
+                Assign To
+              </button>
+            )}
+          {pathname[2] !== "manage-team" &&
+            pathname[2] !== "manage-country" &&
+            type === "Admin" && (
               <button
                 type="submit"
                 name="submit"
@@ -204,7 +214,7 @@ function DTable({
                 Delete Order
               </button>
             )}
-          {(pathname[2] === "refund-order" && type === 'Admin') && (
+          {pathname[2] === "refund-order" && type === "Admin" && (
             <button
               type="submit"
               name="submit"

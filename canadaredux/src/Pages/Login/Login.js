@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
+// import "../../Allassets/vendor/bootstrap/css/bootstrap.min.css";
 // import "../../Allassets/vendor/fontawesome-free/css/all.min.css";
 // import "../../Allassets/assets/css/sb-css/sb-admin.css";
 import backgroundImage from "../../Allassets/assets/images/canada-bg-logo.png";

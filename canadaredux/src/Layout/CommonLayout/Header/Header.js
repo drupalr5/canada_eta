@@ -20,7 +20,7 @@ const Header = (props) => {
           <ul className="breadcrumb padding-0">
             <li className="breadcrumb-item" style={{marginTop: '-2px'}}>
               <a href="home">
-                <AiFillHome style={{color: '#f96533'}}/>
+                <AiFillHome />
               </a>
             </li>
             <li className="breadcrumb-item active">{props.breadcrumb}</li>

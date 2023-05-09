@@ -1,11 +1,19 @@
+@import url(https://fonts.googleapis.com/css?family=Muli:300,400,600,700);
+
 body {
-  margin: 0;
-  font-family: "Muli","Helvetica Neue",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
+  /* margin: 0; */
+  background-color: #f4f7f6 !important;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  font-family: "Muli", Arial, Tahoma, sans-serif !important;
+  font-weight: 400;
+  font-size: 15px;
+  color: #2c2c2c;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
