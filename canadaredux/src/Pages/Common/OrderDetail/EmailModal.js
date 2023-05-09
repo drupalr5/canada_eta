@@ -18,7 +18,7 @@ export function EmailMessage({ modelData }) {
       <p style={{ fontSize: '16px;' }}>Please click on the link below</p>
       <p style={{ fontSize: '16px;' }}>Username : <Link to={`mailto:${modelData?.[0]?.email}`} style={{ color: '#f96332' }}>{modelData?.[0]?.email} </Link></p>
       <p style={{ fontSize: '16px;' }}>Order ID  : {modelData?.[0]?.order_id} </p> <br />
-      <p><Link to={`/track/${modelData?.[0]?.order_id}`} target='_blank' style={{ background: '#007bff', border: 'solid 2px #007bff', color: '#fff', padding: '10px 25px' }}>Click Here</Link></p><br />
+      <p><Link to={`/track/${btoa(modelData?.[0]?.order_id)}`} target='_blank' style={{ background: '#007bff', border: 'solid 2px #007bff', color: '#fff', padding: '10px 25px' }}>Click Here</Link></p><br />
       <p style={{ fontSize: '16px;' }}>Your eTA has been registered and it is available electronically for review by your airline at check-in and by the Canada Immigration Authorities on your arrival in Canada. You do not need a label in your passport. Your eTA has been recorded with the data and conditions detailed in the PDF document which is available to download.</p>
       <p style={{ fontSize: '16px;' }}><b>eTA Validity:</b></p>
       <ul>

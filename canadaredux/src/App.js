@@ -8,12 +8,13 @@ import TeamLayout from "./Layout/TeamLayout/TeamLayout";
 import StaffLayout from "./Layout/StaffLayout/StaffLayout";
 import ToastifyComponent from "./Components/ToastifyComponent/ToastifyComponent";
 import NoMatch from "./Pages/Common/NoMatch";
-
+import FrontLayout from "./FrontLayout/FrontLayout";
 function App() {
   return (
     <>
       <ToastifyComponent />
       <Routes>
+        <Route path="/track/*" element={<FrontLayout />} />
         <Route path="/" element={<AnonymousLayout />} />
         <Route path="/admin/*" element={<AdminLayout />}></Route>
         <Route path="/team/*" element={<TeamLayout />}></Route>

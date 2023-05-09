@@ -46,6 +46,10 @@ export const Authguard = ({ children }) => {
     ) {
       return navigate("/night_staff");
     }
+    else {
+      // console.log(pathname)
+      return navigate(pathname);
+    }
   }, [token, navigate, dispatch, pathname, type]);
   return children;
 };
