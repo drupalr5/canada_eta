@@ -96,6 +96,7 @@ export const StyledCard = styled.div.attrs({
     h3 {
       font-size: 22px;
       margin: 0;
+      line-height: 1.4em;
       @media only screen and (max-width: 1500px) {
         font-size: 19px;
       }
